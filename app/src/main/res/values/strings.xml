@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ClientNeoCafe</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registration">Регистрация</string>
+    <string name="login">Войти</string>
+    <string name="get_code">Получить код</string>
+    <string name="editText_phone">+000 000 000 000</string>
+    <string name="error_phone">Номер телефона введён неверно,\n попробуйте еще раз</string>
+    <string name="text_code">Введите 4-х значный код,\n отправленный на номер %s</string>
+    <string name="text_error_code">Код введен неверно, попробуйте еще раз</string>
+    <string name="btn_enter">Войти</string>
+    <string name="text_send_again">Отправить еще раз</string>
+</resources>
