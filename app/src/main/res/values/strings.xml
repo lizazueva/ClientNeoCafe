@@ -11,4 +11,7 @@
     <string name="text_error_code">Код введен неверно, попробуйте еще раз</string>
     <string name="btn_enter">Войти</string>
     <string name="text_send_again">Отправить еще раз</string>
+    <string name="text_registration">Регистрация</string>
+    <string name="text_date_for_sale">Введите дату рождения для последующих\n персональных скидок</string>
+    <string name="text_skip">Пропустить</string>
 </resources>

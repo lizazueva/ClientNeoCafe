@@ -33,19 +33,21 @@ class LoginFragment : Fragment() {
             //для теста
             findNavController().navigate(R.id.action_loginFragment_to_codeFragment)
 
-//            observe()
+            observe()
         }
         countryCode()
         checkInput()
     }
 
     private fun observe() {
+        val phoneCode = binding.textInputPhoneCode.text.toString()
+        val phoneNumber = binding.textInputPhone.text.toString()
+        val phone = "$phoneCode $phoneNumber"
         binding.textError.text = getText(R.string.error_phone)
 
     }
 
     private fun checkInput() {
-        val textInputPhoneCode = binding.textInputPhoneCode
         val textInputPhone = binding.textInputPhone
         val phoneMask = PhoneMask(textInputPhone)
         textInputPhone.addTextChangedListener(phoneMask)

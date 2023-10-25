@@ -6,6 +6,7 @@
     <color name="orange">#FF8B5B</color>
     <color name="black_title">#283952</color>
     <color name="grey_hint">#C2C1C3</color>
+    <color name="red_error">#FF4C4C</color>
 
 
 </resources>

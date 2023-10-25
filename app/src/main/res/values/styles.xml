@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="MyTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <item name="boxStrokeColor">@color/black</item>
+    <!-- Устанавливаем цвет полоски при вводе -->
+    <item name="boxStrokeErrorColor">@android:color/transparent</item>
+    <!-- Устанавливаем цвет курсора при вводе -->
+    <item name="colorAccent">@android:color/transparent</item>
+    <!-- Убрать текст hint при вводе -->
+    <item name="hintEnabled">false</item>
+    <item name="android:textColorSecondary">@color/red_error</item>
+    <item name="errorTextColor">@color/red_error</item>
+
+</style>
+</resources>
