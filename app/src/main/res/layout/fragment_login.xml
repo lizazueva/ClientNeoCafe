@@ -58,14 +58,26 @@
                 app:ccp_textSize="16sp" />
 
             <EditText
-                android:id="@+id/text_input_phone"
-                android:layout_width="match_parent"
+                android:id="@+id/text_input_phone_code"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="8sp"
                 android:gravity="center_vertical"
-                android:hint="@string/editText_phone"
+                android:paddingEnd="0dp"
                 android:inputType="phone"
+                app:hintEnabled="false" />
+            <EditText
+                android:id="@+id/text_input_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="555 555 555"
+                android:paddingStart="5dp"
+                android:inputType="phone"
+                android:textColorHint="@color/grey_hint"
                 app:hintEnabled="false" />
         </LinearLayout>
     </com.google.android.material.textfield.TextInputLayout>

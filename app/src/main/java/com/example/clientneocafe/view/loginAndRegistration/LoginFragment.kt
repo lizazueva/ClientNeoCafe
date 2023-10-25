@@ -45,24 +45,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkInput() {
+        val textInputPhoneCode = binding.textInputPhoneCode
         val textInputPhone = binding.textInputPhone
         val phoneMask = PhoneMask(textInputPhone)
         textInputPhone.addTextChangedListener(phoneMask)
-
-        textInputPhone.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                textInputPhone.hint = getString(R.string.editText_phone)
-
-            } else {
-                textInputPhone.hint = getString(R.string.editText_phone)
-            }
-        }
     }
 
     //Функция для ввода кода страны в textInputPhone
     private fun countryCode() {
         val ccp = binding.ccp
-        val editTextPhone = binding.textInputPhone
+        val editTextPhone = binding.textInputPhoneCode
         val countryCode = ccp.selectedCountryCode
         editTextPhone.setText("+$countryCode")
 

@@ -10,7 +10,7 @@ class PhoneMask(private val editText: EditText) : TextWatcher {
     private var isFormatting: Boolean = false
 
     companion object {
-        private const val MASK_FORMAT = "+000 000 000 000"
+        private const val MASK_FORMAT = "000 000 000"
         private const val MASK_CHARACTER = '0'
     }
 
