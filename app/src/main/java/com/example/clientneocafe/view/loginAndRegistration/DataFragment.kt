@@ -41,7 +41,6 @@ class DataFragment : Fragment() {
     }
 
     private fun checkInput() {
-
         val editTextDate = binding.textInputDate
         val dateMask = DateMask(editTextDate)
         editTextDate.addTextChangedListener(dateMask)
