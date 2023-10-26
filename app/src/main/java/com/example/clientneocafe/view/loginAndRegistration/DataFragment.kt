@@ -27,10 +27,17 @@ class DataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupListeners()
+        checkInput()
+    }
+
+    private fun setupListeners() {
         binding.imageBack.setOnClickListener {
             findNavController().navigate(R.id.action_dataFragment_to_startFragment)
         }
-        checkInput()
+        binding.textSkip.setOnClickListener {
+            findNavController().navigate(R.id.action_dataFragment_to_registrationFragment)
+        }
     }
 
     private fun checkInput() {
@@ -55,7 +62,7 @@ class DataFragment : Fragment() {
             binding.textInputDate.setTextColor(Color.RED)
         } else {
             binding.textInputDate.error = null
-            findNavController().navigate(R.id.action_dataFragment_to_startFragment)
+            findNavController().navigate(R.id.action_dataFragment_to_registrationFragment)
         }
     }
 
