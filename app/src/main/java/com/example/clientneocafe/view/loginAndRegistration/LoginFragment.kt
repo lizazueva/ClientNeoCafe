@@ -35,6 +35,7 @@ class LoginFragment : Fragment() {
 
             observe()
         }
+
         countryCode()
         checkInput()
     }
