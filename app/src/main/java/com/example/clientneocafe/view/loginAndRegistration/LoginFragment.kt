@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
         val phoneCode = binding.textInputPhoneCode.text.toString()
         val phoneNumber = binding.textInputPhone.text.toString()
         val phone = "$phoneCode $phoneNumber"
-        binding.textError.text = getText(R.string.error_phone)
+//        binding.textError.text = getText(R.string.error_phone)
 
     }
 
