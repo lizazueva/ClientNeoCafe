@@ -12,4 +12,15 @@
     <item name="errorTextColor">@color/red_error</item>
 
 </style>
+
+    <style name="TextTitle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black_title</item>
+    </style>
+
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

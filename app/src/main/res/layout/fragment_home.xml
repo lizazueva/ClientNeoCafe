@@ -1,14 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/text_welcome"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/text_welcome"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SearchView
+            android:id="@+id/search_menu"
+            style="@style/MySearchViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_backgr_grey"
+            android:iconifiedByDefault="false"
+            android:queryHint="Поиск"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_welcome" />
+
+        <Spinner
+            android:id="@+id/spinner_options"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_backgr_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_menu" />
+
+        <TextView
+            android:id="@+id/text_our_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/text_our_menu"
+            android:textColor="@color/black_title"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/search_menu"
+            app:layout_constraintTop_toBottomOf="@id/spinner_options" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_for_coffee"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="@color/yellow"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintStart_toStartOf="@+id/text_our_menu"
+            app:layout_constraintTop_toBottomOf="@id/text_our_menu" >
+
+            <ImageView
+                android:id="@+id/image_coffee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:src="@drawable/img_coffee" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_coffee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="8dp"
+            android:text="Кофе"
+            android:textColor="@color/black_title"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/text_our_menu"
+            app:layout_constraintTop_toBottomOf="@+id/card_for_coffee" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_for_desert"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="@color/yellow"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_our_menu" >
+
+            <ImageView
+                android:id="@+id/image_desert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:src="@drawable/img_desert" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_desert"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:text="Десерты"
+            android:textColor="@color/black_title"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_for_desert" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_for_cocktail"
+            android:layout_width="100dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="@color/yellow"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintStart_toStartOf="@+id/text_our_menu"
+            app:layout_constraintTop_toBottomOf="@id/text_coffee" >
+
+            <ImageView
+                android:id="@+id/image_coctail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:src="@drawable/img_coctail" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_coctail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:text="Коктейли"
+            android:textColor="@color/black_title"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_for_cocktail" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_for_bakery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/card_for_tea"
+            app:layout_constraintStart_toEndOf="@+id/card_for_cocktail"
+            app:layout_constraintTop_toBottomOf="@+id/text_coffee">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_for_bakery"
+                android:layout_width="100dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/yellow"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_bakery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:src="@drawable/img_donat" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/text_bakery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="8dp"
+                android:text="Выпечка"
+                android:textColor="@color/black_title"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_for_bakery" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_for_tea"
+            android:layout_width="100dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="@color/yellow"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_coffee">
+
+            <ImageView
+                android:id="@+id/image_tea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:src="@drawable/img_tea" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_tea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:text="Чай"
+            android:textColor="@color/black_title"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_for_tea" />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/icn_notif"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_popular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/text_popular"
+            android:textColor="@color/black_title"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/search_menu"
+            app:layout_constraintTop_toBottomOf="@id/text_coctail" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_popular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_popular" />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

@@ -15,4 +15,7 @@
     <string name="text_date_for_sale">Введите дату рождения для последующих\n персональных скидок</string>
     <string name="text_skip">Пропустить</string>
     <string name="text_input_name">Имя</string>
+    <string name="text_welcome">Добро пожаловать!</string>
+    <string name="text_our_menu">Наше меню</string>
+    <string name="text_popular">Популярное</string>
 </resources>
