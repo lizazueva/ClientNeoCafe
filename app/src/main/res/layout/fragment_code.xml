@@ -36,7 +36,8 @@
             android:gravity="center"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:maxLength="1"/>
         <EditText
             android:id="@+id/edit_code2"
             android:textColor="@color/black"
@@ -46,7 +47,8 @@
             android:gravity="center"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:maxLength="1"/>
         <EditText
             android:id="@+id/edit_code3"
             android:textColor="@color/black"
@@ -56,7 +58,8 @@
             android:gravity="center"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:maxLength="1"/>
         <EditText
             android:id="@+id/edit_code4"
             android:textColor="@color/black"
@@ -66,7 +69,8 @@
             android:gravity="center"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:maxLength="1"/>
 
     </LinearLayout>
 
