@@ -14,7 +14,7 @@ import com.example.clientneocafe.model.Product
 
 class HomeFragment : Fragment() {
 
-     private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var adapterProduct: AdapterMenu
 
 
@@ -39,9 +39,9 @@ class HomeFragment : Fragment() {
         binding.recyclerPopular.layoutManager = LinearLayoutManager(requireContext())
         var testProduct = arrayListOf (
             Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_donat, 0),
-            Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_logo_cafe, 3),
+            Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 3),
             Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_coctail, 0),
-            Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_donat, 0))
+            Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 0))
         adapterProduct.differ.submitList(testProduct)
 
         adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<Product>{

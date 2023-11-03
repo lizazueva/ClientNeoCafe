@@ -6,19 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_product"
         android:layout_width="89dp"
         android:layout_height="89dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/image_backgr"
         android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/RoundedImage"
         android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_desert" />
+        app:srcCompat="@drawable/img_rectangle_test" />
 
     <TextView
         android:id="@+id/text_title"
@@ -69,6 +68,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="5dp"
         android:text="TextView"
+        android:textColor="@color/black_title"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/image_add" />

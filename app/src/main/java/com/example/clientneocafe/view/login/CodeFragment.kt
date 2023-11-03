@@ -1,4 +1,4 @@
-package com.example.clientneocafe.view.loginAndRegistration
+package com.example.clientneocafe.view.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.MainActivity
-import com.example.clientneocafe.R
 import com.example.clientneocafe.databinding.FragmentCodeBinding
 
 class CodeFragment : Fragment() {

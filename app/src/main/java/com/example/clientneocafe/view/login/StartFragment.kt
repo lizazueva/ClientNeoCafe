@@ -1,4 +1,4 @@
-package com.example.clientneocafe.view.loginAndRegistration
+package com.example.clientneocafe.view.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

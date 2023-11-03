@@ -1,8 +1,7 @@
-package com.example.clientneocafe.view.loginAndRegistration
+package com.example.clientneocafe.view.login.registration
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
