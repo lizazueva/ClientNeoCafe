@@ -18,4 +18,5 @@
     <string name="text_welcome">Добро пожаловать!</string>
     <string name="text_our_menu">Наше меню</string>
     <string name="text_popular">Популярное</string>
+    <string name="text_menu">Меню</string>
 </resources>

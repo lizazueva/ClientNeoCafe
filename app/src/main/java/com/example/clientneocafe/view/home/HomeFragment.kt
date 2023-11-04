@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterMenu
@@ -30,6 +31,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         dropdown()
         adapter()
+        binding.cardForBakery.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
+        }
 
     }
 

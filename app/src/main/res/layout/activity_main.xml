@@ -11,7 +11,7 @@
         android:id="@+id/bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        app:itemBackground="@color/backgr"
         app:itemActiveIndicatorStyle="@android:color/transparent"
         app:itemIconSize="35dp"
         app:itemIconTint="@color/color_bottom"

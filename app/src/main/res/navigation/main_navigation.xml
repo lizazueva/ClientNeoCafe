@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.clientneocafe.view.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.clientneocafe.view.cart.CartFragment"
@@ -25,4 +29,9 @@
         android:name="com.example.clientneocafe.view.user.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.example.clientneocafe.view.home.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" />
 </navigation>

@@ -1,4 +1,4 @@
 package com.example.clientneocafe.api
 
-class Repository {
+class Repository(private val api: Api) {
 }
