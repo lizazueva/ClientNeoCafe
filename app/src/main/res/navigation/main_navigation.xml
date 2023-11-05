@@ -33,5 +33,17 @@
         android:id="@+id/menuFragment"
         android:name="com.example.clientneocafe.view.home.MenuFragment"
         android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="products"
+            app:argType="com.example.clientneocafe.model.Product" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.clientneocafe.view.home.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
 </navigation>

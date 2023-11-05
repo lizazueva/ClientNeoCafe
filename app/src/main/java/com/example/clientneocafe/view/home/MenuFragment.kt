@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.SliderAdapter
 import com.example.clientneocafe.databinding.FragmentMenuBinding
@@ -24,8 +25,16 @@ class MenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupListeners()
         viewPager()
 
+
+    }
+
+    private fun setupListeners() {
+        binding.imageBack.setOnClickListener {
+            findNavController().navigate(R.id.action_menuFragment_to_homeFragment)
+        }
     }
 
     private fun viewPager() {

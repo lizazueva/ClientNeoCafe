@@ -17,6 +17,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapterProduct: AdapterMenu
+    lateinit var testProduct: ArrayList<Product>
 
 
     override fun onCreateView(
@@ -29,23 +30,32 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupListeners()
         dropdown()
         adapter()
+
+    }
+
+    private fun setupListeners() {
         binding.cardForBakery.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
         }
-
+        binding.imageMoreCategory.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
+        }
     }
 
     private fun adapter() {
         adapterProduct = AdapterMenu()
         binding.recyclerPopular.adapter = adapterProduct
         binding.recyclerPopular.layoutManager = LinearLayoutManager(requireContext())
-        var testProduct = arrayListOf (
-            Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_donat, 0),
-            Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 3),
-            Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_coctail, 0),
-            Product(1,"Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 0))
+        testProduct = arrayListOf (
+            Product(1,"Кофе", "Капучино","Кофейный напиток", 170, R.drawable.img_donat, 0),
+            Product(1,"Выпечка", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 3),
+            Product(1,"Коктейли", "Капучино", "Кофейный напиток", 170, R.drawable.img_coctail, 0),
+            Product(1,"Десерты", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 0),
+            Product(1,"Чай", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 0))
         adapterProduct.differ.submitList(testProduct)
 
         adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<Product>{

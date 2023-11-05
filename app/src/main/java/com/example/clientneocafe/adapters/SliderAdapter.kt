@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.clientneocafe.view.home.HomeFragment
-import com.example.clientneocafe.view.map.MapFragment
+import com.example.clientneocafe.view.home.CategoryFragment
+
 
 class SliderAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
@@ -14,10 +14,6 @@ class SliderAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     }
 
     override fun createFragment(position: Int): Fragment {
-        when(position){
-            0 -> return MapFragment()
-            1 -> return MapFragment()
-            else -> return MapFragment()
-        }
+        return CategoryFragment()
     }
 }
