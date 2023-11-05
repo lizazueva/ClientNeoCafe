@@ -33,6 +33,7 @@
             android:background="@drawable/button_backgr_grey"
             android:iconifiedByDefault="false"
             android:queryHint="Поиск"
+            android:queryBackground="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_welcome" />
@@ -276,13 +277,12 @@
             android:id="@+id/image_more_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:paddingTop="5dp"
-            android:scaleX="-1"
-            android:src="@drawable/icn_back"
+            android:src="@drawable/icn_arrow"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/text_our_menu"
             app:layout_constraintTop_toBottomOf="@+id/spinner_options" />
 
