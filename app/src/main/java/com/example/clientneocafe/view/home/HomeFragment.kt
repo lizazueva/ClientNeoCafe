@@ -6,18 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.SearchView
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentHomeBinding
+import com.example.clientneocafe.databinding.FragmentStartMenuBinding
 import com.example.clientneocafe.model.Product
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var adapterProduct: AdapterMenu
-    lateinit var testProduct: ArrayList<Product>
 
 
     override fun onCreateView(
@@ -30,56 +31,39 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupListeners()
-        dropdown()
-        adapter()
-
+        setUpFragment()
+        showStartMenuFragment()
     }
 
-    private fun setupListeners() {
-        binding.cardForBakery.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-        }
-        binding.imageMoreCategory.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-        }
+    private fun showStartMenuFragment() {
+        val transaction = childFragmentManager.beginTransaction()
+        val fragment = StartMenuFragment()
+        transaction.replace(R.id.fragment_start_menu, fragment)
+        transaction.commit()
     }
 
-    private fun adapter() {
-        adapterProduct = AdapterMenu()
-        binding.recyclerPopular.adapter = adapterProduct
-        binding.recyclerPopular.layoutManager = LinearLayoutManager(requireContext())
-        testProduct = arrayListOf (
-            Product(1,"Кофе", "Капучино","Кофейный напиток", 170, R.drawable.img_donat, 0),
-            Product(1,"Выпечка", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 3),
-            Product(1,"Коктейли", "Капучино", "Кофейный напиток", 170, R.drawable.img_coctail, 0),
-            Product(1,"Десерты", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 0),
-            Product(1,"Чай", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 0))
-        adapterProduct.differ.submitList(testProduct)
-
-        adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<Product>{
-            override fun onClick(data: Product, position: Int) {
-
+    private fun setUpFragment() {
+        binding.searchMenu.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
             }
 
-            override fun onAddClick(data: Product, position: Int) {
+            override fun onQueryTextChange(p0: String?): Boolean {
+                val query = p0?.trim()
+                if (query.isNullOrEmpty()) {
+                    val transaction = childFragmentManager.beginTransaction()
+                    val fragment = StartMenuFragment()
+                    transaction.replace(R.id.fragment_start_menu, fragment)
+                    transaction.commit()
+                } else {
+                    val transaction = childFragmentManager.beginTransaction()
+                    val fragment = SearchFragment()
+                    transaction.replace(R.id.fragment_start_menu, fragment)
+                    transaction.commit()
+                }
+                return true
             }
-
-            override fun onRemoveClick(data: Product, position: Int) {
-            }
-
         })
     }
-
-    private fun dropdown() {
-        val options = listOf("Вариант 1", "Вариант 2", "Вариант 3")
-
-        val spinner = binding.spinnerOptions
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-    }
-
 
 }
