@@ -33,6 +33,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpFragment()
         showStartMenuFragment()
+
     }
 
     private fun showStartMenuFragment() {
