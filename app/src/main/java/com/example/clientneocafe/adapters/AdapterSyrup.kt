@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clientneocafe.databinding.ItemSyrupBinding
 import com.example.clientneocafe.model.Syrup
 
-class AdapterSyrup(var list: ArrayList<Syrup>): RecyclerView.Adapter<AdapterSyrup.ViewHolder>(){
+class AdapterSyrup: RecyclerView.Adapter<AdapterSyrup.ViewHolder>(){
+
+    private var selectedPosition = -1
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,7 +23,17 @@ class AdapterSyrup(var list: ArrayList<Syrup>): RecyclerView.Adapter<AdapterSyru
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val syrup = differ.currentList[position]
+        with(holder.binding){
+            checkboxSyrup.isChecked = holder.adapterPosition == selectedPosition
+            checkboxSyrup.text = syrup.title
+            checkboxSyrup.setOnClickListener {
+                if (holder.adapterPosition != selectedPosition) {
+                    selectedPosition = holder.adapterPosition
+                    notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     inner class ViewHolder( var binding: ItemSyrupBinding): RecyclerView.ViewHolder(binding.root) {

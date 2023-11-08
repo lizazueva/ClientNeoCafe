@@ -59,6 +59,8 @@ class StartMenuFragment : Fragment() {
 
         adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<Product>{
             override fun onClick(data: Product, position: Int) {
+                //для теста
+                findNavController().navigate(R.id.detailFragment)
 
             }
 

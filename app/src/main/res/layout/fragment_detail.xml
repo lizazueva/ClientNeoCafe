@@ -74,8 +74,8 @@
             android:id="@+id/recycler_milk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="@+id/text_title"
             app:layout_constraintTop_toBottomOf="@+id/text_milk" />
 
@@ -95,8 +95,8 @@
             android:id="@+id/recycler_syrup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="@+id/text_title"
             app:layout_constraintTop_toBottomOf="@+id/text_syrup" />
 
