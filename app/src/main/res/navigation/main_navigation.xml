@@ -46,4 +46,19 @@
         android:name="com.example.clientneocafe.view.home.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.clientneocafe.view.home.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.clientneocafe.view.home.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/startMenuFragment"
+        android:name="com.example.clientneocafe.view.home.StartMenuFragment"
+        android:label="fragment_start_menu"
+        tools:layout="@layout/fragment_start_menu" />
 </navigation>

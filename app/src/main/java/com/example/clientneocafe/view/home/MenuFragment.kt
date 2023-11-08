@@ -25,13 +25,13 @@ class MenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupListeners()
+        setUpListeners()
         viewPager()
 
 
     }
 
-    private fun setupListeners() {
+    private fun setUpListeners() {
         binding.imageBack.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_homeFragment)
         }

@@ -19,4 +19,7 @@
     <string name="text_our_menu">Наше меню</string>
     <string name="text_popular">Популярное</string>
     <string name="text_menu">Меню</string>
+    <string name="text_milk">Молоко</string>
+    <string name="text_syrup">Сиропы</string>
+    <string name="text_price">%d c</string>
 </resources>
