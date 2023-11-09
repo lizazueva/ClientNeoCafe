@@ -21,5 +21,5 @@
     <string name="text_menu">Меню</string>
     <string name="text_milk">Молоко</string>
     <string name="text_syrup">Сиропы</string>
-    <string name="text_price">%d c</string>
+    <string name="text_price"> %d с</string>
 </resources>

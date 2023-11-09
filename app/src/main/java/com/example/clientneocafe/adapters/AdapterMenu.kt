@@ -60,8 +60,8 @@ class AdapterMenu: RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
                 textCount.text = product.county.toString()
                 imageRemove.visibility = View.VISIBLE
             } else{
-                textCount.visibility= View.GONE
-                imageRemove.visibility= View.GONE
+                textCount.visibility= View.INVISIBLE
+                imageRemove.visibility= View.INVISIBLE
             }
         }
 

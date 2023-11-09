@@ -10,8 +10,6 @@ import com.example.clientneocafe.model.Syrup
 
 class AdapterSyrup: RecyclerView.Adapter<AdapterSyrup.ViewHolder>(){
 
-    private var selectedPosition = -1
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemSyrupBinding.inflate(LayoutInflater.from(parent.context),parent, false)
@@ -25,14 +23,8 @@ class AdapterSyrup: RecyclerView.Adapter<AdapterSyrup.ViewHolder>(){
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val syrup = differ.currentList[position]
         with(holder.binding){
-            checkboxSyrup.isChecked = holder.adapterPosition == selectedPosition
+            checkboxSyrup.isChecked = syrup.isChecked
             checkboxSyrup.text = syrup.title
-            checkboxSyrup.setOnClickListener {
-                if (holder.adapterPosition != selectedPosition) {
-                    selectedPosition = holder.adapterPosition
-                    notifyDataSetChanged()
-                }
-            }
         }
     }
 
