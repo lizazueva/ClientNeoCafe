@@ -30,13 +30,13 @@ class StartMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupListeners()
+        setUpListeners()
         dropdown()
-        adapter()
+        setUpAdapter()
 
     }
 
-    private fun setupListeners() {
+    private fun setUpListeners() {
         binding.cardForBakery.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
         }
@@ -45,7 +45,7 @@ class StartMenuFragment : Fragment() {
         }
     }
 
-    private fun adapter() {
+    private fun setUpAdapter() {
         adapterProduct = AdapterMenu()
         binding.recyclerPopular.adapter = adapterProduct
         binding.recyclerPopular.layoutManager = LinearLayoutManager(requireContext())

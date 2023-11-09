@@ -18,7 +18,11 @@
         android:id="@+id/cartFragment"
         android:name="com.example.clientneocafe.view.cart.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.clientneocafe.view.map.MapFragment"
@@ -61,4 +65,13 @@
         android:name="com.example.clientneocafe.view.home.StartMenuFragment"
         android:label="fragment_start_menu"
         tools:layout="@layout/fragment_start_menu" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.clientneocafe.view.cart.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
 </navigation>

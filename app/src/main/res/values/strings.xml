@@ -22,4 +22,10 @@
     <string name="text_milk">Молоко</string>
     <string name="text_syrup">Сиропы</string>
     <string name="text_price"> %d с</string>
+    <string name="text_cart">Корзина</string>
+    <string name="btn_order">Заказать</string>
+    <string name="text_no_choose">Вы еще ничего не выбрали</string>
+    <string name="btn_in_menu">В меню</string>
+    <string name="button_no">Нет</string>
+    <string name="button_yes">Да</string>
 </resources>
