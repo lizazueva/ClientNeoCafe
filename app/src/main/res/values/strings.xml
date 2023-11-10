@@ -28,4 +28,9 @@
     <string name="btn_in_menu">В меню</string>
     <string name="button_no">Нет</string>
     <string name="button_yes">Да</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="button_write_bonuses">Списать</string>
+    <string name="text_debiting_our_bonuses">Введите количество бонусов, которое \n хотите списать</string>
+    <string name="text_debiting_bonuses">У вас есть %d бонусов, хотите \n использовать их?</string>
+    <string name="text_bonuses">Списание бонусов</string>
 </resources>

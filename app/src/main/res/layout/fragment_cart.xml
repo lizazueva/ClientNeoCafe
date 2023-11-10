@@ -90,7 +90,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_take_away"
-        android:layout_width="160dp"
+        android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -105,7 +105,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_restaurant"
-        android:layout_width="160dp"
+        android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"

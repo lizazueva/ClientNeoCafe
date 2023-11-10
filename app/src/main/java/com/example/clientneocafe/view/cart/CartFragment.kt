@@ -1,15 +1,29 @@
 package com.example.clientneocafe.view.cart
 
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
+import android.text.style.StrikethroughSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.EditText
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterMenu
+import com.example.clientneocafe.databinding.AlertDialogDebitingBonusesBinding
+import com.example.clientneocafe.databinding.AlertDialogOurBonusBinding
 import com.example.clientneocafe.databinding.FragmentCartBinding
 import com.example.clientneocafe.model.Product
 
@@ -18,6 +32,8 @@ class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
     private lateinit var adapterProduct: AdapterMenu
     lateinit var testProduct: ArrayList<Product>
+    private var bonuses: Int = 0
+    private var enteredBonusesInt: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +47,41 @@ class CartFragment : Fragment() {
 
         setUpListeners()
         setUpAdapter()
+        resultSum(enteredBonusesInt)
+        bonusAccount()
+
+    }
+
+     fun bonusAccount() {
+        bonuses = 150
+    }
+
+    private fun resultSum(enteredBonusesInt: Int) {
+        val productPrice = testProduct.sumOf { it.amount }
+
+        if (enteredBonusesInt == 0){
+            binding.textAmount.text = "${productPrice} c"
+        } else{
+            val newPrice = productPrice - enteredBonusesInt
+
+        val oldPriceText = "$productPrice c"
+        val spannableString = SpannableString(oldPriceText)
+
+        spannableString.setSpan(
+            StrikethroughSpan(),
+            0,
+            oldPriceText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.grey_hint)),
+            0,
+            oldPriceText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        binding.textAmount.text = TextUtils.concat(spannableString, " $newPrice c")
+    }
 
     }
 
@@ -50,6 +101,82 @@ class CartFragment : Fragment() {
     private fun setUpListeners() {
         binding.imageDots.setOnClickListener {
             setUpPopup()
+        }
+
+        binding.btnOrder.setOnClickListener {
+            if (bonuses == 0) {
+            } else {
+                alertDialogBonuses()
+            }
+        }
+    }
+
+    private fun alertDialogBonuses() {
+        val dialogBinding = AlertDialogDebitingBonusesBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext())
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        dialogBinding.textDebitingBonuses.text = getString(R.string.text_debiting_bonuses, bonuses)
+
+        dialogBinding.buttonNo.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.buttonYes.setOnClickListener {
+            dialog.dismiss()
+            alertDialogOurBonuses()
+        }
+    }
+
+    private fun alertDialogOurBonuses() {
+
+        val dialogBinding = AlertDialogOurBonusBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext())
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        var editTextBonuses = dialogBinding.editTextBonuses
+
+        dialogBinding.buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.buttonWriteBonuses.setOnClickListener {
+            //списание бонусов
+            validateBonuses(editTextBonuses,dialog)
+        }
+
+    }
+
+    private fun validateBonuses(editTextBonuses: EditText, dialog: Dialog) {
+        var enteredBonuses = editTextBonuses.text?.toString()?.trim()
+        var enteredBonusesInt = enteredBonuses?.toInt()
+        var productPrice = testProduct.sumOf { it.amount }
+
+        if (enteredBonuses.isNullOrEmpty()) {
+            editTextBonuses.error = "Заполните поле"
+        }else if (enteredBonusesInt == 0){
+            editTextBonuses.error = "Введите количество бонусов"
+        } else if (enteredBonusesInt != null) {
+            if (enteredBonusesInt > bonuses) {
+                editTextBonuses.error = "Введенное значение превышает доступные бонусы"
+            } else if (enteredBonusesInt > productPrice) {
+                editTextBonuses.error = "Итоговая сумма меньше введенных бонусов"
+            }else{
+                productPrice -= enteredBonusesInt
+                resultSum(enteredBonusesInt)
+                bonuses -= enteredBonusesInt
+                dialog.dismiss()
+            }
         }
     }
 
