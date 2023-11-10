@@ -33,4 +33,7 @@
     <string name="text_debiting_our_bonuses">Введите количество бонусов, которое \n хотите списать</string>
     <string name="text_debiting_bonuses">У вас есть %d бонусов, хотите \n использовать их?</string>
     <string name="text_bonuses">Списание бонусов</string>
+    <string name="text_history">История заказов</string>
+    <string name="text_open_order">Открытый заказ</string>
+    <string name="text_closed_order">Завершенные</string>
 </resources>
