@@ -9,11 +9,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.R
 import com.example.clientneocafe.databinding.FragmentLoginBinding
 import com.example.clientneocafe.utils.PhoneMask
+import com.example.clientneocafe.viewModel.LoginViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
+    private val loginViewModel: LoginViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
