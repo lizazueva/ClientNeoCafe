@@ -8,11 +8,17 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.R
 import com.example.clientneocafe.databinding.FragmentRegistrationBinding
+import com.example.clientneocafe.model.auth.RegistrationRequest
 import com.example.clientneocafe.utils.PhoneMask
+import com.example.clientneocafe.utils.Resource
+import com.example.clientneocafe.viewModel.RegistrationViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
+    private val registrationViewModel: RegistrationViewModel by viewModel()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,18 +43,38 @@ class RegistrationFragment : Fragment() {
 
         binding.btnGetCode.setOnClickListener {
             if (validateInput()) {
-//                для теста
-                findNavController().navigate(R.id.action_registrationFragment_to_codeFragment)
-                //observe()
+                data()
             }
         }
     }
-    private fun observe() {
+    private fun data() {
         val phoneCode = binding.textInputPhoneCode.text.toString()
         val phoneNumber = binding.textInputPhone.text.toString()
+        val name = binding.textInputName.text.toString().trim()
+        var date = arguments?.getString("date")
         val phone = "$phoneCode $phoneNumber"
-        binding.textError.text = getText(R.string.error_phone)
+        registrationViewModel.registration(phone, name, date)
+        observe(phone, name, date)
+    }
 
+    private fun observe(phone: String, name: String, date: String? ) {
+        registrationViewModel.token.observe(viewLifecycleOwner) { token ->
+            when (token) {
+                is Resource.Success -> {
+                    val action = RegistrationFragmentDirections.actionRegistrationFragmentToCodeFragment(
+                        RegistrationRequest(phone, name, date)
+                    )
+                    findNavController().navigate(action)
+                }
+
+                is Resource.Error -> {
+                    binding.textError.text = getText(R.string.error_phone)
+                }
+
+                is Resource.Loading -> {
+                }
+            }
+        }
     }
 
     private fun validateInput(): Boolean {

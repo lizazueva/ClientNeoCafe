@@ -35,6 +35,7 @@ class MenuFragment : Fragment() {
         binding.imageBack.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_homeFragment)
         }
+
     }
 
     private fun viewPager() {
@@ -47,7 +48,7 @@ class MenuFragment : Fragment() {
             "Десерты",
             "Чай"
         )
-        val adapter = SliderAdapter(parentFragmentManager, lifecycle)
+        val adapter = SliderAdapter(childFragmentManager, lifecycle)
         viewPager2.adapter = adapter
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->

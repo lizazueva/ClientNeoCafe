@@ -40,6 +40,8 @@
         <action
             android:id="@+id/action_codeFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <argument android:name="user"
+            app:argType="com.example.clientneocafe.model.auth.RegistrationRequest" />
     </fragment>
     <fragment
         android:id="@+id/dataFragment"
@@ -64,5 +66,8 @@
         <action
             android:id="@+id/action_registrationFragment_to_codeFragment"
             app:destination="@id/codeFragment" />
+        <argument
+            android:name="date"
+            app:argType="string" />
     </fragment>
 </navigation>

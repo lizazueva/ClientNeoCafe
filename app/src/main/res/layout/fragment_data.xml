@@ -45,7 +45,7 @@
                     android:layout_gravity="center"
                     android:padding="23dp"
                     android:background="@drawable/button_backgr_grey"
-                    android:hint="01.01.1991"
+                    android:hint="1991.01.01"
                     android:ems="10"
                     android:inputType="date"
                     android:paddingStart="10dp"

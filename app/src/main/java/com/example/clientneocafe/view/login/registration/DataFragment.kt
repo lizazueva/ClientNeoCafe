@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.R
 import com.example.clientneocafe.databinding.FragmentDataBinding
 import com.example.clientneocafe.utils.DateMask
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DataFragment : Fragment() {
 
@@ -45,24 +47,36 @@ class DataFragment : Fragment() {
         editTextDate.addTextChangedListener(dateMask)
         binding.btnEnter.setOnClickListener {
             val dateInput = editTextDate.text.toString().trim()
-            validateDate(dateInput)
+            if (validateDate(dateInput)){
+                val formattedDate = convertDateFormat(dateInput, "MM.dd.yyyy", "yyyy-MM-dd")
+                val action = DataFragmentDirections.actionDataFragmentToRegistrationFragment(formattedDate)
+                findNavController().navigate(action)
+            }
         }
     }
 
-    private fun validateDate(dateInput: String) {
+    private fun convertDateFormat(dateInput: String, inputFormat: String, outputFormat: String): String {
+            val inputFormatter = SimpleDateFormat(inputFormat, Locale.getDefault())
+            val outputFormatter = SimpleDateFormat(outputFormat, Locale.getDefault())
+            val parsedDate = inputFormatter.parse(dateInput)
+            return outputFormatter.format(parsedDate)
+    }
+
+    private fun validateDate(dateInput: String):Boolean {
         val isDateEmpty = dateInput.isEmpty()
         val isDateMatches = dateInput.matches(Regex("\\d{2}\\.\\d{2}\\.\\d{4}"))
 
         if (!isDateMatches) {
             binding.textInputDate.error = "Неверный формат даты"
             binding.textInputDate.setTextColor(Color.RED)
+            return false
         } else if (isDateEmpty) {
             binding.textInputDate.error = "Заполните это поле"
             binding.textInputDate.setTextColor(Color.RED)
+            return false
         } else {
             binding.textInputDate.error = null
-            findNavController().navigate(R.id.action_dataFragment_to_registrationFragment)
+            return true
         }
     }
-
 }
