@@ -39,4 +39,8 @@
     <string name="btn_repeat">Повторить</string>
     <string name="text_bonuses_order">Бонусы к списанию:</string>
     <string name="text_branches">Филиалы</string>
+    <string name="text_2gis">Мы переведем вас в 2ГИС</string>
+    <string name="text_discr_2gis">Вы сможете быстро сориентироваться \nи найти быстрый маршрут к нам!\n Ждем вас!</string>
+    <string name="btn_stay">Остаться</string>
+    <string name="btn_go_over">Перейти</string>
 </resources>
