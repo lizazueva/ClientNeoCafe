@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleObserver
 import androidx.navigation.fragment.findNavController
@@ -25,9 +26,6 @@ class CodeFragment : Fragment() {
 
     private lateinit var binding: FragmentCodeBinding
     private val codeViewModel: CodeViewModel by viewModel()
-    private val registrationViewModel: RegistrationViewModel by viewModel()
-    private val loginViewModel: LoginViewModel by viewModel()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,8 +51,7 @@ class CodeFragment : Fragment() {
 
         } else if (arguments?.containsKey("user") == true) {
             val dataRepeatRegistration = arguments?.getParcelable<RegistrationRequest>("user")
-            binding.textErrorCode.text =
-                getString(R.string.text_code, dataRepeatRegistration?.phone_number)
+            binding.textErrorCode.text = getString(R.string.text_code, dataRepeatRegistration?.phone_number)
         }
     }
 
@@ -72,18 +69,19 @@ class CodeFragment : Fragment() {
     }
 
     private fun repeatSentCode() {
-        if (arguments?.containsKey("phone") == true) {
-            val phone = arguments?.getString("phone") as String
-            if (phone != null) {
-                repeatLogin(phone)
+        codeViewModel.resendCode()
+        codeViewModel.resendCodeResult.observe(viewLifecycleOwner){resendCodeResult->
+            when(resendCodeResult){
+            is Resource.Success -> {
+                Toast.makeText(requireContext(), "Код отправлен повторно", Toast.LENGTH_SHORT).show()
             }
-
-        } else if (arguments?.containsKey("user") == true) {
-            val dataRepeatRegistration = arguments?.getParcelable<RegistrationRequest>("user")
-            if (dataRepeatRegistration != null) {
-                repeatRegistration(dataRepeatRegistration)
+            is Resource.Error -> {
+                Toast.makeText(requireContext(), "Не удалось отправить код", Toast.LENGTH_SHORT).show()
             }
+            is Resource.Loading -> {
 
+            }
+        }
         }
 
     }
@@ -97,20 +95,19 @@ class CodeFragment : Fragment() {
         if (arguments?.containsKey("phone") == true) {
             val phone = arguments?.getString("phone") as String
             binding.textErrorCode.text = getString(R.string.text_code, phone)
-//            codeViewModel.confirmPhone(code)
+            codeViewModel.confirmLogin(code)
             observePhone()
 
         } else if (arguments?.containsKey("user") == true) {
             val dataRepeatRegistration = arguments?.getParcelable<RegistrationRequest>("user")
             binding.textErrorCode.text = getString(R.string.text_code, dataRepeatRegistration?.phone_number)
             codeViewModel.confirmPhone(code)
-            observeRegistr()
-
+            observeRegistration()
         }
 
     }
 
-    private fun observeRegistr() {
+    private fun observeRegistration() {
         codeViewModel.confirmPhoneResult.observe(viewLifecycleOwner){codeConfirm ->
             when(codeConfirm){
                 is Resource.Success -> {
@@ -129,13 +126,27 @@ class CodeFragment : Fragment() {
     }
 
     private fun observePhone() {
+        codeViewModel.token.observe(viewLifecycleOwner) { token ->
+            when (token) {
+                is Resource.Success -> {
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    startActivity(intent)
+                }
 
-    }
+                is Resource.Error -> {
+                    binding.textErrorCode.setText("Код введен неверно, попробуйте еще раз")
+                    binding.textErrorCode.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red_error
+                        )
+                    )
+                }
 
-    private fun repeatRegistration(dataRepeatRegistration: RegistrationRequest) {
-            registrationViewModel.registration(dataRepeatRegistration.phone_number, dataRepeatRegistration.first_name, dataRepeatRegistration?.birth_date)
-    }
-    private fun repeatLogin(phone: String) {
-        loginViewModel.login(phone)
+                is Resource.Loading -> {
+
+                }
+            }
+        }
     }
 }

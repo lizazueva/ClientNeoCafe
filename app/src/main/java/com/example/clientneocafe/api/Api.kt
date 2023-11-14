@@ -7,8 +7,10 @@ import com.example.clientneocafe.model.auth.LoginRequest
 import com.example.clientneocafe.model.auth.LoginResponse
 import com.example.clientneocafe.model.auth.RegistrationRequest
 import com.example.clientneocafe.model.auth.RegistrationResponse
+import com.example.clientneocafe.model.auth.ResendCodeRequest
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 
@@ -24,4 +26,6 @@ interface Api {
     suspend fun confirmPhone (@Body request: CodeAuth): Response<String>
     @POST("accounts/my-profile/")
     suspend fun home()
+    @GET("accounts/resend-code/")
+    suspend fun resendCode(): Response<ResendCodeRequest>
 }
