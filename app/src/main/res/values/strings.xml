@@ -38,4 +38,5 @@
     <string name="text_closed_order">Завершенные</string>
     <string name="btn_repeat">Повторить</string>
     <string name="text_bonuses_order">Бонусы к списанию:</string>
+    <string name="text_branches">Филиалы</string>
 </resources>

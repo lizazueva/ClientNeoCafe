@@ -5,12 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
+import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentOrderBinding
+import com.example.clientneocafe.model.Product
 
 class OrderFragment : Fragment() {
 
     private lateinit var binding: FragmentOrderBinding
+    private lateinit var adapterProduct: AdapterMenu
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,9 +29,19 @@ class OrderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpListeners()
+        setUpAdapter()
+    }
+
+    private fun setUpAdapter() {
+        adapterProduct =AdapterMenu()
+        binding.recyclerOrder.adapter = adapterProduct
+        binding.recyclerOrder.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun setUpListeners() {
+        binding.imageBack.setOnClickListener {
+            findNavController().navigate(R.id.action_orderFragment_to_historyFragment)
+        }
 
     }
 
