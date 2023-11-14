@@ -36,4 +36,6 @@
     <string name="text_history">История заказов</string>
     <string name="text_open_order">Открытый заказ</string>
     <string name="text_closed_order">Завершенные</string>
+    <string name="btn_repeat">Повторить</string>
+    <string name="text_bonuses_order">Бонусы к списанию:</string>
 </resources>
