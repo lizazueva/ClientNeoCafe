@@ -43,7 +43,7 @@ class CodeViewModel (private val repository: Repository): ViewModel() {
                 if (request.isSuccessful) {
                     val responseBody = request.body()
                     if (responseBody != null) {
-                        _confirmPhoneResult.postValue(Resource.Success(responseBody))
+                        _confirmPhoneResult.postValue(Resource.Success(responseBody.detail))
                     }
                         Log.d("confirmPhone", "Successful: $responseBody")
                 } else {

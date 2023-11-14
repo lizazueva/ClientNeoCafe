@@ -19,11 +19,11 @@ interface Api {
     @POST("accounts/login-for-client/")
     suspend fun login (@Body request: LoginRequest): Response<LoginResponse>
     @POST("accounts/confirm-login/")
-    suspend fun confirmLogin (@Header("login") pre_token: String, @Body request: CodeAuth): Response<ConfirmLoginResponse>
+    suspend fun confirmLogin (@Header("Authorization") pre_token: String, @Body request: CodeAuth): Response<ConfirmLoginResponse>
     @POST("accounts/register/")
     suspend fun registration (@Body request: RegistrationRequest): Response<RegistrationResponse>
     @POST("accounts/confirm-phone-number/")
-    suspend fun confirmPhone (@Body request: CodeAuth): Response<String>
+    suspend fun confirmPhone (@Body request: CodeAuth): Response<ConfirmRegisterResponse>
     @POST("accounts/my-profile/")
     suspend fun home()
     @GET("accounts/resend-code/")
