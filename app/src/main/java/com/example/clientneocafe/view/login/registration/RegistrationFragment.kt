@@ -61,14 +61,12 @@ class RegistrationFragment : Fragment() {
         registrationViewModel.token.observe(viewLifecycleOwner) { token ->
             when (token) {
                 is Resource.Success -> {
-                    val action = RegistrationFragmentDirections.actionRegistrationFragmentToCodeFragment(
-                        RegistrationRequest(phone, name, date)
-                    )
+                    val action = RegistrationFragmentDirections.actionRegistrationFragmentToCodeFragment(RegistrationRequest(phone, name, date))
                     findNavController().navigate(action)
                 }
 
                 is Resource.Error -> {
-                    binding.textError.text = getText(R.string.error_phone)
+                    binding.textInputPhone.error = token.message ?: getString(R.string.error_phone)
                 }
 
                 is Resource.Loading -> {

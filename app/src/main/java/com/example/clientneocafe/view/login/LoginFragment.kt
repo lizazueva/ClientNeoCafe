@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.R
 import com.example.clientneocafe.databinding.FragmentLoginBinding
 import com.example.clientneocafe.utils.PhoneMask
+import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,21 +35,41 @@ class LoginFragment : Fragment() {
         }
         binding.btnGetCode.setOnClickListener {
             //для теста
-            findNavController().navigate(R.id.action_loginFragment_to_codeFragment)
+//            findNavController().navigate(R.id.action_loginFragment_to_codeFragment)
 
-            observe()
+            data()
         }
 
         countryCode()
         checkInput()
     }
 
-    private fun observe() {
+    private fun data() {
         val phoneCode = binding.textInputPhoneCode.text.toString()
         val phoneNumber = binding.textInputPhone.text.toString()
         val phone = "$phoneCode $phoneNumber"
-//        binding.textError.text = getText(R.string.error_phone)
+        loginViewModel.login(phone)
+        observe(phone)
 
+    }
+
+    private fun observe(phone: String) {
+        loginViewModel.preToken.observe(viewLifecycleOwner){ preToken->
+            when(preToken) {
+                is Resource.Success ->{
+                    val bundle = Bundle().apply {
+                        putString("phone", phone)
+                    }
+                    findNavController().navigate(R.id.action_loginFragment_to_codeFragment, bundle)
+                }
+                is Resource.Error ->{
+                    binding.textError.text = getText(R.string.error_phone)
+                }
+                is Resource.Loading ->{
+
+                }
+            }
+        }
     }
 
     private fun checkInput() {

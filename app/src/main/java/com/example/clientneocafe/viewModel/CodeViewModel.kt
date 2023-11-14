@@ -20,23 +20,23 @@ class CodeViewModel (private val repository: Repository): ViewModel() {
 
     fun confirmPhone(code: String) {
         val codeAuth = CodeAuth(code)
-        _confirmPhoneResult.value = Resource.Loading()
+        _confirmPhoneResult.postValue(Resource.Loading())
         viewModelScope.launch {
             try {
                 val request = repository.confirmPhone(codeAuth)
                 if (request.isSuccessful) {
                     val responseBody = request.body()
                     if (responseBody != null) {
-                        _confirmPhoneResult.value = Resource.Success(responseBody)
+                        _confirmPhoneResult.postValue(Resource.Success(responseBody))
                     }
                         Log.d("confirmPhone", "Successful: $responseBody")
                 } else {
                     val errorBody = request.errorBody()?.string()
-                    _confirmPhoneResult.value = Resource.Error(errorBody ?: "Unknown error")
+                    _confirmPhoneResult.postValue(Resource.Error(errorBody ?: "Ошибка кода"))
                 }
             } catch (e: Exception) {
                 Log.e("MyViewModel", "Ошибка кода: ${e.message}")
-                _confirmPhoneResult.value = Resource.Error(e.message ?: "Ошибка кода")
+                _confirmPhoneResult.postValue(Resource.Error(e.message ?: "Ошибка кода"))
             }
         }
     }
