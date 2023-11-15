@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.clientneocafe.databinding.ItemBranchesBinding
-import com.example.clientneocafe.model.Branches
+import com.example.clientneocafe.model.map.Branches
+import java.util.Calendar
 
 class AdapterBranches: RecyclerView.Adapter<AdapterBranches.ViewHolder>() {
 
@@ -29,6 +31,20 @@ class AdapterBranches: RecyclerView.Adapter<AdapterBranches.ViewHolder>() {
         val branches = differ.currentList[position]
         with(holder.binding){
 
+            val calendar = Calendar.getInstance()
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
+            val currentWorkday = branches.workdays.find { it.workday == dayOfWeek }
+            val workingHours = currentWorkday?.let {
+                "Сегодня: с ${it.start_time} до ${it.end_time}"
+            } ?: "Информация о рабочем времени отсутствует"
+
+            textTimeBranches.text = workingHours
+            textNameBranches.text = branches.name_of_shop
+            textAddress.text = branches.address
+            textPhone.text = branches.phone_number
+
+            Glide.with(imageBranches).load(branches.image).into(imageBranches)
             holder.itemView.setOnClickListener {
                 onItemClickListener?.let {
                     it(branches)

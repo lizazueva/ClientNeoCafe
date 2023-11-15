@@ -1,28 +1,34 @@
 package com.example.clientneocafe.view.map
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import androidx.navigation.fragment.findNavController
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterBranches
-import com.example.clientneocafe.adapters.AdapterOrder
 import com.example.clientneocafe.databinding.AlertDialogBranchesBinding
-import com.example.clientneocafe.databinding.AlertDialogDebitingBonusesBinding
 import com.example.clientneocafe.databinding.FragmentMapBinding
-import com.example.clientneocafe.view.cart.HistoryFragmentDirections
+import com.example.clientneocafe.model.map.Branches
+import com.example.clientneocafe.utils.Resource
+import com.example.clientneocafe.viewModel.MapViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MapFragment : Fragment() {
 
     private lateinit var binding: FragmentMapBinding
     private lateinit var adapterBranches: AdapterBranches
+    private val mapViewModel: MapViewModel by viewModel()
+
+
 
 
     override fun onCreateView(
@@ -37,7 +43,35 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpAdapter()
+        data()
+        observe()
 
+    }
+
+    private fun observe() {
+        mapViewModel.branches.observe(viewLifecycleOwner){response ->
+            when(response){
+                is Resource.Success ->{
+                    response.data?.let { branches ->
+                        binding.textNoBranches.isVisible = branches.isEmpty()
+                        adapterBranches.differ.submitList(branches)
+                        }
+
+                }
+                is Resource.Error ->{
+                    response.message?.let {
+                        Toast.makeText(requireContext(), "Не удалось загрузить филиалы", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Loading ->{
+
+                }
+            }
+        }
+    }
+
+    private fun data() {
+        mapViewModel.getBranches()
     }
 
     private fun setUpAdapter() {
@@ -45,12 +79,12 @@ class MapFragment : Fragment() {
         binding.recyclerBranches.adapter = adapterBranches
         binding.recyclerBranches.layoutManager = LinearLayoutManager(requireContext())
 
-        adapterBranches.setOnClickListener {
-            alertDialog()
+        adapterBranches.setOnClickListener {selectedBranches ->
+            alertDialog(selectedBranches)
         }
     }
 
-    private fun alertDialog() {
+    private fun alertDialog(selectedBranches: Branches) {
         val dialogBinding = AlertDialogBranchesBinding.inflate(layoutInflater)
         val dialog = Dialog(requireContext())
 
@@ -66,11 +100,15 @@ class MapFragment : Fragment() {
 
         dialogBinding.buttonYes.setOnClickListener {
             dialog.dismiss()
-            mapGis()
+            mapGis(selectedBranches)
         }
     }
 
-    private fun mapGis() {
+    private fun mapGis(selectedBranches: Branches) {
+        val mapUri = Uri.parse(selectedBranches.link_to_map)
+        val intent = Intent(Intent.ACTION_VIEW, mapUri)
+        startActivity(intent)
+
 
     }
 

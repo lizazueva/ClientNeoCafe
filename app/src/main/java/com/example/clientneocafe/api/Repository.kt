@@ -11,4 +11,5 @@ class Repository(private val api: Api) {
     suspend fun registration (request: RegistrationRequest) = RetrofitInstance.api.registration(request)
     suspend fun confirmPhone (request: CodeAuth) = RetrofitInstance.api.confirmPhone(request)
     suspend fun resendCode() = RetrofitInstance.api.resendCode()
+    suspend fun getBranches() = RetrofitInstance.api.getBranches()
 }

@@ -8,6 +8,7 @@ import com.example.clientneocafe.model.auth.LoginResponse
 import com.example.clientneocafe.model.auth.RegistrationRequest
 import com.example.clientneocafe.model.auth.RegistrationResponse
 import com.example.clientneocafe.model.auth.ResendCodeRequest
+import com.example.clientneocafe.model.map.Branches
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -28,4 +29,6 @@ interface Api {
     suspend fun home()
     @GET("accounts/resend-code/")
     suspend fun resendCode(): Response<ResendCodeRequest>
+    @GET("branches/")
+    suspend fun getBranches(): Response<List<Branches>>
 }
