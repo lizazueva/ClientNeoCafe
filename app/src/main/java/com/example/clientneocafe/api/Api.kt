@@ -20,6 +20,10 @@ interface Api {
 
     @POST("accounts/login-for-client/")
     suspend fun login (@Body request: LoginRequest): Response<LoginResponse>
+
+    //test
+    @POST("accounts/temporary-login/")
+    suspend fun login2 (@Body request: String): Response<ConfirmLoginResponse>
     @POST("accounts/confirm-login/")
     suspend fun confirmLogin (@Header("Authorization") pre_token: String, @Body request: CodeAuth): Response<ConfirmLoginResponse>
     @POST("accounts/register/")

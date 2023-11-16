@@ -45,4 +45,6 @@
     <string name="btn_go_over">Перейти</string>
     <string name="text_profile">Профиль</string>
     <string name="text_actual_order">Актуальный заказ</string>
+    <string name="text_edit_profile">Редактирование</string>
+    <string name="btn_save">Сохранить</string>
 </resources>

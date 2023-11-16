@@ -34,7 +34,11 @@
         android:id="@+id/userFragment"
         android:name="com.example.clientneocafe.view.user.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.example.clientneocafe.view.home.MenuFragment"
@@ -87,5 +91,17 @@
         <action
             android:id="@+id/action_orderFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.clientneocafe.view.user.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.clientneocafe.model.auth.User" />
     </fragment>
 </navigation>

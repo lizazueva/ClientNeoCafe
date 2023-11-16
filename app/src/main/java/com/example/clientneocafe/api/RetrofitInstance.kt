@@ -53,7 +53,8 @@ class RetrofitInstance {
             val path = request.url.encodedPath
             return path.endsWith("my-profile/")||
                     path.endsWith("resend-code/")||
-                    path.endsWith("confirm-phone-number/")
+                    path.endsWith("confirm-phone-number/")||
+                    path.endsWith("edit-profile/")
 
         }
     }
