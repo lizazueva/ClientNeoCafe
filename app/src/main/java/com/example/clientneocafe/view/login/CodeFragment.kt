@@ -8,19 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleObserver
 import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.MainActivity
 import com.example.clientneocafe.R
 import com.example.clientneocafe.databinding.FragmentCodeBinding
-import com.example.clientneocafe.model.auth.RegistrationRequest
+import com.example.clientneocafe.model.auth.User
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.CodeViewModel
-import com.example.clientneocafe.viewModel.LoginViewModel
-import com.example.clientneocafe.viewModel.RegistrationViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.Response
-import java.io.Serializable
 
 class CodeFragment : Fragment() {
 
@@ -50,7 +45,7 @@ class CodeFragment : Fragment() {
             binding.textErrorCode.text = getString(R.string.text_code, phone)
 
         } else if (arguments?.containsKey("user") == true) {
-            val dataRepeatRegistration = arguments?.getParcelable<RegistrationRequest>("user")
+            val dataRepeatRegistration = arguments?.getParcelable<User>("user")
             binding.textErrorCode.text = getString(R.string.text_code, dataRepeatRegistration?.phone_number)
         }
     }
@@ -99,7 +94,7 @@ class CodeFragment : Fragment() {
             observePhone()
 
         } else if (arguments?.containsKey("user") == true) {
-            val dataRepeatRegistration = arguments?.getParcelable<RegistrationRequest>("user")
+            val dataRepeatRegistration = arguments?.getParcelable<User>("user")
             binding.textErrorCode.text = getString(R.string.text_code, dataRepeatRegistration?.phone_number)
             codeViewModel.confirmPhone(code)
             observeRegistration()

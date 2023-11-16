@@ -1,5 +1,5 @@
 package com.example.clientneocafe.model.auth
 
-data class ResendCodeRequest(
+data class DetailRequest(
     val detail:String
 )

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
-import com.example.clientneocafe.model.auth.RegistrationRequest
+import com.example.clientneocafe.model.auth.User
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.utils.Utils
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class RegistrationViewModel(private val repository: Repository): ViewModel() {
                       birth_date: String?){
         viewModelScope.launch {
             try {
-                val request = RegistrationRequest(phone_number, first_name, birth_date)
+                val request = User(phone_number, first_name, birth_date)
                 val response = repository.registration(request)
                 if (response.isSuccessful) {
                     _token.postValue(Resource.Loading())

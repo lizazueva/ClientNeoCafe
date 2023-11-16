@@ -43,4 +43,6 @@
     <string name="text_discr_2gis">Вы сможете быстро сориентироваться \nи найти быстрый маршрут к нам!\n Ждем вас!</string>
     <string name="btn_stay">Остаться</string>
     <string name="btn_go_over">Перейти</string>
+    <string name="text_profile">Профиль</string>
+    <string name="text_actual_order">Актуальный заказ</string>
 </resources>

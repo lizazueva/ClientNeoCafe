@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.R
 import com.example.clientneocafe.databinding.FragmentRegistrationBinding
-import com.example.clientneocafe.model.auth.RegistrationRequest
+import com.example.clientneocafe.model.auth.User
 import com.example.clientneocafe.utils.PhoneMask
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.RegistrationViewModel
@@ -61,7 +61,7 @@ class RegistrationFragment : Fragment() {
         registrationViewModel.token.observe(viewLifecycleOwner) { token ->
             when (token) {
                 is Resource.Success -> {
-                    val action = RegistrationFragmentDirections.actionRegistrationFragmentToCodeFragment(RegistrationRequest(phone, name, date))
+                    val action = RegistrationFragmentDirections.actionRegistrationFragmentToCodeFragment(User(phone, name, date))
                     findNavController().navigate(action)
                 }
 

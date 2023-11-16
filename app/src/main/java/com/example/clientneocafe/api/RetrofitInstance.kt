@@ -51,7 +51,7 @@ class RetrofitInstance {
 
         private fun requiresAuthorization(request: okhttp3.Request): Boolean {
             val path = request.url.encodedPath
-            return path.endsWith("my-profile")||
+            return path.endsWith("my-profile/")||
                     path.endsWith("resend-code/")||
                     path.endsWith("confirm-phone-number/")
 

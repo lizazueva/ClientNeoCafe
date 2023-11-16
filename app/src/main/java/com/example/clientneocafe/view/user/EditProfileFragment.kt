@@ -6,20 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.clientneocafe.R
-import com.example.clientneocafe.databinding.FragmentUserBinding
-import com.example.clientneocafe.viewModel.UserViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.clientneocafe.databinding.FragmentEditProfileBinding
 
-class UserFragment : Fragment() {
+class EditProfileFragment : Fragment() {
 
-    private lateinit var binding: FragmentUserBinding
-    private  val userViewModel: UserViewModel by viewModel()
+    private lateinit var binding: FragmentEditProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentUserBinding.inflate(inflater, container, false)
+        binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
