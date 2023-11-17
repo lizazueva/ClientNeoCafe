@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.MainActivity
 import com.example.clientneocafe.R
 import com.example.clientneocafe.api.RetrofitInstance
 import com.example.clientneocafe.databinding.FragmentLoginBinding
+import com.example.clientneocafe.model.auth.LoginRequest
 import com.example.clientneocafe.utils.PhoneMask
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.utils.Utils
@@ -48,17 +51,26 @@ class LoginFragment : Fragment() {
             //для теста
             val phoneCode = binding.textInputPhoneCode.text.toString()
             val phoneNumber = binding.textInputPhone.text.toString()
-            val phone = "$phoneCode $phoneNumber"
+            val phone = LoginRequest("$phoneCode $phoneNumber")
 
-            CoroutineScope(Dispatchers.Default).launch {
+            lifecycleScope.launch {
+                try {
+                    val response = RetrofitInstance.api.login2(phone)
 
-                RetrofitInstance.api.login2(phone)
-                RetrofitInstance.api.login2(phone).body()?.access?.let { Utils.access_token = it }
+                    if(response.isSuccessful){
+                        val access = response.body()?.access
+                        access?.let { Utils.access_token = it }
 
-
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        // Обработка ошибки, если запрос не успешен
+                    }
+                } catch (e: Exception) {
+                    // Обработка исключения, например, вывод сообщения об ошибке
+                }
             }
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
+
 
 
 

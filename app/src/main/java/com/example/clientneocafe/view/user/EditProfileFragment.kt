@@ -33,7 +33,6 @@ class EditProfileFragment : Fragment() {
 
         setUpListeners()
         setDataEditProfile()
-        updateDataProfile()
     }
 
     private fun setUpListeners() {
@@ -41,6 +40,7 @@ class EditProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_editProfileFragment_to_userFragment)
         }
         binding.btnSave.setOnClickListener {
+            updateDataProfile()
             observeEditDataProfile()
         }
     }
@@ -67,8 +67,8 @@ class EditProfileFragment : Fragment() {
 
         profile?.let {
             binding.textInputName.setText(it.first_name)
-            binding.textInputPhone.setText(it.first_name)
-            binding.textInputDate.setText(it.first_name)
+            binding.textInputPhone.setText(it.phone_number)
+            binding.textInputDate.setText(it.birth_date)
 
         }
     }
