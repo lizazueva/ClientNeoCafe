@@ -37,10 +37,10 @@ class StartMenuFragment : Fragment() {
     }
 
     private fun setUpListeners() {
-        binding.cardForBakery.setOnClickListener {
+        binding.includeMenu.cardForBakery.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
         }
-        binding.imageMoreCategory.setOnClickListener {
+        binding.includeMenu.imageMoreCategory.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
         }
     }

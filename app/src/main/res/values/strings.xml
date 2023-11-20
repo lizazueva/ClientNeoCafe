@@ -47,4 +47,5 @@
     <string name="text_actual_order">Актуальный заказ</string>
     <string name="text_edit_profile">Редактирование</string>
     <string name="btn_save">Сохранить</string>
+    <string name="text_notifications">Уведомления</string>
 </resources>

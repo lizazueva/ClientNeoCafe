@@ -33,7 +33,14 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpFragment()
         showStartMenuFragment()
+        setUpListeners()
 
+    }
+
+    private fun setUpListeners() {
+        binding.imageBell.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_notificationsFragment)
+        }
     }
 
     private fun showStartMenuFragment() {

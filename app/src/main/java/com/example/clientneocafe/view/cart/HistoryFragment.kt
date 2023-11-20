@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
-import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.adapters.AdapterOrder
 import com.example.clientneocafe.databinding.FragmentHistoryBinding
 

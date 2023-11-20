@@ -15,6 +15,9 @@
             app:destination="@id/menuFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -29,7 +32,11 @@
         android:id="@+id/mapFragment"
         android:name="com.example.clientneocafe.view.map.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="com.example.clientneocafe.view.user.UserFragment"
@@ -38,6 +45,9 @@
         <action
             android:id="@+id/action_userFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
@@ -50,6 +60,9 @@
         <argument
             android:name="products"
             app:argType="com.example.clientneocafe.model.Product" />
+        <action
+            android:id="@+id/action_menuFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -82,6 +95,9 @@
         <action
             android:id="@+id/action_historyFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -91,6 +107,9 @@
         <action
             android:id="@+id/action_orderFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_orderFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -103,5 +122,35 @@
         <argument
             android:name="user"
             app:argType="com.example.clientneocafe.model.auth.User" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.clientneocafe.view.home.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_orderFragment"
+            app:destination="@id/orderFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
