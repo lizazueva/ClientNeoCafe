@@ -23,12 +23,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/image_bell"
+            android:id="@+id/icn_sign_out"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/icn_notif"
+            android:src="@drawable/icn_sign_out"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,8 +45,8 @@
 
         <ImageView
             android:id="@+id/image_edit_profile"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="69dp"
             android:src="@drawable/icn_pencil"

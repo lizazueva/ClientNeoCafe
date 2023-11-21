@@ -55,4 +55,6 @@
     <string name="text_bonuse">Бонусы</string>
     <string name="text_info_bonuses">Накапливайте бонусы и совершайте\n выгодные для Вас заказы!\n 1 бонус = 1 сом</string>
     <string name="button_ok">Хорошо</string>
+    <string name="text_sign_out">Вы действительно хотите \n выйти?</string>
+    <string name="text_out">Выход</string>
 </resources>

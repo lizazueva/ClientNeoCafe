@@ -49,10 +49,29 @@ class CartFragment : Fragment() {
         setUpAdapter()
         resultSum(enteredBonusesInt)
         bonusAccount()
+        selectedButton()
 
     }
 
-     fun bonusAccount() {
+    private fun selectedButton() {
+        val buttonRestaurant = binding.btnRestaurant
+        val buttonTakeAway = binding.btnTakeAway
+
+        buttonRestaurant.setOnClickListener {
+            buttonRestaurant.isSelected = true
+            buttonTakeAway.isSelected = false
+        }
+
+        buttonTakeAway.setOnClickListener {
+            buttonTakeAway.isSelected = true
+            buttonRestaurant.isSelected = false
+        }
+
+        buttonRestaurant.isSelected = true
+        buttonTakeAway.isSelected = false
+    }
+
+    fun bonusAccount() {
         bonuses = 150
     }
 

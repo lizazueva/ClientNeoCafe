@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/icn_arrow"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="15dp"
+        android:padding="12dp"
         app:layout_constraintTop_toTopOf="@+id/text_our_menu" />
 
     <!-- COFFEE CARD -->

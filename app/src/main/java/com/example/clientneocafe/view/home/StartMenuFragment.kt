@@ -74,7 +74,7 @@ class StartMenuFragment : Fragment() {
     }
 
     private fun dropdown() {
-        val options = listOf("Вариант 1", "Вариант 2", "Вариант 3")
+        val options = listOf("Филиал 1", "Филиал 2", "Филиал 3")
 
         val spinner = binding.spinnerOptions
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)

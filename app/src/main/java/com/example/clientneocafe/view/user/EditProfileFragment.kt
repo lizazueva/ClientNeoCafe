@@ -97,17 +97,19 @@ class EditProfileFragment : Fragment() {
     private fun setDataEditProfile() {
         val profile = arguments?.getParcelable<User>("user")
 
-        val editTextDate = binding.textInputDate
-        val dateMask = DateMask(editTextDate)
-        editTextDate.addTextChangedListener(dateMask)
-
         profile?.let {
             binding.textInputName.setText(it.first_name)
             binding.textInputPhone.setText(it.phone_number)
-            val date = it.birth_date.toString()
-            val formattedDate = convertDateFormatGet(date, "yyyy-MM-dd", "MM.dd.yyyy")
-            binding.textInputDate.setText(formattedDate)
-
+            val date = it.birth_date
+            if (date.isNullOrEmpty()){
+                binding.textInputDate.setText("")
+            }else{
+                val editTextDate = binding.textInputDate
+                val dateMask = DateMask(editTextDate)
+                editTextDate.addTextChangedListener(dateMask)
+                val formattedDate = convertDateFormatGet(date, "yyyy-MM-dd", "MM.dd.yyyy")
+                binding.textInputDate.setText(formattedDate)
+            }
         }
     }
 

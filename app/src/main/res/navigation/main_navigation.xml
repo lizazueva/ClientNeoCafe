@@ -45,9 +45,6 @@
         <action
             android:id="@+id/action_userFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
-        <action
-            android:id="@+id/action_userFragment_to_notificationsFragment"
-            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
@@ -122,9 +119,6 @@
         <argument
             android:name="user"
             app:argType="com.example.clientneocafe.model.auth.User" />
-        <action
-            android:id="@+id/action_editProfileFragment_to_notificationsFragment"
-            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -138,14 +132,8 @@
             android:id="@+id/action_notificationsFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
         <action
-            android:id="@+id/action_notificationsFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
-        <action
             android:id="@+id/action_notificationsFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
-        <action
-            android:id="@+id/action_notificationsFragment_to_userFragment"
-            app:destination="@id/userFragment" />
         <action
             android:id="@+id/action_notificationsFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
