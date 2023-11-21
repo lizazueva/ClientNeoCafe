@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="10"
-            android:inputType="date"
+            android:inputType="text"
             android:padding="23dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"

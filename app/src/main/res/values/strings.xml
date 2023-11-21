@@ -48,4 +48,11 @@
     <string name="text_edit_profile">Редактирование</string>
     <string name="btn_save">Сохранить</string>
     <string name="text_notifications">Уведомления</string>
+    <string name="text_no_edit">Изменения не сохранены</string>
+    <string name="text_exit">Хотите покинуть страницу\n редактирования?</string>
+    <string name="button_yes_edit">Да</string>
+    <string name="button_non">Нет</string>
+    <string name="text_bonuse">Бонусы</string>
+    <string name="text_info_bonuses">Накапливайте бонусы и совершайте\n выгодные для Вас заказы!\n 1 бонус = 1 сом</string>
+    <string name="button_ok">Хорошо</string>
 </resources>
