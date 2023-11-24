@@ -8,6 +8,7 @@ import com.example.clientneocafe.model.auth.LoginResponse
 import com.example.clientneocafe.model.auth.RegistrationResponse
 import com.example.clientneocafe.model.auth.DetailRequest
 import com.example.clientneocafe.model.auth.User
+import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.map.Branches
 import retrofit2.Response
 import retrofit2.http.Body
@@ -15,6 +16,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface Api {
 
@@ -38,5 +40,19 @@ interface Api {
     suspend fun getBranches(): Response<List<Branches>>
     @PUT("accounts/edit-profile/")
     suspend fun updateProfile(@Body request: User): Response<DetailRequest>
+
+    @GET("menu/categories/")
+    suspend fun getCategories(): Response<List<Category>>
+//    @GET("menu/check-ingredients/{item_id}/")
+//    suspend fun getCheckIngredients(@Path("item_id") id: Int): Response<>
+//    @POST("menu/choose-branch/")
+//    suspend fun chooseBranch()
+//    @GET("menu/product-info/{id}/")
+//    suspend fun getProduct(@Path("id") id: Int): Response<>
+//    @GET("menu/products-in-category/category_id/")
+//    suspend fun getProductsInCategory(): Response<List<>>
+//    @GET("menu/search-products/{branch_id}")
+//    suspend fun getSearchProduct(): Response
+
 
 }

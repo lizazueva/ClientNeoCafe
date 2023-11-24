@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clientneocafe.databinding.ItemBranchesBinding
 import com.example.clientneocafe.model.map.Branches
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class AdapterBranches: RecyclerView.Adapter<AdapterBranches.ViewHolder>() {
 
@@ -36,8 +38,12 @@ class AdapterBranches: RecyclerView.Adapter<AdapterBranches.ViewHolder>() {
 
             val currentWorkday = branches.workdays.find { it.workday == dayOfWeek }
             val workingHours = currentWorkday?.let {
-                "Сегодня: с ${it.start_time} до ${it.end_time}"
-            } ?: "Информация о рабочем времени отсутствует"
+                val inputFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                val startTime = inputFormat.parse(it.start_time)
+                val endTime = inputFormat.parse(it.end_time)
+                "Сегодня: с ${outputFormat.format(startTime)} до ${outputFormat.format(endTime)}"
+            } ?: "Сегодня ресторан не работает"
 
             textTimeBranches.text = workingHours
             textNameBranches.text = branches.name_of_shop

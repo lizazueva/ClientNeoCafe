@@ -10,6 +10,7 @@
     <color name="yellow">#FFE074</color>
     <color name="backgr">#F8F8F8</color>
     <color name="delete">#FF7777</color>
+    <color name="search">#F2F2F2</color>
 
 
 </resources>

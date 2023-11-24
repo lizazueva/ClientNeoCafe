@@ -118,9 +118,6 @@ class CartFragment : Fragment() {
     }
 
     private fun setUpListeners() {
-        binding.imageDots.setOnClickListener {
-            setUpPopup()
-        }
 
         binding.btnOrder.setOnClickListener {
             if (bonuses == 0) {
@@ -198,20 +195,4 @@ class CartFragment : Fragment() {
             }
         }
     }
-
-    private fun setUpPopup() {
-        val popup  = PopupMenu(requireContext(), binding.imageDots)
-        popup.menuInflater.inflate(R.menu.popup_menu, popup.menu)
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.popup_history -> {
-                    findNavController().navigate(R.id.action_cartFragment_to_historyFragment)
-                    true
-                }
-                else -> false
-            }
-        }
-        popup.show()
-    }
-
 }
