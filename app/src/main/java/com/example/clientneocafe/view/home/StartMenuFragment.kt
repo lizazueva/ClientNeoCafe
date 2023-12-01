@@ -5,19 +5,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentStartMenuBinding
 import com.example.clientneocafe.model.Product
+import com.example.clientneocafe.model.home.BranchesMenu
+import com.example.clientneocafe.utils.Resource
+import com.example.clientneocafe.viewModel.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StartMenuFragment : Fragment() {
 
     private lateinit var binding: FragmentStartMenuBinding
     private lateinit var adapterProduct: AdapterMenu
     lateinit var testProduct: ArrayList<Product>
+    private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +39,39 @@ class StartMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpListeners()
-        dropdown()
         setUpAdapter()
 
+        dataBranches()
+        observeBranches()
+
+    }
+
+    private fun observeBranches() {
+        homeViewModel.branchesMenu.observe(viewLifecycleOwner){branches ->
+            when(branches){
+                is Resource.Success ->{
+                    branches.data?.let { branches ->
+                        dropdown(branches)
+                    }
+
+                }
+                is Resource.Error ->{
+                    branches.message?.let {
+                        Toast.makeText(requireContext(),
+                            "Не удалось загрузить филиалы",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Loading ->{
+
+                }
+            }
+        }
+
+    }
+
+    private fun dataBranches() {
+        homeViewModel.getBranchesForMenu()
     }
 
     private fun setUpListeners() {
@@ -73,13 +111,56 @@ class StartMenuFragment : Fragment() {
         })
     }
 
-    private fun dropdown() {
-        val options = listOf("Филиал 1", "Филиал 2", "Филиал 3")
-
+    private fun dropdown(branches: List<BranchesMenu>) {
+        val branchNames = branches.map { it.name_of_shop }
         val spinner = binding.spinnerOptions
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
+        val adapter: ArrayAdapter<String>
+
+        if (branchNames.isNotEmpty()) {
+            adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, branchNames)
+        } else {
+            adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, listOf("Филиалов нет"))
+        }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+
+        spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
+                val selectedBranch = branches[position]
+                selectedBranch.id?.let { branchId ->
+                    changeBranch(branchId)
+                }
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>) {
+            }
+        })
+    }
+
+    private fun changeBranch(branchId: Int) {
+        homeViewModel.changeBranch(branchId)
+        observeChangedBranch()
+    }
+
+
+
+    private fun observeChangedBranch() {
+        homeViewModel.changedBranch.observe(viewLifecycleOwner){ chanchedBranch ->
+            when(chanchedBranch){
+                is Resource.Success ->{
+
+                }
+                is Resource.Error ->{
+                    Toast.makeText(
+                        requireContext(),
+                        "Не удается поменять филиал",
+                        Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading ->{
+
+                }
+            }
+        }
     }
 
 

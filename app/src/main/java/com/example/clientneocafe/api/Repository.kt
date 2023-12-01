@@ -3,6 +3,10 @@ package com.example.clientneocafe.api
 import com.example.clientneocafe.model.auth.CodeAuth
 import com.example.clientneocafe.model.auth.LoginRequest
 import com.example.clientneocafe.model.auth.User
+import com.example.clientneocafe.model.home.BranchesMenu
+import com.example.clientneocafe.model.home.ChangeBranch
+import retrofit2.Response
+import retrofit2.http.Body
 
 
 class Repository(private val api: Api) {
@@ -14,5 +18,8 @@ class Repository(private val api: Api) {
     suspend fun getBranches() = RetrofitInstance.api.getBranches()
     suspend fun getProfile() = RetrofitInstance.api.getProfile()
     suspend fun updateProfile(request: User) = RetrofitInstance.api.updateProfile(request)
+    suspend fun getBranchesForMenu() = RetrofitInstance.api.getBranchesForMenu()
+    suspend fun changeBranch(request: ChangeBranch) = RetrofitInstance.api.changeBranch(request)
+
 
 }

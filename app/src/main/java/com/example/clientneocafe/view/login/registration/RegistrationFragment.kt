@@ -61,8 +61,11 @@ class RegistrationFragment : Fragment() {
         registrationViewModel.token.observe(viewLifecycleOwner) { token ->
             when (token) {
                 is Resource.Success -> {
-                    val action = RegistrationFragmentDirections.actionRegistrationFragmentToCodeFragment(User(phone, name, date))
-                    findNavController().navigate(action)
+                    val navController = findNavController()
+                    if (navController.currentDestination?.id == R.id.registrationFragment) {
+                        val action = RegistrationFragmentDirections.actionRegistrationFragmentToCodeFragment(User(phone, name, date))
+                        findNavController().navigate(action)
+                    }
                 }
 
                 is Resource.Error -> {
@@ -89,6 +92,7 @@ class RegistrationFragment : Fragment() {
             return false
         }
 
+        binding.textInputPhone.error = null
         return true
     }
 
