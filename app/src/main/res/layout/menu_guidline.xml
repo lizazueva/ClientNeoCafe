@@ -44,8 +44,7 @@
             android:id="@+id/image_coffee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:src="@drawable/img_coffee" />
+            android:layout_gravity="center_horizontal|center_vertical" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -53,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Кофе"
+        android:text=""
         android:textColor="@color/black_title"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -78,8 +77,7 @@
             android:id="@+id/image_desert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:src="@drawable/img_desert" />
+            android:layout_gravity="center_horizontal|center_vertical" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -88,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Десерты"
+        android:text=""
         android:textColor="@color/black_title"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -113,8 +111,7 @@
             android:id="@+id/image_coctail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:src="@drawable/img_coctail" />
+            android:layout_gravity="center_horizontal|center_vertical" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -124,7 +121,7 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
-        android:text="Коктейли"
+        android:text=""
         android:textColor="@color/black_title"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -149,8 +146,7 @@
             android:id="@+id/image_bakery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:src="@drawable/img_donat" />
+            android:layout_gravity="center_horizontal|center_vertical" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -159,7 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginTop="8dp"
-        android:text="Выпечка"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="@color/black_title"
         android:textSize="20sp"
@@ -185,8 +181,7 @@
             android:id="@+id/image_tea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:src="@drawable/img_tea" />
+            android:layout_gravity="center_horizontal|center_vertical" />
 
     </androidx.cardview.widget.CardView>
 
@@ -197,7 +192,7 @@
         android:layout_gravity="bottom"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="48dp"
-        android:text="Чай"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="@color/black_title"
         android:textSize="20sp"

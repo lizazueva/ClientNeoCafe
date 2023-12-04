@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentStartMenuBinding
 import com.example.clientneocafe.model.Product
 import com.example.clientneocafe.model.home.BranchesMenu
+import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +27,6 @@ class StartMenuFragment : Fragment() {
 
     private lateinit var binding: FragmentStartMenuBinding
     private lateinit var adapterProduct: AdapterMenu
-    lateinit var testProduct: ArrayList<Product>
     private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onCreateView(
@@ -39,11 +41,97 @@ class StartMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpListeners()
-        setUpAdapter()
 
         dataBranches()
         observeBranches()
 
+        dataCategories()
+        observeCategories()
+
+        dataPopularItems()
+        observePopularItems()
+
+    }
+
+    private fun observePopularItems() {
+        homeViewModel.getPopularItems()
+    }
+
+    private fun dataPopularItems() {
+        homeViewModel.popularItems.observe(viewLifecycleOwner){popularItems ->
+            when(popularItems){
+                is Resource.Success ->{
+                    popularItems.data?.let { popularItems ->
+                        setUpAdapter(popularItems)
+                    }
+
+                }
+                is Resource.Error ->{
+                    popularItems.message?.let {
+                        Toast.makeText(requireContext(),
+                            "Не удалось загрузить популярные товары",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Loading ->{
+
+                }
+            }
+        }
+    }
+
+    private fun observeCategories() {
+        homeViewModel.categories.observe(viewLifecycleOwner){categories ->
+            when(categories){
+                is Resource.Success ->{
+                    val categoryList = categories.data
+                    for (i in categoryList?.indices!!){
+                        val category = categoryList[i]
+                        when(i){
+                            0 -> {
+                                binding.includeMenu.textCoffee.text = category.name
+                                Glide.with(binding.includeMenu.imageCoffee).load(category.image)
+                                    .into(binding.includeMenu.imageCoffee)
+                            }
+                            1 -> {
+                                binding.includeMenu.textDesert.text = category.name
+                                Glide.with(binding.includeMenu.imageDesert).load(category.image)
+                                    .into(binding.includeMenu.imageDesert)
+                            }
+                            2 -> {
+                                binding.includeMenu.textCoctail.text = category.name
+                                Glide.with(binding.includeMenu.imageCoctail).load(category.image)
+                                    .into(binding.includeMenu.imageCoctail)
+                            }
+                            3 -> {
+                                binding.includeMenu.textBakery.text = category.name
+                                Glide.with(binding.includeMenu.imageBakery).load(category.image)
+                                    .into(binding.includeMenu.imageBakery)
+                            }
+                            4 -> {
+                                binding.includeMenu.textTea.text = category.name
+                                Glide.with(binding.includeMenu.imageTea).load(category.image)
+                                    .into(binding.includeMenu.imageTea)
+                            }
+                        }
+                    }
+                }
+                is Resource.Error ->{
+                    categories.message?.let {
+                        Toast.makeText(requireContext(),
+                            "Не удалось загрузить категории товаров",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Loading ->{
+
+                }
+            }
+        }
+    }
+
+    private fun dataCategories() {
+        homeViewModel.getCategories()
     }
 
     private fun observeBranches() {
@@ -67,7 +155,6 @@ class StartMenuFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun dataBranches() {
@@ -83,17 +170,11 @@ class StartMenuFragment : Fragment() {
         }
     }
 
-    private fun setUpAdapter() {
+    private fun setUpAdapter(popularItems: List<Product>) {
         adapterProduct = AdapterMenu()
         binding.recyclerPopular.adapter = adapterProduct
         binding.recyclerPopular.layoutManager = LinearLayoutManager(requireContext())
-        testProduct = arrayListOf (
-            Product(1,"Кофе", "Капучино","Кофейный напиток", 170, R.drawable.img_donat, 0),
-            Product(1,"Выпечка", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 3),
-            Product(1,"Коктейли", "Капучино", "Кофейный напиток", 170, R.drawable.img_coctail, 0),
-            Product(1,"Десерты", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 0),
-            Product(1,"Чай", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 0))
-        adapterProduct.differ.submitList(testProduct)
+        adapterProduct.differ.submitList(popularItems)
 
         adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<Product>{
             override fun onClick(data: Product, position: Int) {

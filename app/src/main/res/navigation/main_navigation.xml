@@ -118,7 +118,7 @@
             app:destination="@id/userFragment" />
         <argument
             android:name="user"
-            app:argType="com.example.clientneocafe.model.auth.User" />
+            app:argType="com.example.clientneocafe.model.user.UserInfo" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"

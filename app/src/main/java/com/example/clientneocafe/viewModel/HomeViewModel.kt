@@ -6,12 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
+import com.example.clientneocafe.model.Product
 import com.example.clientneocafe.model.home.BranchesMenu
+import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.home.ChangeBranch
 import com.example.clientneocafe.utils.Resource
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: Repository): ViewModel() {
+
+
+//получение списка категорий для меню
     private val _branchesMenu: MutableLiveData<Resource<List<BranchesMenu>>> = MutableLiveData()
 
     val branchesMenu: LiveData<Resource<List<BranchesMenu>>>
@@ -20,10 +25,32 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     private fun saveBranches(response: List<BranchesMenu>) {
         _branchesMenu.postValue(Resource.Success(response))
     }
-
+// выбор филиала
     private  val _changedBranch: MutableLiveData<Resource<String>> = MutableLiveData()
     val changedBranch: LiveData<Resource<String>>
         get() = _changedBranch
+
+
+//получение списка категорий для меню
+    private val _categories: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
+
+    val categories: LiveData<Resource<List<Category>>>
+        get() = _categories
+
+    private fun saveCategories(response: List<Category>) {
+        _categories.postValue(Resource.Success(response))
+    }
+
+
+//получение списка популярных позиций для меню
+    private val _popularItems: MutableLiveData<Resource<List<Product>>> = MutableLiveData()
+
+    val popularItems: LiveData<Resource<List<Product>>>
+        get() = _popularItems
+
+    private fun savePopularItems(response: List<Product>) {
+        _popularItems.postValue(Resource.Success(response))
+    }
 
 
     fun getBranchesForMenu(){
@@ -67,6 +94,48 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
             }catch (e:Exception){
                 Log.e("MyViewModel", "Ошибка кода: ${e.message}")
                 _changedBranch.postValue(Resource.Error(e.message ?: "Ошибка выбора филиала"))
+            }
+        }
+    }
+
+    fun getCategories(){
+        viewModelScope.launch {
+            _categories.postValue(Resource.Loading())
+            try {
+                val response = repository.getCategories()
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    responseBody?.let { saveCategories(it) }
+                    Log.d("getCategories", "Successful: $responseBody")
+
+                }else{
+                    val errorBody = response.errorBody()?.toString()
+                    _categories.postValue(Resource.Error(errorBody ?: "Ошибка получения категорий"))
+                }
+            } catch (e: Exception) {
+                Log.e("MyViewModel", "Ошибка загрузки: ${e.message}")
+                _categories.postValue(Resource.Error(e.message ?: "Ошибка загрузки"))
+            }
+        }
+    }
+
+    fun getPopularItems(){
+        viewModelScope.launch {
+            _popularItems.postValue(Resource.Loading())
+            try {
+                val response = repository.getPopularItems()
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    responseBody?.let { savePopularItems(it) }
+                    Log.d("getPopularItems", "Successful: $responseBody")
+
+                }else{
+                    val errorBody = response.errorBody()?.toString()
+                    _popularItems.postValue(Resource.Error(errorBody ?: "Ошибка получения популярных позиций"))
+                }
+            } catch (e: Exception) {
+                Log.e("MyViewModel", "Ошибка загрузки: ${e.message}")
+                _popularItems.postValue(Resource.Error(e.message ?: "Ошибка загрузки"))
             }
         }
     }

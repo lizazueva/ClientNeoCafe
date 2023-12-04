@@ -1,5 +1,6 @@
 package com.example.clientneocafe.api
 
+import com.example.clientneocafe.model.Product
 import com.example.clientneocafe.model.auth.CodeAuth
 import com.example.clientneocafe.model.auth.ConfirmLoginResponse
 import com.example.clientneocafe.model.auth.ConfirmRegisterResponse
@@ -9,9 +10,11 @@ import com.example.clientneocafe.model.auth.RegistrationResponse
 import com.example.clientneocafe.model.auth.DetailRequest
 import com.example.clientneocafe.model.auth.User
 import com.example.clientneocafe.model.home.BranchesMenu
+import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.home.ChangeBranch
 import com.example.clientneocafe.model.home.MessageResponse
 import com.example.clientneocafe.model.map.Branches
+import com.example.clientneocafe.model.user.UserInfo
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -34,7 +37,7 @@ interface Api {
     @POST("accounts/confirm-phone-number/")
     suspend fun confirmPhone (@Body request: CodeAuth): Response<ConfirmRegisterResponse>
     @GET("accounts/my-profile/")
-    suspend fun getProfile(): Response<User>
+    suspend fun getProfile(): Response<UserInfo>
     @GET("accounts/resend-code/")
     suspend fun resendCode(): Response<DetailRequest>
     @GET("branches/")
@@ -43,18 +46,21 @@ interface Api {
     suspend fun updateProfile(@Body request: User): Response<DetailRequest>
 
 
-    @GET("menu/branches/")
+    @GET("customers/branches/")
     suspend fun getBranchesForMenu(): Response<List<BranchesMenu>>
-    @POST("menu/change-branch/")
+    @POST("customers/change-branch/")
     suspend fun changeBranch(@Body request: ChangeBranch): Response<MessageResponse>
+    @GET("customers/categories/")
+    suspend fun getCategories(): Response<List<Category>>
+    @GET("customers/popular-items/")
+    suspend fun getPopularItems(): Response<List<Product>>
 
 
-//    @GET("menu/categories/")
-//    suspend fun getCategories(): Response<List<Category>>
+
+
+
 //    @GET("menu/check-ingredients/{item_id}/")
 //    suspend fun getCheckIngredients(@Path("item_id") id: Int): Response<>
-//    @POST("menu/choose-branch/")
-//    suspend fun chooseBranch()
 //    @GET("menu/product-info/{id}/")
 //    suspend fun getProduct(@Path("id") id: Int): Response<>
 //    @GET("menu/products-in-category/category_id/")

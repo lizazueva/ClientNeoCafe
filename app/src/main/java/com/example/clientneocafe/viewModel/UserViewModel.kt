@@ -8,18 +8,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
 import com.example.clientneocafe.model.auth.ConfirmRegisterResponse
 import com.example.clientneocafe.model.auth.User
+import com.example.clientneocafe.model.user.UserInfo
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.utils.Utils
 import kotlinx.coroutines.launch
 
 class UserViewModel (private val repository: Repository): ViewModel() {
 
-    private val _user: MutableLiveData<Resource<User>> = MutableLiveData()
+    private val _user: MutableLiveData<Resource<UserInfo>> = MutableLiveData()
 
-    val user: LiveData<Resource<User>>
+    val user: LiveData<Resource<UserInfo>>
         get() = _user
 
-    private fun saveUser (response: User){
+    private fun saveUser (response: UserInfo){
         _user.postValue(Resource.Success(response))
     }
 

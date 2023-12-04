@@ -17,6 +17,7 @@ import com.example.clientneocafe.databinding.AlertDialogExitBinding
 import com.example.clientneocafe.databinding.AlertDialogInfoBonusesBinding
 import com.example.clientneocafe.databinding.FragmentUserBinding
 import com.example.clientneocafe.model.auth.User
+import com.example.clientneocafe.model.user.UserInfo
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.view.login.LoginActivity
 import com.example.clientneocafe.viewModel.UserViewModel
@@ -26,7 +27,7 @@ class UserFragment : Fragment() {
 
     private lateinit var binding: FragmentUserBinding
     private  val userViewModel: UserViewModel by viewModel()
-    private var profile: User? = null
+    private lateinit var profile: UserInfo
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +51,7 @@ class UserFragment : Fragment() {
             when (user) {
                 is Resource.Success -> {
                     binding.textUserName.text = user.data?.first_name
+                    binding.textOurBonuses.text = user.data?.bonus.toString()
                     user.data?.let { profile = it }
                 }
                 is Resource.Loading ->{
@@ -64,8 +66,10 @@ class UserFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.imageEditProfile.setOnClickListener {
-            val action = UserFragmentDirections.actionUserFragmentToEditProfileFragment(profile!!)
-            findNavController().navigate(action)
+            profile?.let {
+                val action = UserFragmentDirections.actionUserFragmentToEditProfileFragment(it)
+                findNavController().navigate(action)
+            }
         }
         binding.cardForBonuses.setOnClickListener {
             showDialogBonuses()

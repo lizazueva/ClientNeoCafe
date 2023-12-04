@@ -12,10 +12,9 @@ import android.view.Window
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.clientneocafe.R
-import com.example.clientneocafe.databinding.AlertDialogBranchesBinding
 import com.example.clientneocafe.databinding.AlertDialogEditProfileBinding
 import com.example.clientneocafe.databinding.FragmentEditProfileBinding
-import com.example.clientneocafe.model.auth.User
+import com.example.clientneocafe.model.user.UserInfo
 import com.example.clientneocafe.utils.DateMask
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.UserViewModel
@@ -95,7 +94,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun setDataEditProfile() {
-        val profile = arguments?.getParcelable<User>("user")
+        val profile = arguments?.getParcelable<UserInfo>("user")
 
         profile?.let {
             binding.textInputName.setText(it.first_name)

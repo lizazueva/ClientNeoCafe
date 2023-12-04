@@ -55,8 +55,10 @@ class RetrofitInstance {
                     path.endsWith("resend-code/")||
                     path.endsWith("confirm-phone-number/")||
                     path.endsWith("edit-profile/")||
-                    path.endsWith("menu/branches/")||
-                    path.endsWith("change-branch/")
+                    path.endsWith("customers/branches/")||
+                    path.endsWith("change-branch/")||
+                    path.endsWith("customers/categories/")||
+                    path.endsWith("customers/popular-items/")
 
         }
     }
