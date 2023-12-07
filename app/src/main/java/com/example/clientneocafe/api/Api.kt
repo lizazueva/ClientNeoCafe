@@ -1,6 +1,6 @@
 package com.example.clientneocafe.api
 
-import com.example.clientneocafe.model.Product
+import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.auth.CodeAuth
 import com.example.clientneocafe.model.auth.ConfirmLoginResponse
 import com.example.clientneocafe.model.auth.ConfirmRegisterResponse
@@ -21,6 +21,8 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface Api {
 
@@ -30,6 +32,7 @@ interface Api {
     //test
     @POST("accounts/temporary-login/")
     suspend fun login2 (@Body request: LoginRequest): Response<ConfirmLoginResponse>
+
     @POST("accounts/confirm-login/")
     suspend fun confirmLogin (@Header("Authorization") pre_token: String, @Body request: CodeAuth): Response<ConfirmLoginResponse>
     @POST("accounts/register/")
@@ -45,7 +48,7 @@ interface Api {
     @PUT("accounts/edit-profile/")
     suspend fun updateProfile(@Body request: User): Response<DetailRequest>
 
-
+//home
     @GET("customers/branches/")
     suspend fun getBranchesForMenu(): Response<List<BranchesMenu>>
     @POST("customers/change-branch/")
@@ -53,20 +56,13 @@ interface Api {
     @GET("customers/categories/")
     suspend fun getCategories(): Response<List<Category>>
     @GET("customers/popular-items/")
-    suspend fun getPopularItems(): Response<List<Product>>
+    suspend fun getPopularItems(): Response<List<DetailInfoProduct>>
+    @GET("customers/menu/{id}/")
+    suspend fun getProduct(@Path("id") id: Int): Response<DetailInfoProduct>
 
+    @GET("customers/menu")
+    suspend fun getMenuCategory(@Query("category__id") id: Int): Response<List<DetailInfoProduct>>
 
-
-
-
-//    @GET("menu/check-ingredients/{item_id}/")
-//    suspend fun getCheckIngredients(@Path("item_id") id: Int): Response<>
-//    @GET("menu/product-info/{id}/")
-//    suspend fun getProduct(@Path("id") id: Int): Response<>
-//    @GET("menu/products-in-category/category_id/")
-//    suspend fun getProductsInCategory(): Response<List<>>
-//    @GET("menu/search-products/{branch_id}")
-//    suspend fun getSearchProduct(): Response
 
 
 }

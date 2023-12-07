@@ -1,14 +1,12 @@
 package com.example.clientneocafe.api
 
-import com.example.clientneocafe.model.Product
+import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.auth.CodeAuth
 import com.example.clientneocafe.model.auth.LoginRequest
 import com.example.clientneocafe.model.auth.User
-import com.example.clientneocafe.model.home.BranchesMenu
-import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.home.ChangeBranch
 import retrofit2.Response
-import retrofit2.http.Body
+import retrofit2.http.Path
 
 
 class Repository(private val api: Api) {
@@ -25,6 +23,10 @@ class Repository(private val api: Api) {
     suspend fun changeBranch(request: ChangeBranch) = RetrofitInstance.api.changeBranch(request)
     suspend fun getCategories() = RetrofitInstance.api.getCategories()
     suspend fun getPopularItems() = RetrofitInstance.api.getPopularItems()
+    suspend fun getProduct(id: Int) = RetrofitInstance.api.getProduct(id)
+    suspend fun getMenuCategory(id: Int) = RetrofitInstance.api.getMenuCategory(id)
+
+
 
 
 

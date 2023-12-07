@@ -7,16 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.get
-import androidx.core.view.isVisible
+import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentStartMenuBinding
-import com.example.clientneocafe.model.Product
+import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.utils.Resource
@@ -28,6 +29,8 @@ class StartMenuFragment : Fragment() {
     private lateinit var binding: FragmentStartMenuBinding
     private lateinit var adapterProduct: AdapterMenu
     private val homeViewModel: HomeViewModel by viewModel()
+    private var selectedCategoryId: Int? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,29 +92,29 @@ class StartMenuFragment : Fragment() {
                         val category = categoryList[i]
                         when(i){
                             0 -> {
-                                binding.includeMenu.textCoffee.text = category.name
-                                Glide.with(binding.includeMenu.imageCoffee).load(category.image)
-                                    .into(binding.includeMenu.imageCoffee)
+                                listenerForCategories(binding.includeMenu.textCoffee,
+                                    binding.includeMenu.cardForCoffee,
+                                    binding.includeMenu.imageCoffee, category)
                             }
                             1 -> {
-                                binding.includeMenu.textDesert.text = category.name
-                                Glide.with(binding.includeMenu.imageDesert).load(category.image)
-                                    .into(binding.includeMenu.imageDesert)
+                                listenerForCategories(binding.includeMenu.textDesert,
+                                    binding.includeMenu.cardForDesert,
+                                    binding.includeMenu.imageDesert, category)
                             }
                             2 -> {
-                                binding.includeMenu.textCoctail.text = category.name
-                                Glide.with(binding.includeMenu.imageCoctail).load(category.image)
-                                    .into(binding.includeMenu.imageCoctail)
+                                listenerForCategories(binding.includeMenu.textCoctail,
+                                    binding.includeMenu.cardForCocktail,
+                                    binding.includeMenu.imageCoctail, category )
                             }
                             3 -> {
-                                binding.includeMenu.textBakery.text = category.name
-                                Glide.with(binding.includeMenu.imageBakery).load(category.image)
-                                    .into(binding.includeMenu.imageBakery)
+                                listenerForCategories(binding.includeMenu.textBakery,
+                                    binding.includeMenu.cardForBakery,
+                                    binding.includeMenu.imageBakery, category )
                             }
                             4 -> {
-                                binding.includeMenu.textTea.text = category.name
-                                Glide.with(binding.includeMenu.imageTea).load(category.image)
-                                    .into(binding.includeMenu.imageTea)
+                                listenerForCategories(binding.includeMenu.textTea,
+                                    binding.includeMenu.cardForTea,
+                                    binding.includeMenu.imageTea, category)
                             }
                         }
                     }
@@ -127,6 +130,24 @@ class StartMenuFragment : Fragment() {
 
                 }
             }
+        }
+    }
+
+    private fun listenerForCategories(
+        name: TextView,
+        card: CardView,
+        image: ImageView,
+        category: Category
+    ) {
+        name.text = category.name
+        Glide.with(image).load(category.image)
+            .into(image)
+        card.setOnClickListener {
+            selectedCategoryId = category.id
+            val bundle = Bundle().apply {
+                putInt("id", selectedCategoryId!!)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_menuFragment, bundle)
         }
     }
 
@@ -162,31 +183,31 @@ class StartMenuFragment : Fragment() {
     }
 
     private fun setUpListeners() {
-        binding.includeMenu.cardForBakery.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-        }
+
         binding.includeMenu.imageMoreCategory.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
         }
     }
 
-    private fun setUpAdapter(popularItems: List<Product>) {
+    private fun setUpAdapter(popularItems: List<DetailInfoProduct>) {
         adapterProduct = AdapterMenu()
         binding.recyclerPopular.adapter = adapterProduct
         binding.recyclerPopular.layoutManager = LinearLayoutManager(requireContext())
         adapterProduct.differ.submitList(popularItems)
 
-        adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<Product>{
-            override fun onClick(data: Product, position: Int) {
+        adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<DetailInfoProduct>{
+            override fun onClick(data: DetailInfoProduct, position: Int) {
                 //для теста
-                findNavController().navigate(R.id.detailFragment)
+                val idProduct = data.id
+                val action = StartMenuFragmentDirections.actionStartMenuFragmentToDetailFragment(idProduct)
+                findNavController().navigate(action)
 
             }
 
-            override fun onAddClick(data: Product, position: Int) {
+            override fun onAddClick(data: DetailInfoProduct, position: Int) {
             }
 
-            override fun onRemoveClick(data: Product, position: Int) {
+            override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
             }
 
         })
@@ -208,7 +229,7 @@ class StartMenuFragment : Fragment() {
         spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                 val selectedBranch = branches[position]
-                selectedBranch.id?.let { branchId ->
+                selectedBranch.id.let { branchId ->
                     changeBranch(branchId)
                 }
             }

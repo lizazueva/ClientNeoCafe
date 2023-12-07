@@ -45,11 +45,11 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpListeners()
-        setUpAdapter()
-        resultSum(enteredBonusesInt)
-        bonusAccount()
-        selectedButton()
+//        setUpListeners()
+//        setUpAdapter()
+//        resultSum(enteredBonusesInt)
+//        bonusAccount()
+//        selectedButton()
 
     }
 
@@ -104,18 +104,18 @@ class CartFragment : Fragment() {
 
     }
 
-    private fun setUpAdapter() {
-        adapterProduct = AdapterMenu()
-        binding.recyclerCart.adapter = adapterProduct
-        binding.recyclerCart.layoutManager = LinearLayoutManager(requireContext())
-        testProduct = arrayListOf (
-            Product(1,"Кофе", "Капучино","Кофейный напиток", 170, R.drawable.img_donat, 1),
-            Product(1,"Выпечка", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 3),
-            Product(1,"Коктейли", "Капучино", "Кофейный напиток", 170, R.drawable.img_coctail, 1),
-            Product(1,"Чай", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 5)
-        )
-        adapterProduct.differ.submitList(testProduct)
-    }
+//    private fun setUpAdapter() {
+//        adapterProduct = AdapterMenu()
+//        binding.recyclerCart.adapter = adapterProduct
+//        binding.recyclerCart.layoutManager = LinearLayoutManager(requireContext())
+//        testProduct = arrayListOf (
+//            Product(1,"Кофе", "Капучино","Кофейный напиток", 170, R.drawable.img_donat, 1),
+//            Product(1,"Выпечка", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 3),
+//            Product(1,"Коктейли", "Капучино", "Кофейный напиток", 170, R.drawable.img_coctail, 1),
+//            Product(1,"Чай", "Капучино", "Кофейный напиток", 170, R.drawable.img_rectangle_test, 5)
+//        )
+//        adapterProduct.differ.submitList(testProduct)
+//    }
 
     private fun setUpListeners() {
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
+import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.Product
 import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
@@ -43,13 +44,42 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
 
 
 //получение списка популярных позиций для меню
-    private val _popularItems: MutableLiveData<Resource<List<Product>>> = MutableLiveData()
+    private val _popularItems: MutableLiveData<Resource<List<DetailInfoProduct>>> = MutableLiveData()
 
-    val popularItems: LiveData<Resource<List<Product>>>
+    val popularItems: LiveData<Resource<List<DetailInfoProduct>>>
         get() = _popularItems
 
-    private fun savePopularItems(response: List<Product>) {
+    private fun savePopularItems(response: List<DetailInfoProduct>) {
         _popularItems.postValue(Resource.Success(response))
+    }
+
+//получение списка позиций по категориям
+    private val _menuCategory: MutableLiveData<Resource<List<DetailInfoProduct>>> = MutableLiveData()
+    val menuCategory: LiveData<Resource<List<DetailInfoProduct>>>
+        get() = _menuCategory
+
+    private fun saveMenuCategory(response: List<DetailInfoProduct>) {
+        _menuCategory.postValue(Resource.Success(response))
+    }
+
+    fun getMenuCategory(id: Int) {
+        viewModelScope.launch {
+            _menuCategory.postValue(Resource.Loading())
+            try {
+                val response = repository.getMenuCategory(id)
+                if (response.isSuccessful) {
+                    val productResponse = response.body()
+                    productResponse?.let { saveMenuCategory(it) }
+                    Log.d("getMenuCategory", "Successful: $productResponse")
+                }else{
+                    val errorBody = response.errorBody()?.toString()
+                    _menuCategory.postValue(Resource.Error(errorBody ?:"Ошибка загрузки товаров"))
+                }
+            } catch (e: Exception) {
+                Log.e("MyViewModel", "Ошибка загрузки: ${e.message}")
+                _menuCategory.postValue(Resource.Error(e.message ?: "Ошибка загрузки"))
+            }
+        }
     }
 
 

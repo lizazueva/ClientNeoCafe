@@ -3,6 +3,7 @@ package com.example.clientneocafe.di
 import com.example.clientneocafe.api.Repository
 import com.example.clientneocafe.api.RetrofitInstance
 import com.example.clientneocafe.viewModel.CodeViewModel
+import com.example.clientneocafe.viewModel.DetailProductViewModel
 import com.example.clientneocafe.viewModel.HomeViewModel
 import com.example.clientneocafe.viewModel.LoginViewModel
 import com.example.clientneocafe.viewModel.MapViewModel
@@ -24,4 +25,5 @@ val viewModules = module {
     viewModel {CodeViewModel (get())}
     viewModel {MapViewModel (get())}
     viewModel {UserViewModel (get())}
+    viewModel {DetailProductViewModel (get())}
 }
