@@ -7,11 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.adapters.AdapterMilk
 import com.example.clientneocafe.adapters.AdapterSyrup
 import com.example.clientneocafe.databinding.FragmentDetailBinding
 import com.example.clientneocafe.model.DetailInfoProduct
+import com.example.clientneocafe.model.Milk
 import com.example.clientneocafe.model.Product
+import com.example.clientneocafe.model.Syrup
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.DetailProductViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,7 +26,10 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var adapterSyrup: AdapterSyrup
     private lateinit var adapterMilk: AdapterMilk
-    private lateinit var product: Product
+    private lateinit var adapterProduct: AdapterMenu
+
+
+    //    private lateinit var product: Product
     private val detailProductViewModel: DetailProductViewModel by viewModel()
 
     override fun onCreateView(
@@ -35,97 +43,176 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpListeners()
-//        setUpAdapterSyrup()
-//        setUpAdapterMilk()
+        setUpAdapterSyrup()
+        setUpAdapterMilk()
 
         setDataEditProfile()
 
     }
 
     private fun setDataEditProfile() {
-        val product_id = arguments?.getInt("id")
-        if (product_id != null) {
-            detailProductViewModel.productDetail(product_id)
+        val productId = arguments?.getInt("id")
+        if (productId != null) {
+            detailProductViewModel.productDetail(productId)
         }
-        detailProductViewModel.detailProduct.observe(viewLifecycleOwner){ detailProduct ->
-            when(detailProduct){
-                is Resource.Success ->{
-                    detailProduct.data?.let { detailInfo ->
-                        addProduct(detailInfo)
+        observeDetailProduct()
+
+        if (productId != null) {
+            detailProductViewModel.getCompatibleItems(productId)
+        }
+        observeCompatibleItems()
+
+    }
+
+    private fun observeCompatibleItems() {
+        detailProductViewModel.compatibleItems.observe(viewLifecycleOwner) { compatibleItems ->
+            when (compatibleItems) {
+                is Resource.Success -> {
+                    compatibleItems.data?.let { items ->
+                        setUpAdapter(items)
                     }
 
                 }
-                is Resource.Error ->{
-                    detailProduct.message?.let {
-                        Toast.makeText(requireContext(),
-                            "Не удалось загрузить товар",
-                            Toast.LENGTH_SHORT).show()
+
+                is Resource.Error -> {
+                    compatibleItems.message?.let {
+                        Toast.makeText(
+                            requireContext(),
+                            "Не удалось загрузить товары",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-                is Resource.Loading ->{
+
+                is Resource.Loading -> {
 
                 }
             }
-
-        }
-
-
-    }
-
-    private fun addProduct(detailProduct: DetailInfoProduct) {
-
-        //для теста
-
-        binding.textTitle.text = detailProduct.name
-        binding.textPrice.text = "${detailProduct.price} c"
-        binding.textDescription.text = detailProduct.description
-
-        binding.imageAdd.setOnClickListener {
-            product.county +=1
-            updateCountVisibility()
-        }
-        binding.imageRemove.setOnClickListener {
-            product.county -=1
-            updateCountVisibility()
-        }
-        updateCountVisibility()
-
-
-    }
-
-    private fun updateCountVisibility() {
-        if (product.county>0){
-            binding.textCount.text = product.county.toString()
-            binding.imageRemove.visibility = View.VISIBLE
-            binding.textCount.visibility =View.VISIBLE
-        }else{
-            binding.imageRemove.visibility = View.INVISIBLE
-            binding.textCount.visibility = View.INVISIBLE
         }
     }
 
-//    private fun setUpAdapterMilk() {
-//        val milk = arrayListOf(Milk(1,false,"Безлактозное"), Milk(1,false,"Соевое"), Milk(3,false,"Кокосовое"))
-//        adapterMilk = AdapterMilk()
-//        binding.recyclerMilk.adapter = adapterMilk
-//        binding.recyclerMilk.layoutManager = LinearLayoutManager(requireContext())
-//        adapterMilk.differ.submitList(milk)
-//
-//
+    private fun observeDetailProduct() {
+        detailProductViewModel.detailProduct.observe(viewLifecycleOwner) { detailProduct ->
+            when (detailProduct) {
+                is Resource.Success -> {
+                    detailProduct.data?.let { detailInfo ->
+                        addProduct(detailInfo)
+                        if (detailInfo.category.name == "Кофе") {
+                            binding.textMilk.visibility = View.VISIBLE
+                            binding.recyclerMilk.visibility = View.VISIBLE
+                            binding.textSyrup.visibility = View.VISIBLE
+                            binding.recyclerSyrup.visibility = View.VISIBLE
+                            setUpAdapterSyrup()
+                            setUpAdapterMilk()
+                        }
+                    }
+                }
+
+                is Resource.Error -> {
+                    detailProduct.message?.let {
+                        Toast.makeText(
+                            requireContext(),
+                            "Не удалось загрузить товар",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                is Resource.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    private fun setUpAdapter(items: List<DetailInfoProduct>) {
+        adapterProduct = AdapterMenu()
+        binding.recyclerAddition.adapter = adapterProduct
+        binding.recyclerAddition.layoutManager = LinearLayoutManager(requireContext())
+        adapterProduct.differ.submitList(items)
+
+        adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<DetailInfoProduct>{
+            override fun onClick(data: DetailInfoProduct, position: Int) {
+                //для теста
+                val idProduct = data.id
+                detailProductViewModel.productDetail(idProduct)
+                observeDetailProduct()
+
+                detailProductViewModel.getCompatibleItems(idProduct)
+                observeCompatibleItems()
+            }
+
+            override fun onAddClick(data: DetailInfoProduct, position: Int) {
+            }
+
+            override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
+            }
+
+        })
+
+    }
+
+        private fun addProduct(detailProduct: DetailInfoProduct) {
+
+            //для теста
+
+            binding.textTitle.text = detailProduct.name
+            binding.textPrice.text = "${detailProduct.price} c"
+            binding.textDescription.text = detailProduct.description
+            Glide.with(binding.imageProduct).load(detailProduct.image).into(binding.imageProduct)
+
+//        binding.imageAdd.setOnClickListener {
+//            product.county +=1
+//            updateCountVisibility()
+//        }
+//        binding.imageRemove.setOnClickListener {
+//            product.county -=1
+//            updateCountVisibility()
+//        }
+//        updateCountVisibility()
+
+
+        }
+
+//    private fun updateCountVisibility() {
+//        if (product.county>0){
+//            binding.textCount.text = product.county.toString()
+//            binding.imageRemove.visibility = View.VISIBLE
+//            binding.textCount.visibility =View.VISIBLE
+//        }else{
+//            binding.imageRemove.visibility = View.INVISIBLE
+//            binding.textCount.visibility = View.INVISIBLE
+//        }
 //    }
-//
-//    private fun setUpAdapterSyrup() {
-//        val syrup = arrayListOf(Syrup(1,false,"Кленовый"), Syrup(2,false,"Малиновый"), Syrup(3,false,"Вишневый"))
-//
-//        adapterSyrup = AdapterSyrup()
-//        binding.recyclerSyrup.adapter = adapterSyrup
-//        binding.recyclerSyrup.layoutManager = LinearLayoutManager(requireContext())
-//        adapterSyrup.differ.submitList(syrup)
-//    }
 
-    private fun setUpListeners() {
-        binding.imageBack.setOnClickListener {
-            findNavController().navigateUp()
+        private fun setUpAdapterMilk() {
+            val milk = arrayListOf(
+                Milk(1, false, "Безлактозное"),
+                Milk(1, false, "Соевое"),
+                Milk(3, false, "Кокосовое")
+            )
+            adapterMilk = AdapterMilk()
+            binding.recyclerMilk.adapter = adapterMilk
+            binding.recyclerMilk.layoutManager = LinearLayoutManager(requireContext())
+            adapterMilk.differ.submitList(milk)
+        }
+
+        private fun setUpAdapterSyrup() {
+            val syrup = arrayListOf(
+                Syrup(1, false, "Кленовый"),
+                Syrup(2, false, "Малиновый"),
+                Syrup(3, false, "Вишневый")
+            )
+
+            adapterSyrup = AdapterSyrup()
+            binding.recyclerSyrup.adapter = adapterSyrup
+            binding.recyclerSyrup.layoutManager = LinearLayoutManager(requireContext())
+            adapterSyrup.differ.submitList(syrup)
+        }
+
+        private fun setUpListeners() {
+            binding.imageBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
     }
-}

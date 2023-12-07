@@ -25,6 +25,8 @@ class Repository(private val api: Api) {
     suspend fun getPopularItems() = RetrofitInstance.api.getPopularItems()
     suspend fun getProduct(id: Int) = RetrofitInstance.api.getProduct(id)
     suspend fun getMenuCategory(id: Int) = RetrofitInstance.api.getMenuCategory(id)
+    suspend fun getCompatibleItems(id: Int) = RetrofitInstance.api.getCompatibleItems(id)
+
 
 
 

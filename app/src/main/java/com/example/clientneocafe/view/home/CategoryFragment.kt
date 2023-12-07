@@ -82,7 +82,7 @@ class CategoryFragment : Fragment() {
             override fun onClick(data: DetailInfoProduct, position: Int) {
                 //для теста
                 val idProduct = data.id
-                val action = StartMenuFragmentDirections.actionStartMenuFragmentToDetailFragment(idProduct)
+                val action = MenuFragmentDirections.actionMenuFragmentToDetailFragment(idProduct)
                 findNavController().navigate(action)
 
             }

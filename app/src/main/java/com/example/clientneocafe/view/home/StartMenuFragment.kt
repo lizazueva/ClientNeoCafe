@@ -56,11 +56,11 @@ class StartMenuFragment : Fragment() {
 
     }
 
-    private fun observePopularItems() {
+    private fun dataPopularItems() {
         homeViewModel.getPopularItems()
     }
 
-    private fun dataPopularItems() {
+    private fun observePopularItems() {
         homeViewModel.popularItems.observe(viewLifecycleOwner){popularItems ->
             when(popularItems){
                 is Resource.Success ->{
@@ -199,7 +199,7 @@ class StartMenuFragment : Fragment() {
             override fun onClick(data: DetailInfoProduct, position: Int) {
                 //для теста
                 val idProduct = data.id
-                val action = StartMenuFragmentDirections.actionStartMenuFragmentToDetailFragment(idProduct)
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(idProduct)
                 findNavController().navigate(action)
 
             }

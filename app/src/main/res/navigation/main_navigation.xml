@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -94,6 +97,12 @@
             app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_detailFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_menuFragment2"
             app:destination="@id/menuFragment" />
     </fragment>
     <fragment

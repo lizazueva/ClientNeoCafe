@@ -59,6 +59,8 @@ interface Api {
     suspend fun getPopularItems(): Response<List<DetailInfoProduct>>
     @GET("customers/menu/{id}/")
     suspend fun getProduct(@Path("id") id: Int): Response<DetailInfoProduct>
+    @GET("customers/compatible-items/{id}/")
+    suspend fun getCompatibleItems(@Path("id") id: Int): Response<List<DetailInfoProduct>>
 
     @GET("customers/menu")
     suspend fun getMenuCategory(@Query("category__id") id: Int): Response<List<DetailInfoProduct>>
