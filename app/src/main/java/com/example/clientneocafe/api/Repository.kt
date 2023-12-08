@@ -5,8 +5,10 @@ import com.example.clientneocafe.model.auth.CodeAuth
 import com.example.clientneocafe.model.auth.LoginRequest
 import com.example.clientneocafe.model.auth.User
 import com.example.clientneocafe.model.home.ChangeBranch
+import com.example.clientneocafe.model.home.SearchResultResponse
 import retrofit2.Response
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 class Repository(private val api: Api) {
@@ -26,6 +28,8 @@ class Repository(private val api: Api) {
     suspend fun getProduct(id: Int) = RetrofitInstance.api.getProduct(id)
     suspend fun getMenuCategory(id: Int) = RetrofitInstance.api.getMenuCategory(id)
     suspend fun getCompatibleItems(id: Int) = RetrofitInstance.api.getCompatibleItems(id)
+    suspend fun getSearchResult(q: String) = RetrofitInstance.api.getSearchResult(q)
+
 
 
 

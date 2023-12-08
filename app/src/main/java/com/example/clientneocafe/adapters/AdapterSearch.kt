@@ -1,7 +1,6 @@
 package com.example.clientneocafe.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -9,14 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clientneocafe.databinding.ItemMenuBinding
 import com.example.clientneocafe.model.DetailInfoProduct
-import com.example.clientneocafe.model.Product
-import com.example.clientneocafe.utils.CartUtils
+import com.example.clientneocafe.model.home.SearchResultResponse
 
-class AdapterMenu: RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
+class AdapterSearch : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
 
-    var onItemClickListener: ListClickListener<DetailInfoProduct>? = null
+    var onItemClickListener: ListClickListener<SearchResultResponse>? = null
 
-    fun setOnItemClick(listClickListener: ListClickListener<DetailInfoProduct>){
+    fun setOnItemClick(listClickListener: ListClickListener<SearchResultResponse>){
         this.onItemClickListener = listClickListener
     }
 
@@ -39,21 +37,11 @@ class AdapterMenu: RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
             textTitle.text = product.name
             val productAmount = product.price.toString()
             textAmount.text = "$productAmount c"
-            textDiscr.text = product.category.name
+            textDiscr.text = product.category_name
             Glide.with(imageProduct).load(product.image).into(imageProduct)
 
             layoutProduct.setOnClickListener {
                 onItemClickListener?.onClick(product, position)
-            }
-
-            if (CartUtils.isInCart(product.id)) {
-                val quantity = CartUtils.getQuantity(product.id)
-                textCount.visibility = View.VISIBLE
-                textCount.text = quantity.toString()
-                imageRemove.visibility = View.VISIBLE
-            } else {
-                textCount.visibility = View.INVISIBLE
-                imageRemove.visibility = View.INVISIBLE
             }
 //            imageRemove.setOnClickListener {
 //                onItemClickListener?.onRemoveClick(product, position)
@@ -88,12 +76,12 @@ class AdapterMenu: RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
         fun onRemoveClick(data:T, position: Int)
     }
 
-    private val differCallBack = object: DiffUtil.ItemCallback<DetailInfoProduct>(){
-        override fun areItemsTheSame(oldItem: DetailInfoProduct, newItem: DetailInfoProduct): Boolean {
+    private val differCallBack = object: DiffUtil.ItemCallback<SearchResultResponse>(){
+        override fun areItemsTheSame(oldItem: SearchResultResponse, newItem: SearchResultResponse): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: DetailInfoProduct, newItem: DetailInfoProduct): Boolean {
+        override fun areContentsTheSame(oldItem: SearchResultResponse, newItem: SearchResultResponse): Boolean {
             return oldItem == newItem
         }
     }

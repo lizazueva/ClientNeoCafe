@@ -11,6 +11,7 @@ import com.example.clientneocafe.model.Product
 import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.home.ChangeBranch
+import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.utils.Resource
 import kotlinx.coroutines.launch
 
@@ -60,6 +61,36 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
 
     private fun saveMenuCategory(response: List<DetailInfoProduct>) {
         _menuCategory.postValue(Resource.Success(response))
+    }
+
+    //получение списка найденных позиций для меню
+    private val _searchItems: MutableLiveData<Resource<List<SearchResultResponse>>> = MutableLiveData()
+
+    val searchItems: LiveData<Resource<List<SearchResultResponse>>>
+        get() = _searchItems
+
+    private fun saveSearchItems(response: List<SearchResultResponse>) {
+        _searchItems.postValue(Resource.Success(response))
+    }
+
+    fun getSearchResult(q: String){
+        viewModelScope.launch {
+            _searchItems.postValue(Resource.Loading())
+            try {
+                val response = repository.getSearchResult(q)
+                if (response.isSuccessful) {
+                    val productResponse = response.body()
+                    productResponse?.let { saveSearchItems(it) }
+                    Log.d("getSearchResult", "Successful: $productResponse")
+                }else{
+                    val errorBody = response.errorBody()?.toString()
+                    _searchItems.postValue(Resource.Error(errorBody ?:"Ошибка загрузки товаров"))
+                }
+            } catch (e: Exception) {
+                Log.e("MyViewModel", "Ошибка загрузки: ${e.message}")
+                _searchItems.postValue(Resource.Error(e.message ?: "Ошибка загрузки"))
+            }
+        }
     }
 
     fun getMenuCategory(id: Int) {

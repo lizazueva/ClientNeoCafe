@@ -5,20 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.SearchView
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
-import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentHomeBinding
-import com.example.clientneocafe.databinding.FragmentStartMenuBinding
-import com.example.clientneocafe.model.Product
+import com.example.clientneocafe.viewModel.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+    private val homeViewModel: HomeViewModel by viewModel()
+
 
 
     override fun onCreateView(
@@ -64,6 +62,9 @@ class HomeFragment : Fragment() {
                     transaction.replace(R.id.fragment_start_menu, fragment)
                     transaction.commit()
                 } else {
+                    query.let {
+                        homeViewModel.getSearchResult(query)
+                    }
                     val transaction = childFragmentManager.beginTransaction()
                     val fragment = SearchFragment()
                     transaction.replace(R.id.fragment_start_menu, fragment)

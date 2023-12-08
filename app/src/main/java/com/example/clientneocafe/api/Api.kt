@@ -13,6 +13,7 @@ import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.home.ChangeBranch
 import com.example.clientneocafe.model.home.MessageResponse
+import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.model.map.Branches
 import com.example.clientneocafe.model.user.UserInfo
 import retrofit2.Response
@@ -64,6 +65,8 @@ interface Api {
 
     @GET("customers/menu")
     suspend fun getMenuCategory(@Query("category__id") id: Int): Response<List<DetailInfoProduct>>
+    @GET("customers/search")
+    suspend fun getSearchResult(@Query("query") q: String): Response<List<SearchResultResponse>>
 
 
 
