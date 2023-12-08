@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentCategoryBinding
 import com.example.clientneocafe.model.DetailInfoProduct
+import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -88,9 +89,11 @@ class CategoryFragment : Fragment() {
             }
 
             override fun onAddClick(data: DetailInfoProduct, position: Int) {
+                CartUtils.addItem(data)
             }
 
             override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
+                CartUtils.removeItem(data)
             }
 
         })

@@ -24,8 +24,8 @@ object CartUtils {
         }
     }
 
-    fun removeItem(productId: Int) {
-        val existingItem = cartItems.find { it.productId == productId }
+    fun removeItem(product: DetailInfoProduct) {
+        val existingItem = cartItems.find { it.productId == product.id }
         if (existingItem != null) {
             if (existingItem.quantity > 1) {
                 existingItem.quantity--

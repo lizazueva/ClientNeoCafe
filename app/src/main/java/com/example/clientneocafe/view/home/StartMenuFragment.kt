@@ -20,6 +20,7 @@ import com.example.clientneocafe.databinding.FragmentStartMenuBinding
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
+import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -205,9 +206,11 @@ class StartMenuFragment : Fragment() {
             }
 
             override fun onAddClick(data: DetailInfoProduct, position: Int) {
+                CartUtils.addItem(data)
             }
 
             override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
+                CartUtils.removeItem(data)
             }
 
         })

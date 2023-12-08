@@ -43,25 +43,6 @@ class AdapterSearch : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
             layoutProduct.setOnClickListener {
                 onItemClickListener?.onClick(product, position)
             }
-//            imageRemove.setOnClickListener {
-//                onItemClickListener?.onRemoveClick(product, position)
-//                product.county -=1
-//                notifyItemChanged(position)
-//            }
-//            imageAdd.setOnClickListener {
-//                onItemClickListener?.onAddClick(product, position)
-//                product.county +=1
-//                notifyItemChanged(position)
-//            }
-//
-//            if (product.county>0){
-//                textCount.visibility = View.VISIBLE
-//                textCount.text = product.county.toString()
-//                imageRemove.visibility = View.VISIBLE
-//            } else{
-//                textCount.visibility= View.INVISIBLE
-//                imageRemove.visibility= View.INVISIBLE
-//            }
         }
 
     }

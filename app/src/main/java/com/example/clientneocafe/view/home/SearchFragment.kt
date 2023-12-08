@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.adapters.AdapterSearch
@@ -13,13 +14,13 @@ import com.example.clientneocafe.databinding.FragmentSearchBinding
 import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.HomeViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapterProduct: AdapterSearch
-    private val homeViewModel: HomeViewModel by viewModel()
+//    private val homeViewModel: HomeViewModel by viewModel()
 
 
     override fun onCreateView(
@@ -32,10 +33,11 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeSearchResult()
+       val homeViewModel: HomeViewModel by sharedViewModel()
+        observeSearchResult(homeViewModel)
     }
 
-    private fun observeSearchResult() {
+    private fun observeSearchResult(homeViewModel: HomeViewModel) {
         homeViewModel.searchItems.observe(viewLifecycleOwner) { searchResult ->
             when (searchResult) {
                 is Resource.Success -> {

@@ -38,7 +38,7 @@ class AdapterMenu: RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
 
             textTitle.text = product.name
             val productAmount = product.price.toString()
-            textAmount.text = "$productAmount c"
+            textAmount.text = "${productAmount.toDouble().toInt()} c"
             textDiscr.text = product.category.name
             Glide.with(imageProduct).load(product.image).into(imageProduct)
 
@@ -46,36 +46,26 @@ class AdapterMenu: RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
                 onItemClickListener?.onClick(product, position)
             }
 
-            if (CartUtils.isInCart(product.id)) {
-                val quantity = CartUtils.getQuantity(product.id)
-                textCount.visibility = View.VISIBLE
-                textCount.text = quantity.toString()
-                imageRemove.visibility = View.VISIBLE
-            } else {
-                textCount.visibility = View.INVISIBLE
-                imageRemove.visibility = View.INVISIBLE
-            }
-//            imageRemove.setOnClickListener {
-//                onItemClickListener?.onRemoveClick(product, position)
-//                product.county -=1
-//                notifyItemChanged(position)
-//            }
-//            imageAdd.setOnClickListener {
-//                onItemClickListener?.onAddClick(product, position)
-//                product.county +=1
-//                notifyItemChanged(position)
-//            }
-//
-//            if (product.county>0){
-//                textCount.visibility = View.VISIBLE
-//                textCount.text = product.county.toString()
-//                imageRemove.visibility = View.VISIBLE
-//            } else{
-//                textCount.visibility= View.INVISIBLE
-//                imageRemove.visibility= View.INVISIBLE
-//            }
-        }
+                if (CartUtils.isInCart(product.id)) {
+                    val quantity = CartUtils.getQuantity(product.id)
+                    textCount.visibility = View.VISIBLE
+                    textCount.text = quantity.toString()
+                    imageRemove.visibility = View.VISIBLE
+                } else {
+                    textCount.visibility = View.INVISIBLE
+                    imageRemove.visibility = View.INVISIBLE
+                }
 
+
+            imageRemove.setOnClickListener {
+                onItemClickListener?.onRemoveClick(product, position)
+                notifyItemChanged(position)
+            }
+            imageAdd.setOnClickListener {
+                onItemClickListener?.onAddClick(product, position)
+                notifyItemChanged(position)
+            }
+        }
     }
 
     inner class ViewHolder (var binding: ItemMenuBinding): RecyclerView.ViewHolder(binding.root) {
