@@ -9,6 +9,7 @@ import com.example.clientneocafe.model.auth.LoginResponse
 import com.example.clientneocafe.model.auth.RegistrationResponse
 import com.example.clientneocafe.model.auth.DetailRequest
 import com.example.clientneocafe.model.auth.User
+import com.example.clientneocafe.model.cart.CreateOrder
 import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.home.ChangeBranch
@@ -67,6 +68,10 @@ interface Api {
     suspend fun getMenuCategory(@Query("category__id") id: Int): Response<List<DetailInfoProduct>>
     @GET("customers/search")
     suspend fun getSearchResult(@Query("query") q: String): Response<List<SearchResultResponse>>
+    @POST("ordering/create-order/")
+    suspend fun createOrder(@Body request: CreateOrder): Response<CreateOrder>
+
+
 
 
 

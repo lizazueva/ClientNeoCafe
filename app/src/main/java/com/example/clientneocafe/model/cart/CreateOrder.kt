@@ -1,6 +1,6 @@
 package com.example.clientneocafe.model.cart
 
-data class CreatOrder(
+data class CreateOrder(
     val in_an_institution: Boolean,
     val items: List<Item>,
     val spent_bonus_points: Int,

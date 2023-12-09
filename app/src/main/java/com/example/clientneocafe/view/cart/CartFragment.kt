@@ -15,27 +15,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
-import com.example.clientneocafe.adapters.AdapterCart
 import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.AlertDialogDebitingBonusesBinding
 import com.example.clientneocafe.databinding.AlertDialogOurBonusBinding
 import com.example.clientneocafe.databinding.FragmentCartBinding
 import com.example.clientneocafe.model.DetailInfoProduct
-import com.example.clientneocafe.model.Product
-import com.example.clientneocafe.utils.CartItem
+import com.example.clientneocafe.model.cart.CreateOrder
 import com.example.clientneocafe.utils.CartUtils
+import com.example.clientneocafe.utils.Resource
+import com.example.clientneocafe.viewModel.CartViewModel
+import com.example.clientneocafe.viewModel.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var adapterProduct: AdapterMenu
+    private val cartViewModel: CartViewModel by viewModel()
     private var bonuses: Int = 0
-    private var enteredBonusesInt: Int = 0
+    private var spentBonus: Int = 0
     private var cart: List<DetailInfoProduct> = emptyList()
+    private var selectInstitution: Boolean = true
+    private var totalOrderAmount: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,24 +56,33 @@ class CartFragment : Fragment() {
 
         setUpListeners()
         setDataCard()
-//        resultSum(enteredBonusesInt)
-//        bonusAccount()
+        bonusAccount()
         selectedButton()
 
     }
 
     private fun setDataCard() {
         cart = CartUtils.getCartItems()
-        if (cart.isNullOrEmpty()){
+        if (cart.isNullOrEmpty()) {
             showEmptyCartMessage()
-        }else{
+        } else {
             setUpAdapter(cart)
+            updateTotalAmount(cart)
         }
+    }
+
+    private fun updateTotalAmount(cart: List<DetailInfoProduct>) {
+        totalOrderAmount = calculateTotalOrderPrice(cart)
+        binding.textAmount.text = "${totalOrderAmount} c"
     }
 
     private fun updateCart() {
         cart = CartUtils.getCartItems()
         setDataCard()
+    }
+
+    fun calculateTotalOrderPrice(cart: List<DetailInfoProduct>): Int {
+        return cart.sumBy { it.price.toDouble().toInt() * it.quantity }
     }
 
 
@@ -82,6 +97,7 @@ class CartFragment : Fragment() {
         binding.textCart.visibility = View.INVISIBLE
         binding.textResult.visibility = View.INVISIBLE
         binding.textAmount.visibility = View.INVISIBLE
+        binding.recyclerCart.visibility = View.INVISIBLE
 
     }
 
@@ -92,11 +108,13 @@ class CartFragment : Fragment() {
         buttonRestaurant.setOnClickListener {
             buttonRestaurant.isSelected = true
             buttonTakeAway.isSelected = false
+            selectInstitution = true
         }
 
         buttonTakeAway.setOnClickListener {
             buttonTakeAway.isSelected = true
             buttonRestaurant.isSelected = false
+            selectInstitution = false
         }
 
         buttonRestaurant.isSelected = true
@@ -107,34 +125,34 @@ class CartFragment : Fragment() {
         bonuses = 150
     }
 
-//    private fun resultSum(enteredBonusesInt: Int) {
-//        val productPrice = testProduct.sumOf { it.amount }
-//
-//        if (enteredBonusesInt == 0){
-//            binding.textAmount.text = "${productPrice} c"
-//        } else{
-//            val newPrice = productPrice - enteredBonusesInt
-//
-//        val oldPriceText = "$productPrice c"
-//        val spannableString = SpannableString(oldPriceText)
-//
-//        spannableString.setSpan(
-//            StrikethroughSpan(),
-//            0,
-//            oldPriceText.length,
-//            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//        spannableString.setSpan(
-//            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.grey_hint)),
-//            0,
-//            oldPriceText.length,
-//            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//
-//        binding.textAmount.text = TextUtils.concat(spannableString, " $newPrice c")
-//    }
-//
-//    }
+    private fun resultSum(enteredBonusesInt: Int) {
+        val productPrice = cart.sumOf { it.price.toDouble().toInt() }
+
+        if (enteredBonusesInt == 0) {
+            binding.textAmount.text = "${productPrice} c"
+        } else {
+            val newPrice = productPrice - enteredBonusesInt
+
+            val oldPriceText = "$productPrice c"
+            val spannableString = SpannableString(oldPriceText)
+
+            spannableString.setSpan(
+                StrikethroughSpan(),
+                0,
+                oldPriceText.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            spannableString.setSpan(
+                ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.grey_hint)),
+                0,
+                oldPriceText.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            binding.textAmount.text = TextUtils.concat(spannableString, " $newPrice c")
+        }
+
+    }
 
     private fun setUpAdapter(cart: List<DetailInfoProduct>) {
         adapterProduct = AdapterMenu()
@@ -142,13 +160,15 @@ class CartFragment : Fragment() {
         binding.recyclerCart.layoutManager = LinearLayoutManager(requireContext())
         adapterProduct.differ.submitList(cart)
 
-        adapterProduct.setOnItemClick(object: AdapterMenu.ListClickListener<DetailInfoProduct>{
+        adapterProduct.setOnItemClick(object : AdapterMenu.ListClickListener<DetailInfoProduct> {
 
             override fun onClick(data: DetailInfoProduct, position: Int) {
             }
 
             override fun onAddClick(data: DetailInfoProduct, position: Int) {
                 CartUtils.addItem(data)
+                updateCart()
+
             }
 
             override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
@@ -158,20 +178,17 @@ class CartFragment : Fragment() {
                     CartUtils.removeItem(data)
                     adapterProduct.removeItem(position)
                     // Обновление списка после удаления
-                    updateCart()
                 }
+                updateCart()
             }
         })
     }
 
-    private fun setUpListeners() {
 
-//        binding.btnOrder.setOnClickListener {
-//            if (bonuses == 0) {
-//            } else {
-//                alertDialogBonuses()
-//            }
-//        }
+    private fun setUpListeners() {
+        binding.btnOrder.setOnClickListener {
+            placeOrder()
+        }
         binding.btnAddMore.setOnClickListener {
             findNavController().navigate(R.id.action_cartFragment_to_homeFragment)
         }
@@ -180,72 +197,134 @@ class CartFragment : Fragment() {
         }
     }
 
-//    private fun alertDialogBonuses() {
-//        val dialogBinding = AlertDialogDebitingBonusesBinding.inflate(layoutInflater)
-//        val dialog = Dialog(requireContext())
-//
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        dialog.setCancelable(true)
-//        dialog.setContentView(dialogBinding.root)
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.show()
-//
-//        dialogBinding.textDebitingBonuses.text = getString(R.string.text_debiting_bonuses, bonuses)
-//
-//        dialogBinding.buttonNo.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//
-//        dialogBinding.buttonYes.setOnClickListener {
-//            dialog.dismiss()
-//            alertDialogOurBonuses()
-//        }
-//    }
+    private fun placeOrder() {
+        if (bonuses > 0) {
+            alertDialogBonuses()
+        } else {
+            // сделать заказ
+        }
+    }
 
-//    private fun alertDialogOurBonuses() {
-//
-//        val dialogBinding = AlertDialogOurBonusBinding.inflate(layoutInflater)
-//        val dialog = Dialog(requireContext())
-//
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        dialog.setCancelable(true)
-//        dialog.setContentView(dialogBinding.root)
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.show()
-//
-//        var editTextBonuses = dialogBinding.editTextBonuses
-//
-//        dialogBinding.buttonCancel.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//
-//        dialogBinding.buttonWriteBonuses.setOnClickListener {
-//            //списание бонусов
-//            validateBonuses(editTextBonuses,dialog)
-//        }
-//
-//    }
+    private fun alertDialogBonuses() {
+        val dialogBinding = AlertDialogDebitingBonusesBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext())
 
-//    private fun validateBonuses(editTextBonuses: EditText, dialog: Dialog) {
-//        var enteredBonuses = editTextBonuses.text?.toString()?.trim()
-//        var enteredBonusesInt = enteredBonuses?.toInt()
-//        var productPrice = testProduct.sumOf { it.amount }
-//
-//        if (enteredBonuses.isNullOrEmpty()) {
-//            editTextBonuses.error = "Заполните поле"
-//        }else if (enteredBonusesInt == 0){
-//            editTextBonuses.error = "Введите количество бонусов"
-//        } else if (enteredBonusesInt != null) {
-//            if (enteredBonusesInt > bonuses) {
-//                editTextBonuses.error = "Введенное значение превышает доступные бонусы"
-//            } else if (enteredBonusesInt > productPrice) {
-//                editTextBonuses.error = "Итоговая сумма меньше введенных бонусов"
-//            }else{
-//                productPrice -= enteredBonusesInt
-//                resultSum(enteredBonusesInt)
-//                bonuses -= enteredBonusesInt
-//                dialog.dismiss()
-//            }
-//        }
-//    }
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        dialogBinding.textDebitingBonuses.text = getString(R.string.text_debiting_bonuses, bonuses)
+
+        dialogBinding.buttonNo.setOnClickListener {
+            dialog.dismiss()
+            createOrder()
+        }
+
+        dialogBinding.buttonYes.setOnClickListener {
+            dialog.dismiss()
+            alertDialogOurBonuses()
+        }
+    }
+
+    private fun alertDialogOurBonuses() {
+
+        val dialogBinding = AlertDialogOurBonusBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext())
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        dialogBinding.textOurBonuses.text = getString(R.string.text_our_bonuses, bonuses)
+
+
+        var editTextBonuses = dialogBinding.editTextBonuses
+
+        dialogBinding.buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.buttonWriteBonuses.setOnClickListener {
+            //списание бонусов
+            validateBonuses(editTextBonuses, dialog, totalOrderAmount)
+        }
+
+    }
+
+    private fun validateBonuses(editTextBonuses: EditText, dialog: Dialog, amount: Int) {
+        var enteredBonuses = editTextBonuses.text?.toString()?.trim()
+        var enteredBonusesInt = enteredBonuses?.toIntOrNull()
+
+        if (enteredBonuses.isNullOrEmpty()) {
+            editTextBonuses.error = "Заполните поле"
+        } else {
+            if (enteredBonusesInt == null) {
+                editTextBonuses.error = "Введите корректное количество бонусов"
+            } else if (enteredBonusesInt == 0) {
+                editTextBonuses.error = "Введите количество бонусов"
+            } else {
+                if (enteredBonusesInt > bonuses) {
+                    editTextBonuses.error = "Введенное значение превышает доступные бонусы"
+                } else if (enteredBonusesInt > totalOrderAmount) {
+                    editTextBonuses.error = "Итоговая сумма меньше введенных бонусов"
+                } else {
+                    totalOrderAmount -= enteredBonusesInt
+                    resultSum(enteredBonusesInt)
+                    spentBonus = enteredBonusesInt
+                    bonuses -= enteredBonusesInt
+                    dialog.dismiss()
+                    createOrder()                }
+            }
+        }
+    }
+
+    fun createOrder() {
+        val product = CartUtils.getCartItems()
+
+        val items = product.map {
+            CreateOrder.Item(
+                item = it.id,
+                quantity = it.quantity
+            )
+        }
+        val order = CreateOrder(
+            in_an_institution = selectInstitution,
+            items = items,
+            spent_bonus_points = spentBonus,
+            total_price = totalOrderAmount
+        )
+
+        cartViewModel.createOrder(order)
+        observeOrder()
+
+    }
+
+    private fun observeOrder() {
+        cartViewModel.order.observe(viewLifecycleOwner) { order ->
+            when (order) {
+                is Resource.Success -> {
+                    Toast.makeText(requireContext(),
+                        "Вы успешно оформили товар",
+                        Toast.LENGTH_LONG).show()
+                    CartUtils.clearCartItems()
+                    updateCart()
+                }
+
+                is Resource.Error -> {
+                    order.message?.let {
+                        Toast.makeText(requireContext(),
+                            "Не удалось загрузить популярные товары",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                is Resource.Loading -> {
+                }
+            }
+        }
+    }
 }

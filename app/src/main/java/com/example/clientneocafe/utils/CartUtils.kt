@@ -31,7 +31,7 @@ object CartUtils {
 
     fun getCartItems(): List<DetailInfoProduct>{
         return cartItems.toList()
-    }        val cart = CartUtils.getCartItems()
+    }
 
 
     fun clearCartItems() {
