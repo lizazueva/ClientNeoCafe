@@ -28,8 +28,8 @@
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" >
         <action
-            android:id="@+id/action_cartFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
+            android:id="@+id/action_cartFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
@@ -119,9 +119,6 @@
         android:name="com.example.clientneocafe.view.cart.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" >
-        <action
-            android:id="@+id/action_historyFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
         <action
             android:id="@+id/action_historyFragment_to_orderFragment"
             app:destination="@id/orderFragment" />

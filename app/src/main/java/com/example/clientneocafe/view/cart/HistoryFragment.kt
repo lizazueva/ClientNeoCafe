@@ -34,7 +34,7 @@ class HistoryFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.imageBack.setOnClickListener {
-            findNavController().navigate(R.id.action_historyFragment_to_cartFragment)
+            findNavController().navigateUp()
         }
     }
 

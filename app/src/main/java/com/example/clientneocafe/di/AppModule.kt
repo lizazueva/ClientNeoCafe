@@ -2,7 +2,6 @@ package com.example.clientneocafe.di
 
 import com.example.clientneocafe.api.Repository
 import com.example.clientneocafe.api.RetrofitInstance
-import com.example.clientneocafe.view.home.HomeFragment
 import com.example.clientneocafe.viewModel.CodeViewModel
 import com.example.clientneocafe.viewModel.DetailProductViewModel
 import com.example.clientneocafe.viewModel.HomeViewModel
@@ -11,9 +10,7 @@ import com.example.clientneocafe.viewModel.MapViewModel
 import com.example.clientneocafe.viewModel.RegistrationViewModel
 import com.example.clientneocafe.viewModel.UserViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import java.lang.reflect.Array.get
 
 val appModule = module {
     single { RetrofitInstance.api }
@@ -21,19 +18,13 @@ val appModule = module {
 }
 
 val viewModules = module {
-//    viewModel {HomeViewModel (get())}
     viewModel {LoginViewModel (get())}
     viewModel {RegistrationViewModel (get())}
     viewModel {CodeViewModel (get())}
     viewModel {MapViewModel (get())}
     viewModel {UserViewModel (get())}
     viewModel {DetailProductViewModel (get())}
-//    val homeScope = module {
-//        viewModel { HomeViewModel(get()) }
-//    }
-//    scope(named<HomeFragment>()) {
-//        viewModel { HomeViewModel(get()) }
-//    }
+//
 }
 val homeScope = module {
     viewModel { HomeViewModel(get()) }

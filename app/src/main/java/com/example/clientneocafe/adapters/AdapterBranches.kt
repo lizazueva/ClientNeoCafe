@@ -1,11 +1,14 @@
 package com.example.clientneocafe.adapters
 
+import android.graphics.Color
+import android.graphics.LightingColorFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.clientneocafe.databinding.ItemBranchesBinding
 import com.example.clientneocafe.model.map.Branches
 import java.text.SimpleDateFormat
@@ -49,6 +52,9 @@ class AdapterBranches: RecyclerView.Adapter<AdapterBranches.ViewHolder>() {
             textNameBranches.text = branches.name_of_shop
             textAddress.text = branches.address
             textPhone.text = branches.phone_number
+
+            val colorFilter = LightingColorFilter(Color.rgb(153, 143, 166), 0)
+            imageBranches.colorFilter = colorFilter
 
             Glide.with(imageBranches).load(branches.image).into(imageBranches)
             holder.itemView.setOnClickListener {

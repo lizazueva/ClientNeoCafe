@@ -8,7 +8,8 @@ data class DetailInfoProduct(
     val image: String?,
     val is_available: Boolean,
     val name: String,
-    val price: String
+    val price: String,
+    var quantity: Int
 ) {
     data class Category(
         val id: Int,

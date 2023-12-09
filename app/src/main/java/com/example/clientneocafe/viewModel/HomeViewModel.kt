@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: Repository): ViewModel() {
 
-
 //получение списка категорий для меню
     private val _branchesMenu: MutableLiveData<Resource<List<BranchesMenu>>> = MutableLiveData()
 

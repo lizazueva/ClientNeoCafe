@@ -15,7 +15,6 @@ import com.example.clientneocafe.adapters.AdapterSyrup
 import com.example.clientneocafe.databinding.FragmentDetailBinding
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.Milk
-import com.example.clientneocafe.model.Product
 import com.example.clientneocafe.model.Syrup
 import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
@@ -215,6 +214,8 @@ class DetailFragment : Fragment() {
         currentDetailProduct?.let { detailProduct ->
             val quantity = CartUtils.getQuantity(detailProduct.id)
             binding.textCount.text = quantity.toString()
+            binding.imageAdd.isEnabled = quantity <9
+            binding.btnAdd.isEnabled = quantity <9
             binding.imageAdd.visibility = if (quantity > 0) View.VISIBLE else View.INVISIBLE
             binding.textCount.visibility = if (quantity > 0) View.VISIBLE else View.INVISIBLE
             binding.imageRemove.visibility = if (quantity > 0) View.VISIBLE else View.INVISIBLE

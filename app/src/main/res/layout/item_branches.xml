@@ -10,7 +10,7 @@
         android:id="@+id/image_branches"
         android:layout_width="match_parent"
         android:layout_height="210dp"
-        android:alpha="0.8"
+        android:alpha="0.9"
         android:foregroundGravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/img_rectangle_test"
