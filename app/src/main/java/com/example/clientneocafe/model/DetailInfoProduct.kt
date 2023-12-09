@@ -12,7 +12,7 @@ data class DetailInfoProduct(
     var quantity: Int
 ) {
     data class Category(
-        val id: Int,
+        val id: Int?,
         val image: String?,
         val name: String
     )

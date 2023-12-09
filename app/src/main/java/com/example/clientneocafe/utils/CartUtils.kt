@@ -1,6 +1,7 @@
 package com.example.clientneocafe.utils
 
 import com.example.clientneocafe.model.DetailInfoProduct
+import com.example.clientneocafe.model.home.SearchResultResponse
 
 object CartUtils {
     private val cartItems: MutableList<DetailInfoProduct> = mutableListOf()
@@ -17,6 +18,37 @@ object CartUtils {
     }
 
     fun removeItem(product: DetailInfoProduct) {
+        val existingItem = cartItems.find { it.id == product.id }
+
+        if (existingItem != null) {
+            if (existingItem.quantity > 1) {
+                existingItem.quantity--
+            } else {
+                cartItems.remove(existingItem)
+            }
+        }
+    }
+    fun addItem(product: SearchResultResponse) {
+        val existingItem = cartItems.find { it.id == product.id }
+
+        if (existingItem != null) {
+            existingItem.quantity++
+        } else {
+            val newItem = DetailInfoProduct(
+                category = DetailInfoProduct.Category(id = null, image = null, name = product.category_name),
+                compositions = emptyList(),
+                description = product.description,
+                id = product.id,
+                image = product.image,
+                is_available = true,
+                name = product.name,
+                price = product.price.toString(),
+                quantity = 1
+            )
+            cartItems.add(newItem)
+        }
+    }
+    fun removeItem(product: SearchResultResponse) {
         val existingItem = cartItems.find { it.id == product.id }
 
         if (existingItem != null) {

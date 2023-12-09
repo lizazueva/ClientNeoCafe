@@ -68,7 +68,6 @@ class StartMenuFragment : Fragment() {
                     popularItems.data?.let { popularItems ->
                         setUpAdapter(popularItems)
                     }
-
                 }
                 is Resource.Error ->{
                     popularItems.message?.let {

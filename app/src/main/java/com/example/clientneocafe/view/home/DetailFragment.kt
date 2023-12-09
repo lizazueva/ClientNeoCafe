@@ -135,7 +135,6 @@ class DetailFragment : Fragment() {
 
         adapterProduct.setOnItemClick(object : AdapterMenu.ListClickListener<DetailInfoProduct> {
             override fun onClick(data: DetailInfoProduct, position: Int) {
-                //для теста
                 val idProduct = data.id
                 detailProductViewModel.productDetail(idProduct)
                 observeDetailProduct()

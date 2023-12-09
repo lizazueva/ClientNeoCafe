@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.adapters.AdapterSearch
 import com.example.clientneocafe.databinding.FragmentSearchBinding
 import com.example.clientneocafe.model.home.SearchResultResponse
+import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -19,7 +20,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapterProduct: AdapterSearch
-//    private val homeViewModel: HomeViewModel by viewModel()
+    private val homeViewModel: HomeViewModel by sharedViewModel()
 
 
     override fun onCreateView(
@@ -32,7 +33,6 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       val homeViewModel: HomeViewModel by sharedViewModel()
         observeSearchResult(homeViewModel)
     }
 
@@ -89,9 +89,12 @@ class SearchFragment : Fragment() {
             }
 
             override fun onAddClick(data: SearchResultResponse, position: Int) {
+                CartUtils.addItem(data)
             }
 
             override fun onRemoveClick(data: SearchResultResponse, position: Int) {
+                CartUtils.removeItem(data)
+
             }
 
         })

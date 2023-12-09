@@ -1,6 +1,7 @@
 package com.example.clientneocafe.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -9,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.clientneocafe.databinding.ItemMenuBinding
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.home.SearchResultResponse
+import com.example.clientneocafe.utils.CartUtils
 
 class AdapterSearch : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
 
@@ -42,6 +44,27 @@ class AdapterSearch : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
 
             layoutProduct.setOnClickListener {
                 onItemClickListener?.onClick(product, position)
+            }
+
+            if (CartUtils.isInCart(product.id)) {
+                val quantity = CartUtils.getQuantity(product.id)
+                imageAdd.isEnabled = quantity <9
+                textCount.visibility = View.VISIBLE
+                textCount.text = quantity.toString()
+                imageRemove.visibility = View.VISIBLE
+            } else {
+                textCount.visibility = View.INVISIBLE
+                imageRemove.visibility = View.INVISIBLE
+            }
+
+
+            imageRemove.setOnClickListener {
+                onItemClickListener?.onRemoveClick(product, position)
+                notifyItemChanged(position)
+            }
+            imageAdd.setOnClickListener {
+                onItemClickListener?.onAddClick(product, position)
+                notifyItemChanged(position)
             }
         }
 

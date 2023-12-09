@@ -29,7 +29,6 @@ import com.example.clientneocafe.model.cart.CreateOrder
 import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.CartViewModel
-import com.example.clientneocafe.viewModel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CartFragment : Fragment() {
@@ -126,7 +125,7 @@ class CartFragment : Fragment() {
     }
 
     private fun resultSum(enteredBonusesInt: Int) {
-        val productPrice = cart.sumOf { it.price.toDouble().toInt() }
+        val productPrice = cart.sumBy { it.price.toDouble().toInt() * it.quantity }
 
         if (enteredBonusesInt == 0) {
             binding.textAmount.text = "${productPrice} c"
@@ -277,7 +276,8 @@ class CartFragment : Fragment() {
                     spentBonus = enteredBonusesInt
                     bonuses -= enteredBonusesInt
                     dialog.dismiss()
-                    createOrder()                }
+//                    createOrder()
+                }
             }
         }
     }
