@@ -22,6 +22,7 @@ import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
+import com.example.clientneocafe.utils.SharedPreferencesBranch
 import com.example.clientneocafe.viewModel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -31,6 +32,10 @@ class StartMenuFragment : Fragment() {
     private lateinit var adapterProduct: AdapterMenu
     private val homeViewModel: HomeViewModel by viewModel()
     private var selectedCategoryId: Int? = null
+    private lateinit var branchPreferences: SharedPreferencesBranch
+    private  var selectedBranchId = 0
+
+
 
 
     override fun onCreateView(
@@ -44,21 +49,20 @@ class StartMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        branchPreferences = SharedPreferencesBranch(requireContext())
+        selectedBranchId = branchPreferences.loadSelectedBranchId()
+        // Установка выбранного филиала в дропдауне
+
         setUpListeners()
 
         dataBranches()
         observeBranches()
 
-        dataCategories()
-        observeCategories()
-
-        dataPopularItems()
-        observePopularItems()
-
     }
 
     private fun dataPopularItems() {
         homeViewModel.getPopularItems()
+        observePopularItems()
     }
 
     private fun observePopularItems() {
@@ -153,6 +157,7 @@ class StartMenuFragment : Fragment() {
 
     private fun dataCategories() {
         homeViewModel.getCategories()
+        observeCategories()
     }
 
     private fun observeBranches() {
@@ -222,17 +227,27 @@ class StartMenuFragment : Fragment() {
 
         if (branchNames.isNotEmpty()) {
             adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, branchNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+
+            // Найти позицию выбранного филиала в списке
+            val position = branches.indexOfFirst { it.id == selectedBranchId }
+            if (position != -1) {
+                spinner.setSelection(position)
+            }
         } else {
             adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, listOf("Филиалов нет"))
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
         }
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
 
         spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                 val selectedBranch = branches[position]
                 selectedBranch.id.let { branchId ->
                     changeBranch(branchId)
+                    dataCategories()
+                    dataPopularItems()
                 }
             }
 
@@ -242,8 +257,13 @@ class StartMenuFragment : Fragment() {
     }
 
     private fun changeBranch(branchId: Int) {
+        branchPreferences.saveSelectedBranchId(branchId)
+
         homeViewModel.changeBranch(branchId)
         observeChangedBranch()
+        //загрузки данных после изменения филиала
+        dataCategories()
+        dataPopularItems()
     }
 
 
@@ -252,7 +272,6 @@ class StartMenuFragment : Fragment() {
         homeViewModel.changedBranch.observe(viewLifecycleOwner){ chanchedBranch ->
             when(chanchedBranch){
                 is Resource.Success ->{
-
                 }
                 is Resource.Error ->{
                     Toast.makeText(

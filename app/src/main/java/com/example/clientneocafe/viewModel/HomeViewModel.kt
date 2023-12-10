@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
 import com.example.clientneocafe.model.DetailInfoProduct
-import com.example.clientneocafe.model.Product
 import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.home.ChangeBranch
 import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.utils.Resource
 import kotlinx.coroutines.launch
+
+
 
 class HomeViewModel(private val repository: Repository): ViewModel() {
 
@@ -71,6 +72,8 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     private fun saveSearchItems(response: List<SearchResultResponse>) {
         _searchItems.postValue(Resource.Success(response))
     }
+
+
 
     fun getSearchResult(q: String){
         viewModelScope.launch {

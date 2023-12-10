@@ -2,6 +2,7 @@ package com.example.clientneocafe.di
 
 import com.example.clientneocafe.api.Repository
 import com.example.clientneocafe.api.RetrofitInstance
+import com.example.clientneocafe.utils.SharedPreferencesBranch
 import com.example.clientneocafe.viewModel.CartViewModel
 import com.example.clientneocafe.viewModel.CodeViewModel
 import com.example.clientneocafe.viewModel.DetailProductViewModel
@@ -28,5 +29,5 @@ val viewModules = module {
     viewModel {CartViewModel (get())}
 }
 val homeScope = module {
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get())}
 }
