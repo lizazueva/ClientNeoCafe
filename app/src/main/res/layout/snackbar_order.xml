@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/snackbar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_backgr_stroke_orange"
+    android:layout_marginHorizontal="30dp"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Ваш заказ успешно оформлен"
+        style="@style/TextTitle"
+        android:textSize="18dp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+</LinearLayout>

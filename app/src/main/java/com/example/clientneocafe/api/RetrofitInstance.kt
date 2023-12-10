@@ -63,7 +63,8 @@ class RetrofitInstance {
                     path.contains("customers/menu") && request.method == "GET"||
                     path.contains("customers/search") && request.method == "GET"||
                     path.contains("customers/compatible-items/") && request.method == "GET"||
-                    path.endsWith("ordering/create-order/")
+                    path.endsWith("ordering/create-order/")||
+                    path.endsWith("customers/my-bonus/")
 
         }
     }

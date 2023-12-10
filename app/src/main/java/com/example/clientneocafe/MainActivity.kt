@@ -25,5 +25,15 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setupWithNavController(navController)
 
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.homeFragment|| destination.id == R.id.cartFragment
+                || destination.id == R.id.mapFragment|| destination.id == R.id.userFragment) {
+                bottomNav.visibility = View.VISIBLE
+            } else {
+                bottomNav.visibility = View.GONE
+            }
+        }
+
     }
 }

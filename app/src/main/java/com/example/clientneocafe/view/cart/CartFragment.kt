@@ -9,6 +9,8 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +32,7 @@ import com.example.clientneocafe.model.cart.CreateOrder
 import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.CartViewModel
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CartFragment : Fragment() {
@@ -36,6 +40,7 @@ class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
     private lateinit var adapterProduct: AdapterMenu
     private val cartViewModel: CartViewModel by viewModel()
+
     private var bonuses: Int = 0
     private var spentBonus: Int = 0
     private var cart: List<DetailInfoProduct> = emptyList()
@@ -57,6 +62,8 @@ class CartFragment : Fragment() {
         setDataCard()
         bonusAccount()
         selectedButton()
+        cartViewModel.clearOrder()
+        observeOrder()
 
     }
 
@@ -121,7 +128,23 @@ class CartFragment : Fragment() {
     }
 
     fun bonusAccount() {
-        bonuses = 150
+        cartViewModel.getMyBonus()
+        cartViewModel.bonuses.observe(viewLifecycleOwner){myBonuses ->
+            when(myBonuses){
+                is Resource.Success -> {
+                    myBonuses.data?.bonus?.let { bonus ->
+                        bonuses = bonus
+                    }
+                }
+
+                is Resource.Error -> {
+                }
+
+                is Resource.Loading -> {
+                }
+
+            }
+        }
     }
 
     private fun resultSum(enteredBonusesInt: Int) {
@@ -200,7 +223,7 @@ class CartFragment : Fragment() {
         if (bonuses > 0) {
             alertDialogBonuses()
         } else {
-            // сделать заказ
+            createOrder()
         }
     }
 
@@ -276,7 +299,7 @@ class CartFragment : Fragment() {
                     spentBonus = enteredBonusesInt
                     bonuses -= enteredBonusesInt
                     dialog.dismiss()
-//                    createOrder()
+                    createOrder()
                 }
             }
         }
@@ -299,7 +322,6 @@ class CartFragment : Fragment() {
         )
 
         cartViewModel.createOrder(order)
-        observeOrder()
 
     }
 
@@ -307,24 +329,49 @@ class CartFragment : Fragment() {
         cartViewModel.order.observe(viewLifecycleOwner) { order ->
             when (order) {
                 is Resource.Success -> {
-                    Toast.makeText(requireContext(),
-                        "Вы успешно оформили товар",
-                        Toast.LENGTH_LONG).show()
+                    Log.d("Order", "Success: ${order.data}")
+                    snackBar()
                     CartUtils.clearCartItems()
                     updateCart()
                 }
 
                 is Resource.Error -> {
+                    Log.e("Order", "Error: ${order.message}")
                     order.message?.let {
                         Toast.makeText(requireContext(),
-                            "Не удалось загрузить популярные товары",
+                            "Не удалось оформить заказ",
                             Toast.LENGTH_SHORT).show()
                     }
+                    bonusAccount()
                 }
 
                 is Resource.Loading -> {
                 }
+                null -> {
+                    // Ничего не делать при значении null
+                }
             }
         }
+    }
+    private fun snackBar() {
+        val snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_SHORT)
+        val snackbarView = snackbar.view
+        val snackbarLayout = snackbarView as Snackbar.SnackbarLayout
+
+        val layoutParams = snackbarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.gravity = Gravity.TOP
+
+        snackbarLayout.setBackgroundColor(Color.TRANSPARENT)
+
+        val customSnackbarView = layoutInflater.inflate(R.layout.snackbar_order, null)
+        snackbarLayout.removeAllViews()
+        snackbarLayout.addView(customSnackbarView)
+
+        snackbar.show()
+
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cartViewModel.order.removeObservers(viewLifecycleOwner)
     }
 }

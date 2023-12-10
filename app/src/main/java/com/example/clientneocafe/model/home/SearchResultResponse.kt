@@ -10,6 +10,7 @@ data class SearchResultResponse(
     val ingredients: List<Any>,
     val name: String,
     val objectID: String,
+    val is_ready_made_product: Boolean,
     val price: Int
 ) {
     data class HighlightResult(

@@ -43,6 +43,7 @@ object CartUtils {
                 is_available = true,
                 name = product.name,
                 price = product.price.toString(),
+                is_ready_made_product = product.is_ready_made_product,
                 quantity = 1
             )
             cartItems.add(newItem)
