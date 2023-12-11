@@ -1,5 +1,6 @@
 package com.example.clientneocafe.api
 
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.auth.CodeAuth
 import com.example.clientneocafe.model.auth.ConfirmLoginResponse
@@ -69,10 +70,14 @@ interface Api {
     suspend fun getMenuCategory(@Query("category_id") id: Int): Response<List<DetailInfoProduct>>
     @GET("customers/search")
     suspend fun getSearchResult(@Query("query") q: String): Response<List<SearchResultResponse>>
+
+//cart
     @POST("ordering/create-order/")
     suspend fun createOrder(@Body request: CreateOrder): Response<CreateOrder>
     @GET("customers/my-bonus/")
     suspend fun getMyBonus(): Response<Bonuses>
+    @POST("customers/check-if-item-can-be-made/")
+    suspend fun checkPosition(@Body request: CheckPosition): Response<MessageResponse>
 
 
 

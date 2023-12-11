@@ -63,11 +63,11 @@ class AdapterMenu: RecyclerView.Adapter<AdapterMenu.ViewHolder>() {
 
             imageRemove.setOnClickListener {
                 onItemClickListener?.onRemoveClick(product, position)
-                notifyItemChanged(position)
+                notifyItemChanged(position, product)
             }
             imageAdd.setOnClickListener {
                 onItemClickListener?.onAddClick(product, position)
-                notifyItemChanged(position)
+                notifyItemChanged(position, product)
             }
         }
     }

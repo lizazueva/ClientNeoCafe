@@ -88,7 +88,7 @@ class CartFragment : Fragment() {
     }
 
     fun calculateTotalOrderPrice(cart: List<DetailInfoProduct>): Int {
-        return cart.sumBy { it.price.toDouble().toInt() * it.quantity }
+        return cart.sumBy { it.price.toDouble().toInt() * it.quantityForCard }
     }
 
 
@@ -148,7 +148,7 @@ class CartFragment : Fragment() {
     }
 
     private fun resultSum(enteredBonusesInt: Int) {
-        val productPrice = cart.sumBy { it.price.toDouble().toInt() * it.quantity }
+        val productPrice = cart.sumBy { it.price.toDouble().toInt() * it.quantityForCard }
 
         if (enteredBonusesInt == 0) {
             binding.textAmount.text = "${productPrice} c"
@@ -194,7 +194,7 @@ class CartFragment : Fragment() {
             }
 
             override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
-                if (data.quantity > 1) {
+                if (data.quantityForCard > 1) {
                     CartUtils.removeItem(data)
                 } else {
                     CartUtils.removeItem(data)
@@ -311,7 +311,8 @@ class CartFragment : Fragment() {
         val items = product.map {
             CreateOrder.Item(
                 item = it.id,
-                quantity = it.quantity
+                quantity = it.quantityForCard,
+                ready_made_product = it.is_ready_made_product
             )
         }
         val order = CreateOrder(

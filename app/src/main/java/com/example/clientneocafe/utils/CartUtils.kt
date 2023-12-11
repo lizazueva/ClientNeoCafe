@@ -10,9 +10,9 @@ object CartUtils {
         val existingItem = cartItems.find { it.id == product.id }
 
         if (existingItem != null) {
-            existingItem.quantity++
+            existingItem.quantityForCard++
         } else {
-            val newItem = product.copy(quantity = 1)
+            val newItem = product.copy(quantityForCard = 1)
             cartItems.add(newItem)
         }
     }
@@ -21,8 +21,8 @@ object CartUtils {
         val existingItem = cartItems.find { it.id == product.id }
 
         if (existingItem != null) {
-            if (existingItem.quantity > 1) {
-                existingItem.quantity--
+            if (existingItem.quantityForCard > 1) {
+                existingItem.quantityForCard--
             } else {
                 cartItems.remove(existingItem)
             }
@@ -32,7 +32,7 @@ object CartUtils {
         val existingItem = cartItems.find { it.id == product.id }
 
         if (existingItem != null) {
-            existingItem.quantity++
+            existingItem.quantityForCard++
         } else {
             val newItem = DetailInfoProduct(
                 category = DetailInfoProduct.Category(id = null, image = null, name = product.category_name),
@@ -44,7 +44,8 @@ object CartUtils {
                 name = product.name,
                 price = product.price.toString(),
                 is_ready_made_product = product.is_ready_made_product,
-                quantity = 1
+                quantity = null,
+                quantityForCard = 1
             )
             cartItems.add(newItem)
         }
@@ -53,8 +54,8 @@ object CartUtils {
         val existingItem = cartItems.find { it.id == product.id }
 
         if (existingItem != null) {
-            if (existingItem.quantity > 1) {
-                existingItem.quantity--
+            if (existingItem.quantityForCard > 1) {
+                existingItem.quantityForCard--
             } else {
                 cartItems.remove(existingItem)
             }
@@ -76,6 +77,6 @@ object CartUtils {
     }
 
     fun getQuantity(productId: Int): Int {
-        return cartItems.find { it.id == productId }?.quantity ?: 0
+        return cartItems.find { it.id == productId }?.quantityForCard ?: 0
     }
 }

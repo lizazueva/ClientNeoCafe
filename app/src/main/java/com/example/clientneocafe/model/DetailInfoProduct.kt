@@ -10,7 +10,8 @@ data class DetailInfoProduct(
     val name: String,
     val price: String,
     val is_ready_made_product: Boolean,
-    var quantity: Int
+    var quantity: Int?,
+    var quantityForCard: Int
 ) {
     data class Category(
         val id: Int?,

@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentStartMenuBinding
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
@@ -24,16 +25,18 @@ import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.utils.SharedPreferencesBranch
 import com.example.clientneocafe.viewModel.HomeViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class StartMenuFragment : Fragment() {
 
     private lateinit var binding: FragmentStartMenuBinding
     private lateinit var adapterProduct: AdapterMenu
-    private val homeViewModel: HomeViewModel by viewModel()
+    private val homeViewModel: HomeViewModel by sharedViewModel()
     private var selectedCategoryId: Int? = null
     private lateinit var branchPreferences: SharedPreferencesBranch
     private  var selectedBranchId = 0
+    private var isAddingToCartInProgress = false
+
 
 
 
@@ -210,7 +213,16 @@ class StartMenuFragment : Fragment() {
             }
 
             override fun onAddClick(data: DetailInfoProduct, position: Int) {
-                CartUtils.addItem(data)
+
+                    if (CartUtils.isInCart(data.id)) {
+                        val quantity = CartUtils.getQuantity(data.id) + 1
+                        checkPosition(data,CheckPosition(data.is_ready_made_product, data.id, quantity))
+
+                    } else {
+                        checkPosition(data,CheckPosition(data.is_ready_made_product, data.id, 1))
+
+                    }
+
             }
 
             override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
@@ -218,6 +230,34 @@ class StartMenuFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun observePosition(data: DetailInfoProduct) {
+        homeViewModel.сheckMadePosition.observe(viewLifecycleOwner){ сheckMadePosition ->
+            when(сheckMadePosition){
+                is Resource.Success ->{
+
+                        CartUtils.addItem(data)
+                        adapterProduct.notifyDataSetChanged()
+
+                }
+                is Resource.Error ->{
+                    Toast.makeText(
+                        requireContext(),
+                        "Нет в наличии",
+                        Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading ->{
+
+                }
+            }
+
+        }
+    }
+
+    private fun checkPosition(data: DetailInfoProduct, position: CheckPosition) {
+        homeViewModel.checkPosition(position)
+        observePosition(data)
     }
 
     private fun dropdown(branches: List<BranchesMenu>) {

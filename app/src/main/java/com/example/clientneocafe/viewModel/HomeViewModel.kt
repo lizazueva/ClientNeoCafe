@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.home.BranchesMenu
 import com.example.clientneocafe.model.home.Category
 import com.example.clientneocafe.model.home.ChangeBranch
+import com.example.clientneocafe.model.home.MessageResponse
 import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.utils.Resource
 import kotlinx.coroutines.launch
@@ -72,6 +74,38 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     private fun saveSearchItems(response: List<SearchResultResponse>) {
         _searchItems.postValue(Resource.Success(response))
     }
+
+    //проверка на возможность приготовления позиции
+    private val _сheckMadePosition: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+
+    val сheckMadePosition: LiveData<Resource<MessageResponse>>
+        get() = _сheckMadePosition
+
+    private fun saveCheckMadePosition(response: MessageResponse) {
+        _сheckMadePosition.postValue(Resource.Success(response))
+    }
+
+    fun checkPosition(positionCheck: CheckPosition){
+        viewModelScope.launch {
+            _searchItems.postValue(Resource.Loading())
+            try {
+                val response = repository.checkPosition(positionCheck)
+                if (response.isSuccessful) {
+                    val productResponse = response.body()
+                    productResponse?.let { saveCheckMadePosition(it) }
+                    Log.d("checkPosition", "Successful: $productResponse")
+                }else{
+                    val errorBody = response.errorBody()?.toString()
+                    _searchItems.postValue(Resource.Error(errorBody ?:"Ошибка загрузки "))
+                }
+            } catch (e: Exception) {
+                Log.e("MyViewModel", "Ошибка загрузки: ${e.message}")
+                _searchItems.postValue(Resource.Error(e.message ?: "Ошибка загрузки"))
+            }
+        }
+    }
+
+
 
 
 
