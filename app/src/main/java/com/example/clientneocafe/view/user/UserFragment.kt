@@ -11,12 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.navigation.fragment.findNavController
-import com.example.clientneocafe.MainActivity
-import com.example.clientneocafe.databinding.AlertDialogBranchesBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.clientneocafe.adapters.AdapterOrder
 import com.example.clientneocafe.databinding.AlertDialogExitBinding
 import com.example.clientneocafe.databinding.AlertDialogInfoBonusesBinding
 import com.example.clientneocafe.databinding.FragmentUserBinding
-import com.example.clientneocafe.model.auth.User
 import com.example.clientneocafe.model.user.UserInfo
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.view.login.LoginActivity
@@ -28,6 +27,8 @@ class UserFragment : Fragment() {
     private lateinit var binding: FragmentUserBinding
     private  val userViewModel: UserViewModel by viewModel()
     private lateinit var profile: UserInfo
+    private lateinit var adapterOrder: AdapterOrder
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +42,23 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpListeners()
+        setUpAdapter()
         dataProfile()
 
+    }
+
+    private fun setUpAdapter() {
+        adapterOrder = AdapterOrder()
+        binding.recyclerOpenOrder.adapter = adapterOrder
+        binding.recyclerOpenOrder.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.recyclerClosedOrder.adapter = adapterOrder
+        binding.recyclerClosedOrder.layoutManager = LinearLayoutManager(requireContext())
+
+        adapterOrder.setOnClickListener {
+            val action = UserFragmentDirections.actionUserFragmentToOrderFragment()
+            findNavController().navigate(action)
+        }
     }
 
      private fun dataProfile() {

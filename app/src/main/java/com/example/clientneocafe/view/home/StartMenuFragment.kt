@@ -216,10 +216,14 @@ class StartMenuFragment : Fragment() {
 
                     if (CartUtils.isInCart(data.id)) {
                         val quantity = CartUtils.getQuantity(data.id) + 1
-                        checkPosition(data,CheckPosition(data.is_ready_made_product, data.id, quantity))
+                        check1(data,CheckPosition(data.is_ready_made_product, data.id, quantity))
+//                        checkPosition(data,CheckPosition(data.is_ready_made_product, data.id, quantity))
 
                     } else {
-                        checkPosition(data,CheckPosition(data.is_ready_made_product, data.id, 1))
+                        check1(data,CheckPosition(data.is_ready_made_product, data.id,1))
+
+
+//                        checkPosition(data,CheckPosition(data.is_ready_made_product, data.id, 1))
 
                     }
 
@@ -232,33 +236,50 @@ class StartMenuFragment : Fragment() {
         })
     }
 
-    private fun observePosition(data: DetailInfoProduct) {
-        homeViewModel.сheckMadePosition.observe(viewLifecycleOwner){ сheckMadePosition ->
-            when(сheckMadePosition){
-                is Resource.Success ->{
+    private fun check1(data: DetailInfoProduct, checkPosition: CheckPosition) {
+        homeViewModel.createProduct(checkPosition,
+            onSuccess = {
+                CartUtils.addItem(data)
+                adapterProduct.notifyDataSetChanged()
 
-                        CartUtils.addItem(data)
-                        adapterProduct.notifyDataSetChanged()
-
-                }
-                is Resource.Error ->{
-                    Toast.makeText(
-                        requireContext(),
-                        "Нет в наличии",
-                        Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Loading ->{
-
-                }
+            },
+            onError = {
+                Toast.makeText(
+                    requireContext(),
+                    "Товара больше нет",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-
-        }
+        )
     }
 
-    private fun checkPosition(data: DetailInfoProduct, position: CheckPosition) {
-        homeViewModel.checkPosition(position)
-        observePosition(data)
-    }
+//    private fun observePosition(data: DetailInfoProduct) {
+//        homeViewModel.сheckMadePosition.observe(viewLifecycleOwner){ сheckMadePosition ->
+//            when(сheckMadePosition){
+//                is Resource.Success ->{
+//
+//                        CartUtils.addItem(data)
+//                        adapterProduct.notifyDataSetChanged()
+//
+//                }
+//                is Resource.Error ->{
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Нет в наличии",
+//                        Toast.LENGTH_SHORT).show()
+//                }
+//                is Resource.Loading ->{
+//
+//                }
+//            }
+//
+//        }
+//    }
+//
+//    private fun checkPosition(data: DetailInfoProduct, position: CheckPosition) {
+////        homeViewModel.checkPosition(position)
+//        observePosition(data)
+//    }
 
     private fun dropdown(branches: List<BranchesMenu>) {
         val branchNames = branches.map { it.name_of_shop }

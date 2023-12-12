@@ -9,13 +9,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.cart.Bonuses
 import com.example.clientneocafe.model.cart.CreateOrder
+import com.example.clientneocafe.model.home.MessageResponse
 import com.example.clientneocafe.model.map.Branches
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.utils.Utils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CartViewModel(private val repository: Repository): ViewModel() {
 
@@ -34,6 +39,31 @@ class CartViewModel(private val repository: Repository): ViewModel() {
 
     private fun saveBonuses(response: Bonuses) {
         _bonuses.postValue(Resource.Success(response))
+    }
+
+    fun createProduct(
+        positionCheck: CheckPosition,
+        onSuccess: () -> Unit,
+        onError: (String?) -> Unit
+    ) {
+        repository.checkPosition(positionCheck)
+            .enqueue(object : Callback<MessageResponse> {
+                override fun onResponse(
+                    call: Call<MessageResponse>,
+                    response: Response<MessageResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        onSuccess()
+                    } else {
+                        onError("Ошибка при выполнении запроса: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<MessageResponse>, t: Throwable) {
+                    Log.e("AddProductViewModel", "Ошибка при выполнении запроса", t)
+                    onError("")
+                }
+            })
     }
 
 

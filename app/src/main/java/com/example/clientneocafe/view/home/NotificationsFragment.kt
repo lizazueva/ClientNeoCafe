@@ -1,7 +1,6 @@
 package com.example.clientneocafe.view.home
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,17 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterNotifications
-import com.example.clientneocafe.adapters.AdapterOrder
 import com.example.clientneocafe.databinding.FragmentNotificationsBinding
 import com.example.clientneocafe.model.Notifications
-import com.example.clientneocafe.model.Product
-import com.example.clientneocafe.view.cart.HistoryFragmentDirections
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 class NotificationsFragment : Fragment() {

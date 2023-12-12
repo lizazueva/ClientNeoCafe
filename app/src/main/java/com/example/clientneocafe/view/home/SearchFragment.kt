@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.adapters.AdapterSearch
 import com.example.clientneocafe.databinding.FragmentSearchBinding
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
@@ -89,7 +90,14 @@ class SearchFragment : Fragment() {
             }
 
             override fun onAddClick(data: SearchResultResponse, position: Int) {
-                CartUtils.addItem(data)
+                if (CartUtils.isInCart(data.id)) {
+                    val quantity = CartUtils.getQuantity(data.id) + 1
+                    checkPosition(data,CheckPosition(data.is_ready_made_product, data.id, quantity))
+
+                } else {
+                    checkPosition(data,CheckPosition(data.is_ready_made_product, data.id,1))
+
+                }
             }
 
             override fun onRemoveClick(data: SearchResultResponse, position: Int) {
@@ -98,6 +106,23 @@ class SearchFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun checkPosition(data: SearchResultResponse, checkPosition: CheckPosition) {
+        homeViewModel.createProduct(checkPosition,
+            onSuccess = {
+                CartUtils.addItem(data)
+                adapterProduct.notifyDataSetChanged()
+
+            },
+            onError = {
+                Toast.makeText(
+                    requireContext(),
+                    "Товара больше нет",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        )
     }
 
 }

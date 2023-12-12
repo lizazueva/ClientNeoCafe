@@ -6,9 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.DetailInfoProduct
+import com.example.clientneocafe.model.home.MessageResponse
 import com.example.clientneocafe.utils.Resource
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DetailProductViewModel(private val repository: Repository): ViewModel() {
 
@@ -30,6 +35,32 @@ class DetailProductViewModel(private val repository: Repository): ViewModel() {
         private fun savePopularItems(response: List<DetailInfoProduct>) {
             _compatibleItems.postValue(Resource.Success(response))
         }
+
+    //проверка на возможность приготовления позиции
+    fun createProduct(
+        positionCheck: CheckPosition,
+        onSuccess: () -> Unit,
+        onError: (String?) -> Unit
+    ) {
+        repository.checkPosition(positionCheck)
+            .enqueue(object : Callback<MessageResponse> {
+                override fun onResponse(
+                    call: Call<MessageResponse>,
+                    response: Response<MessageResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        onSuccess()
+                    } else {
+                        onError("Ошибка при выполнении запроса: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<MessageResponse>, t: Throwable) {
+                    Log.e("AddProductViewModel", "Ошибка при выполнении запроса", t)
+                    onError("")
+                }
+            })
+    }
 
     fun getCompatibleItems(id: Int){
         viewModelScope.launch {

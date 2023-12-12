@@ -7,8 +7,8 @@ data class CreateOrder(
     val total_price: Int
 ) {
     data class Item(
-        val item: Int,
+        val item_id: Int,
         val quantity: Int,
-        val ready_made_product: Boolean
+        val is_ready_made_product: Boolean
     )
 }

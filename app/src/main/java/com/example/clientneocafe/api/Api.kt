@@ -19,6 +19,7 @@ import com.example.clientneocafe.model.home.MessageResponse
 import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.model.map.Branches
 import com.example.clientneocafe.model.user.UserInfo
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -77,7 +78,7 @@ interface Api {
     @GET("customers/my-bonus/")
     suspend fun getMyBonus(): Response<Bonuses>
     @POST("customers/check-if-item-can-be-made/")
-    suspend fun checkPosition(@Body request: CheckPosition): Response<MessageResponse>
+    fun checkPosition(@Body request: CheckPosition): Call<MessageResponse>
 
 
 

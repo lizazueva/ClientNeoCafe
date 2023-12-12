@@ -1,4 +1,4 @@
-package com.example.clientneocafe.view.home
+package com.example.clientneocafe.view.user
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -40,7 +40,10 @@ class OrderFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.imageBack.setOnClickListener {
-            findNavController().navigate(R.id.action_orderFragment_to_historyFragment)
+            findNavController().navigate(R.id.action_orderFragment_to_userFragment)
+        }
+        binding.imageBell.setOnClickListener {
+            findNavController().navigate(R.id.action_orderFragment_to_notificationsFragment)
         }
 
     }

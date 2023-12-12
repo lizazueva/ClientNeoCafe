@@ -36,7 +36,7 @@ class Repository(private val api: Api) {
 
     suspend fun createOrder(request: CreateOrder) = RetrofitInstance.api.createOrder(request)
     suspend fun getMyBonus() = RetrofitInstance.api.getMyBonus()
-    suspend fun checkPosition(request: CheckPosition) = RetrofitInstance.api.checkPosition(request)
+    fun checkPosition(request: CheckPosition) = RetrofitInstance.api.checkPosition(request)
 
 
 

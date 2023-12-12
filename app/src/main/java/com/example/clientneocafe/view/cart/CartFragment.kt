@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -27,6 +28,7 @@ import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.AlertDialogDebitingBonusesBinding
 import com.example.clientneocafe.databinding.AlertDialogOurBonusBinding
 import com.example.clientneocafe.databinding.FragmentCartBinding
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.cart.CreateOrder
 import com.example.clientneocafe.utils.CartUtils
@@ -188,7 +190,12 @@ class CartFragment : Fragment() {
             }
 
             override fun onAddClick(data: DetailInfoProduct, position: Int) {
-                CartUtils.addItem(data)
+                if (CartUtils.isInCart(data.id)) {
+                    val quantity = CartUtils.getQuantity(data.id) + 1
+                    checkPosition(data, CheckPosition(data.is_ready_made_product, data.id, quantity))
+                } else {
+                    checkPosition(data, CheckPosition(data.is_ready_made_product, data.id,1))
+                }
                 updateCart()
 
             }
@@ -204,6 +211,23 @@ class CartFragment : Fragment() {
                 updateCart()
             }
         })
+    }
+
+    private fun checkPosition(data: DetailInfoProduct, checkPosition: CheckPosition) {
+        cartViewModel.createProduct(checkPosition,
+            onSuccess = {
+                CartUtils.addItem(data)
+                adapterProduct.notifyDataSetChanged()
+
+            },
+            onError = {
+                Toast.makeText(
+                    requireContext(),
+                    "Товара больше нет",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        )
     }
 
 
@@ -310,9 +334,9 @@ class CartFragment : Fragment() {
 
         val items = product.map {
             CreateOrder.Item(
-                item = it.id,
+                item_id = it.id,
                 quantity = it.quantityForCard,
-                ready_made_product = it.is_ready_made_product
+                is_ready_made_product = it.is_ready_made_product
             )
         }
         val order = CreateOrder(
@@ -359,7 +383,7 @@ class CartFragment : Fragment() {
         val snackbarView = snackbar.view
         val snackbarLayout = snackbarView as Snackbar.SnackbarLayout
 
-        val layoutParams = snackbarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        val layoutParams = snackbarView.layoutParams as FrameLayout.LayoutParams
         layoutParams.gravity = Gravity.TOP
 
         snackbarLayout.setBackgroundColor(Color.TRANSPARENT)

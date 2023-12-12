@@ -1,5 +1,6 @@
 package com.example.clientneocafe.viewModel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +16,9 @@ import com.example.clientneocafe.model.home.MessageResponse
 import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.utils.Resource
 import kotlinx.coroutines.launch
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomeViewModel(private val repository: Repository): ViewModel() {
@@ -76,33 +79,30 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
     }
 
     //проверка на возможность приготовления позиции
-    private val _сheckMadePosition: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
-    val сheckMadePosition: LiveData<Resource<MessageResponse>>
-        get() = _сheckMadePosition
-
-    private fun saveCheckMadePosition(response: MessageResponse) {
-        _сheckMadePosition.postValue(Resource.Success(response))
-    }
-
-    fun checkPosition(positionCheck: CheckPosition){
-        viewModelScope.launch {
-            _searchItems.postValue(Resource.Loading())
-            try {
-                val response = repository.checkPosition(positionCheck)
-                if (response.isSuccessful) {
-                    val productResponse = response.body()
-                    productResponse?.let { saveCheckMadePosition(it) }
-                    Log.d("checkPosition", "Successful: $productResponse")
-                }else{
-                    val errorBody = response.errorBody()?.toString()
-                    _searchItems.postValue(Resource.Error(errorBody ?:"Ошибка загрузки "))
+    fun createProduct(
+        positionCheck: CheckPosition,
+        onSuccess: () -> Unit,
+        onError: (String?) -> Unit
+    ) {
+        repository.checkPosition(positionCheck)
+            .enqueue(object : Callback<MessageResponse> {
+                override fun onResponse(
+                    call: Call<MessageResponse>,
+                    response: Response<MessageResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        onSuccess()
+                    } else {
+                        onError("Ошибка при выполнении запроса: ${response.code()}")
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e("MyViewModel", "Ошибка загрузки: ${e.message}")
-                _searchItems.postValue(Resource.Error(e.message ?: "Ошибка загрузки"))
-            }
-        }
+
+                override fun onFailure(call: Call<MessageResponse>, t: Throwable) {
+                    Log.e("AddProductViewModel", "Ошибка при выполнении запроса", t)
+                    onError("")
+                }
+            })
     }
 
 

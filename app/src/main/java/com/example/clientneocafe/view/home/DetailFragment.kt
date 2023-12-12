@@ -13,6 +13,7 @@ import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.adapters.AdapterMilk
 import com.example.clientneocafe.adapters.AdapterSyrup
 import com.example.clientneocafe.databinding.FragmentDetailBinding
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.model.Milk
 import com.example.clientneocafe.model.Syrup
@@ -66,10 +67,17 @@ class DetailFragment : Fragment() {
         detailProductViewModel.compatibleItems.observe(viewLifecycleOwner) { compatibleItems ->
             when (compatibleItems) {
                 is Resource.Success -> {
-                    compatibleItems.data?.let { items ->
+                    val data = compatibleItems.data
+                    binding.textNiceAddition.visibility = if (data.isNullOrEmpty()) {
+                        View.GONE
+                    } else {
+                        View.VISIBLE
+                    }
+                    data?.let { items ->
                         setUpAdapter(items)
                     }
-                    hideProgressBar()
+                    binding.textNiceAddition.requestLayout()
+                    hideProgressBar(compatibleItems.data)
 
                 }
 
@@ -81,7 +89,7 @@ class DetailFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    hideProgressBar()
+                    hideProgressBar(compatibleItems.data)
                 }
 
                 is Resource.Loading -> {
@@ -144,13 +152,38 @@ class DetailFragment : Fragment() {
             }
 
             override fun onAddClick(data: DetailInfoProduct, position: Int) {
-                CartUtils.addItem(data)
+                if (CartUtils.isInCart(data.id)) {
+                    val quantity = CartUtils.getQuantity(data.id) + 1
+                    checkPosition(data, CheckPosition(data.is_ready_made_product, data.id, quantity))
+
+                } else {
+                    checkPosition(data, CheckPosition(data.is_ready_made_product, data.id,1))
+
+                }
             }
 
             override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
                 CartUtils.removeItem(data)
             }
         })
+    }
+
+    private fun checkPosition(data: DetailInfoProduct, checkPosition: CheckPosition) {
+        detailProductViewModel.createProduct(checkPosition,
+            onSuccess = {
+                CartUtils.addItem(data)
+                adapterProduct.notifyDataSetChanged()
+                updateCartVisibility()
+
+            },
+            onError = {
+                Toast.makeText(
+                    requireContext(),
+                    "Товара больше нет",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        )
     }
 
     private fun addProduct(detailProduct: DetailInfoProduct) {
@@ -192,15 +225,27 @@ class DetailFragment : Fragment() {
         }
         binding.btnAdd.setOnClickListener {
             currentDetailProduct?.let { it1 ->
-                CartUtils.addItem(it1)
+                if (CartUtils.isInCart(it1.id)) {
+                    val quantity = CartUtils.getQuantity(it1.id) + 1
+                    checkPosition(it1, CheckPosition(it1.is_ready_made_product, it1.id, quantity))
+
+                } else {
+                    checkPosition(it1, CheckPosition(it1.is_ready_made_product, it1.id,1))
+
+                }
             }
-            updateCartVisibility()
         }
         binding.imageAdd.setOnClickListener {
             currentDetailProduct?.let { it1 ->
-                CartUtils.addItem(it1)
+                if (CartUtils.isInCart(it1.id)) {
+                    val quantity = CartUtils.getQuantity(it1.id) + 1
+                    checkPosition(it1, CheckPosition(it1.is_ready_made_product, it1.id, quantity))
+
+                } else {
+                    checkPosition(it1, CheckPosition(it1.is_ready_made_product, it1.id,1))
+
+                }
             }
-            updateCartVisibility()
         }
         binding.imageRemove.setOnClickListener {
             currentDetailProduct?.let { it1 ->
@@ -227,9 +272,13 @@ class DetailFragment : Fragment() {
         binding.btnAdd.visibility = View.INVISIBLE
 
     }
-    private fun hideProgressBar() {
+    private fun hideProgressBar(data: List<DetailInfoProduct>?) {
         binding.progressBar.visibility = View.GONE
-        binding.textNiceAddition.visibility = View.VISIBLE
+        binding.textNiceAddition.visibility = if (data.isNullOrEmpty()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
         binding.btnAdd.visibility = View.VISIBLE
     }
 }
