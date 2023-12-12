@@ -13,7 +13,9 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterBranches
 import com.example.clientneocafe.databinding.AlertDialogBranchesBinding
 import com.example.clientneocafe.databinding.FragmentMapBinding
@@ -43,9 +45,16 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpAdapter()
+        setUpListeners()
         data()
         observe()
 
+    }
+
+    private fun setUpListeners() {
+        binding.imageBell.setOnClickListener {
+            findNavController().navigate(R.id.action_mapFragment_to_notificationsFragment)
+        }
     }
 
     private fun observe() {
