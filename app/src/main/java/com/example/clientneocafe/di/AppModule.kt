@@ -9,6 +9,7 @@ import com.example.clientneocafe.viewModel.DetailProductViewModel
 import com.example.clientneocafe.viewModel.HomeViewModel
 import com.example.clientneocafe.viewModel.LoginViewModel
 import com.example.clientneocafe.viewModel.MapViewModel
+import com.example.clientneocafe.viewModel.OrdersViewModel
 import com.example.clientneocafe.viewModel.RegistrationViewModel
 import com.example.clientneocafe.viewModel.UserViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -27,6 +28,7 @@ val viewModules = module {
     viewModel {UserViewModel (get())}
     viewModel {DetailProductViewModel (get())}
     viewModel {CartViewModel (get())}
+    viewModel {OrdersViewModel (get())}
 }
 val homeScope = module {
     viewModel { HomeViewModel(get())}

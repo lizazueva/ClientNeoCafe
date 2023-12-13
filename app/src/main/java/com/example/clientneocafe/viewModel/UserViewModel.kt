@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clientneocafe.api.Repository
+import com.example.clientneocafe.api.RetrofitInstance
 import com.example.clientneocafe.model.auth.ConfirmRegisterResponse
 import com.example.clientneocafe.model.auth.User
+import com.example.clientneocafe.model.user.Orders
 import com.example.clientneocafe.model.user.UserInfo
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.utils.Utils
@@ -28,6 +30,39 @@ class UserViewModel (private val repository: Repository): ViewModel() {
 
     val updateResult: LiveData<Resource<String>>
         get() = _updateResult
+
+    //получение списка актуальных и завершенных заказов
+
+    private val _myOrders: MutableLiveData<Resource<Orders>> = MutableLiveData()
+
+    val myOrders: LiveData<Resource<Orders>>
+        get() = _myOrders
+    private fun saveMyOrders (response: Orders){
+        _myOrders.postValue(Resource.Success(response))
+    }
+
+
+    fun getMyOrders(){
+        viewModelScope.launch {
+            try {
+                val response = repository.getMyOrders()
+                _myOrders.postValue(Resource.Loading())
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    responseBody?.let { saveMyOrders(it) }
+                    Log.d("getMyOrders", "Successful: $responseBody")
+                }else{
+                    _myOrders.postValue(Resource.Error("Ошибка получения данных о заказах"))
+                }
+            } catch (e: Exception) {
+                Log.e("MyViewModel", "Ошибка получения данных клиента: ${e.message}")
+
+                _myOrders.postValue(Resource.Error(e.message ?: "Ошибка получения данных клиента"))
+            }
+        }
+
+    }
+
 
     fun getProfile(){
         viewModelScope.launch {

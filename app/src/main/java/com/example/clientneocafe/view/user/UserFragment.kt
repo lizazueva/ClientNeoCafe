@@ -13,9 +13,11 @@ import android.view.Window
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.adapters.AdapterOrder
+import com.example.clientneocafe.adapters.AdapterOrderClosed
 import com.example.clientneocafe.databinding.AlertDialogExitBinding
 import com.example.clientneocafe.databinding.AlertDialogInfoBonusesBinding
 import com.example.clientneocafe.databinding.FragmentUserBinding
+import com.example.clientneocafe.model.user.Orders
 import com.example.clientneocafe.model.user.UserInfo
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.view.login.LoginActivity
@@ -28,6 +30,8 @@ class UserFragment : Fragment() {
     private  val userViewModel: UserViewModel by viewModel()
     private lateinit var profile: UserInfo
     private lateinit var adapterOrder: AdapterOrder
+    private lateinit var adapterOrderClosed: AdapterOrderClosed
+
 
 
     override fun onCreateView(
@@ -42,22 +46,61 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpListeners()
-        setUpAdapter()
         dataProfile()
+        dataOrders()
 
     }
 
-    private fun setUpAdapter() {
+    private fun dataOrders() {
+        userViewModel.getMyOrders()
+        userViewModel.myOrders.observe(viewLifecycleOwner){orders ->
+            when (orders) {
+                is Resource.Success -> {
+                    orders.data?.let { orders ->
+                        setUpAdapter(orders.opened_orders)
+                        setUpAdapterClosed(orders.closed_orders)
+                    }
+                }
+                is Resource.Loading ->{
+
+                }
+                is Resource.Error ->{
+
+                }
+            }
+        }
+
+    }
+
+    private fun setUpAdapterClosed(closedOrders: List<Orders.ClosedOrder>) {
+        adapterOrderClosed = AdapterOrderClosed()
+        binding.recyclerClosedOrder.adapter = adapterOrder
+        binding.recyclerClosedOrder.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerClosedOrder.layoutManager = LinearLayoutManager(requireContext())
+        if (closedOrders.isEmpty()){
+            binding.textClosedOrder.visibility = View.GONE
+        }else{
+            binding.textClosedOrder.visibility = View.VISIBLE
+
+        }
+        adapterOrderClosed.differ.submitList(closedOrders)
+        adapterOrderClosed.setOnClickListener { closedOrder ->
+            findNavController().navigate(UserFragmentDirections.actionUserFragmentToOrderFragment(closedOrder.id))
+        }
+    }
+
+    private fun setUpAdapter(orders: List<Orders.OpenedOrder>) {
         adapterOrder = AdapterOrder()
         binding.recyclerOpenOrder.adapter = adapterOrder
         binding.recyclerOpenOrder.layoutManager = LinearLayoutManager(requireContext())
-
-        binding.recyclerClosedOrder.adapter = adapterOrder
-        binding.recyclerClosedOrder.layoutManager = LinearLayoutManager(requireContext())
-
-        adapterOrder.setOnClickListener {
-            val action = UserFragmentDirections.actionUserFragmentToOrderFragment()
-            findNavController().navigate(action)
+        if (orders.isEmpty()){
+            binding.textActualOrder.visibility = View.GONE
+        }else{
+            binding.textActualOrder.visibility = View.VISIBLE
+        }
+        adapterOrder.differ.submitList(orders)
+        adapterOrder.setOnClickListener { order ->
+            findNavController().navigate(UserFragmentDirections.actionUserFragmentToOrderFragment(order.id))
         }
     }
 

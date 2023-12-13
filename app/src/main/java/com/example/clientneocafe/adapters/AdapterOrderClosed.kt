@@ -11,11 +11,11 @@ import com.example.clientneocafe.model.user.Orders
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AdapterOrder: RecyclerView.Adapter<AdapterOrder.ViewHolder> (){
+class AdapterOrderClosed: RecyclerView.Adapter<AdapterOrderClosed.ViewHolder> (){
 
-    private var onItemClickListener: ((Orders.OpenedOrder)-> Unit)? = null
+    private var onItemClickListener: ((Orders.ClosedOrder)-> Unit)? = null
 
-    fun setOnClickListener(listener: (Orders.OpenedOrder)-> Unit){
+    fun setOnClickListener(listener: (Orders.ClosedOrder)-> Unit){
         onItemClickListener = listener
     }
 
@@ -52,12 +52,12 @@ class AdapterOrder: RecyclerView.Adapter<AdapterOrder.ViewHolder> (){
     inner class ViewHolder (var binding: ItemOrderBinding): RecyclerView.ViewHolder(binding.root){
     }
 
-    private val differCallBack = object: DiffUtil.ItemCallback<Orders.OpenedOrder>(){
-        override fun areItemsTheSame(oldItem: Orders.OpenedOrder, newItem: Orders.OpenedOrder): Boolean {
+    private val differCallBack = object: DiffUtil.ItemCallback<Orders.ClosedOrder>(){
+        override fun areItemsTheSame(oldItem: Orders.ClosedOrder, newItem: Orders.ClosedOrder): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Orders.OpenedOrder, newItem: Orders.OpenedOrder): Boolean {
+        override fun areContentsTheSame(oldItem: Orders.ClosedOrder, newItem: Orders.ClosedOrder): Boolean {
             return oldItem == newItem
         }
     }

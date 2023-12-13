@@ -18,6 +18,8 @@ import com.example.clientneocafe.model.home.ChangeBranch
 import com.example.clientneocafe.model.home.MessageResponse
 import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.model.map.Branches
+import com.example.clientneocafe.model.user.OrderDetail
+import com.example.clientneocafe.model.user.Orders
 import com.example.clientneocafe.model.user.UserInfo
 import retrofit2.Call
 import retrofit2.Response
@@ -79,6 +81,14 @@ interface Api {
     suspend fun getMyBonus(): Response<Bonuses>
     @POST("customers/check-if-item-can-be-made/")
     fun checkPosition(@Body request: CheckPosition): Call<MessageResponse>
+
+    //order
+    @GET("customers/my-orders/")
+    suspend fun getMyOrders(): Response<Orders>
+    @GET("customers/my-orders/{id}/")
+    suspend fun getOrderDetail(@Path("id") id: Int): Response<OrderDetail>
+
+
 
 
 
