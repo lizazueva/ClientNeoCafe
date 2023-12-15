@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clientneocafe.databinding.ItemNotificationsBinding
-import com.example.clientneocafe.model.Notifications
+import com.example.clientneocafe.model.NotificationsResponse
 
 class AdapterNotifications: RecyclerView.Adapter<AdapterNotifications.ViewHolder>() {
 
@@ -25,8 +25,8 @@ class AdapterNotifications: RecyclerView.Adapter<AdapterNotifications.ViewHolder
         var notifications = differ.currentList[position]
         with(holder.binding){
             textTitleNotification.text = notifications.title
-            textDiscrNotification.text= notifications.discr
-            textTimeNotification.text = notifications.time
+            textDiscrNotification.text= notifications.body
+            textTimeNotification.text = notifications.exactly_time
 
         }
     }
@@ -34,12 +34,12 @@ class AdapterNotifications: RecyclerView.Adapter<AdapterNotifications.ViewHolder
     inner class ViewHolder ( var binding: ItemNotificationsBinding): RecyclerView.ViewHolder(binding.root)  {
     }
 
-    private val differCallBack = object: DiffUtil.ItemCallback<Notifications>(){
-        override fun areItemsTheSame(oldItem: Notifications, newItem: Notifications): Boolean {
+    private val differCallBack = object: DiffUtil.ItemCallback<NotificationsResponse.Notifications>(){
+        override fun areItemsTheSame(oldItem: NotificationsResponse.Notifications, newItem: NotificationsResponse.Notifications): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Notifications, newItem: Notifications): Boolean {
+        override fun areContentsTheSame(oldItem: NotificationsResponse.Notifications, newItem: NotificationsResponse.Notifications): Boolean {
             return oldItem == newItem
         }
     }

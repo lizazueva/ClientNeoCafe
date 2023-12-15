@@ -1,7 +1,9 @@
 package com.example.clientneocafe.view.home
 
+import android.annotation.SuppressLint
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,14 +17,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterNotifications
 import com.example.clientneocafe.databinding.FragmentNotificationsBinding
-import com.example.clientneocafe.model.Notifications
+import com.example.clientneocafe.model.NotificationsResponse
+import com.example.clientneocafe.utils.NotificationsWebSocket
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 class NotificationsFragment : Fragment() {
 
     private lateinit var binding: FragmentNotificationsBinding
     private lateinit var adapterNotifications: AdapterNotifications
-    lateinit var testNot: ArrayList<Notifications>
+    private lateinit var webSocket: NotificationsWebSocket
+
 
 
     override fun onCreateView(
@@ -33,13 +40,51 @@ class NotificationsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpAdapter()
         setUpSwipeCallback()
         setUpListeners()
 
+        webSocket = NotificationsWebSocket(object : NotificationsWebSocket.NotificationsWebSocketListener {
+                override fun onMessage(message: String) {
+                    // Handle incoming WebSocket message
+                    activity?.runOnUiThread {
+                        try {
+
+//                            val newNotifications = Gson().fromJson(message, object : TypeToken<List<Notifications>>() {}.type)
+                            val newNotifications = parseWebSocketMessage(message)
+                            setUpAdapter(newNotifications)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                override fun onClose() {
+                    // Handle WebSocket close event
+                }
+
+                override fun onFailure(error: String) {
+                    // Handle WebSocket failure
+                }
+            })
+
+            webSocket.startWebSocket()
+        }
+
+    private fun parseWebSocketMessage(message: String): List<NotificationsResponse.Notifications> {
+        try {
+            val responseType = object : TypeToken<NotificationsResponse>() {}.type
+            val response = Gson().fromJson<NotificationsResponse>(message, responseType)
+            return response.notifications ?: emptyList()
+        } catch (e: JsonSyntaxException) {
+            e.printStackTrace()
+            // Логирование содержания сообщения для дальнейшего анализа
+            Log.e("NotificationsFragment", "Invalid JSON message: $message")
+            return emptyList()
+        }
     }
 
     private fun setUpListeners() {
@@ -80,17 +125,16 @@ class NotificationsFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recyclerNotifications)
     }
 
-    private fun setUpAdapter() {
+    private fun setUpAdapter(newNotifications: List<NotificationsResponse.Notifications>) {
         adapterNotifications = AdapterNotifications()
         binding.recyclerNotifications.adapter = adapterNotifications
         binding.recyclerNotifications.layoutManager = LinearLayoutManager(requireContext())
-        testNot = arrayListOf (
-            Notifications(1,"Заказ готов", "13:15","Кофейный напиток, 2 бургера, 3 тирамису, 2 тарталетки"),
-            Notifications(2,"Вы закрыли счет", "13:16", "Кофейный напиток"),
-            Notifications(3,"Ваш заказ оформлен", "13:15", "Кофейный напиток"),
-            Notifications(4,"Заказ готов", "17:15", "Кофейный напиток")
-        )
-        adapterNotifications.differ.submitList(testNot)
 
+        adapterNotifications.differ.submitList(newNotifications)
+
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        webSocket.closeWebSocket()
     }
 }

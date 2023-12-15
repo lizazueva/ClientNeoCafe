@@ -18,6 +18,7 @@ import com.example.clientneocafe.model.home.ChangeBranch
 import com.example.clientneocafe.model.home.MessageResponse
 import com.example.clientneocafe.model.home.SearchResultResponse
 import com.example.clientneocafe.model.map.Branches
+import com.example.clientneocafe.model.user.ClientId
 import com.example.clientneocafe.model.user.OrderDetail
 import com.example.clientneocafe.model.user.Orders
 import com.example.clientneocafe.model.user.UserInfo
@@ -87,6 +88,10 @@ interface Api {
     suspend fun getMyOrders(): Response<Orders>
     @GET("customers/my-orders/{id}/")
     suspend fun getOrderDetail(@Path("id") id: Int): Response<OrderDetail>
+
+    @GET("customers/my-id/")
+    suspend fun getIdClient(): Response<ClientId>
+
 
 
 

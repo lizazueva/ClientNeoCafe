@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.adapters.AdapterMenu
 import com.example.clientneocafe.databinding.FragmentCategoryBinding
+import com.example.clientneocafe.model.CheckPosition
 import com.example.clientneocafe.model.DetailInfoProduct
 import com.example.clientneocafe.utils.CartUtils
 import com.example.clientneocafe.utils.Resource
@@ -89,7 +90,14 @@ class CategoryFragment : Fragment() {
             }
 
             override fun onAddClick(data: DetailInfoProduct, position: Int) {
-                CartUtils.addItem(data)
+                if (CartUtils.isInCart(data.id)) {
+                    val quantity = CartUtils.getQuantity(data.id) + 1
+                    checkPosition(data, CheckPosition(data.is_ready_made_product, data.id, quantity))
+
+                } else {
+                    checkPosition(data, CheckPosition(data.is_ready_made_product, data.id,1))
+
+                }
             }
 
             override fun onRemoveClick(data: DetailInfoProduct, position: Int) {
@@ -97,6 +105,23 @@ class CategoryFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun checkPosition(data: DetailInfoProduct, checkPosition: CheckPosition) {
+        homeViewModel.createProduct(checkPosition,
+            onSuccess = {
+                CartUtils.addItem(data)
+                adapterProduct.notifyDataSetChanged()
+
+            },
+            onError = {
+                Toast.makeText(
+                    requireContext(),
+                    "Товара больше нет",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        )
     }
 
     private fun dataMenuCategory(categoryId: Int) {

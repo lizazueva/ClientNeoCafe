@@ -8,7 +8,7 @@
             android:id="@+id/image_order"
             android:layout_width="89dp"
             android:layout_height="89dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:scaleType="fitXY"
             app:shapeAppearanceOverlay="@style/RoundedImage"
             android:foregroundGravity="center"

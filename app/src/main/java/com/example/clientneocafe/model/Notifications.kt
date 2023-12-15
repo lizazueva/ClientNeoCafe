@@ -1,7 +1,13 @@
 package com.example.clientneocafe.model
 
-data class Notifications(
-    val id:Int,
-    var title: String,
-    var time: String,
-    var discr: String)
+data class NotificationsResponse(
+    val notifications: List<Notifications>) {
+
+    data class Notifications(
+        val id: Int,
+        var title: String,
+        var body: String,
+        val exactly_time: String,
+        val created_at: String
+    )
+}

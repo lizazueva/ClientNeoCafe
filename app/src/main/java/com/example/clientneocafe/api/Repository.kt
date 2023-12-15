@@ -6,7 +6,8 @@ import com.example.clientneocafe.model.auth.LoginRequest
 import com.example.clientneocafe.model.auth.User
 import com.example.clientneocafe.model.cart.CreateOrder
 import com.example.clientneocafe.model.home.ChangeBranch
-
+import com.example.clientneocafe.model.user.ClientId
+import retrofit2.Response
 
 
 class Repository(private val api: Api) {
@@ -33,6 +34,8 @@ class Repository(private val api: Api) {
     fun checkPosition(request: CheckPosition) = RetrofitInstance.api.checkPosition(request)
     suspend fun getMyOrders() = RetrofitInstance.api.getMyOrders()
     suspend fun getOrderDetail(id: Int) = RetrofitInstance.api.getOrderDetail(id)
+    suspend fun getIdClient() = RetrofitInstance.api.getIdClient()
+
 
 
 

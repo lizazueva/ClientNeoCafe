@@ -9,13 +9,11 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clientneocafe.R
-import com.example.clientneocafe.adapters.AdapterMenu
+import com.example.clientneocafe.adapters.AdapterMenuOrder
 import com.example.clientneocafe.databinding.FragmentOrderBinding
-import com.example.clientneocafe.model.Product
 import com.example.clientneocafe.model.user.OrderDetail
 import com.example.clientneocafe.utils.Resource
 import com.example.clientneocafe.viewModel.OrdersViewModel
-import com.example.clientneocafe.viewModel.UserViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -23,7 +21,7 @@ import java.util.Locale
 class OrderFragment : Fragment() {
 
     private lateinit var binding: FragmentOrderBinding
-    private lateinit var adapterProduct: AdapterMenu
+    private lateinit var adapterProduct: AdapterMenuOrder
     private  val ordersViewModel: OrdersViewModel by viewModel()
 
 
@@ -39,7 +37,6 @@ class OrderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpListeners()
-        setUpAdapter()
         setDataOrder()
     }
 
@@ -57,6 +54,7 @@ class OrderFragment : Fragment() {
                 is Resource.Success -> {
                     detailOrder.data?.let { detailInfo ->
                         dataOrder(detailInfo)
+                        setUpAdapter(detailInfo.items)
                     }
                 }
 
@@ -87,10 +85,11 @@ class OrderFragment : Fragment() {
         binding.textNameBranches.text = "${detailInfo.branch_name},\n $formattedDate"
     }
 
-    private fun setUpAdapter() {
-        adapterProduct =AdapterMenu()
+    private fun setUpAdapter(items: List<OrderDetail.Item>) {
+        adapterProduct = AdapterMenuOrder()
         binding.recyclerOrder.adapter = adapterProduct
         binding.recyclerOrder.layoutManager = LinearLayoutManager(requireContext())
+        adapterProduct.differ.submitList(items)
     }
 
     private fun setUpListeners() {
