@@ -83,11 +83,11 @@ class DetailProductViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
-    fun productDetail(id: Int) {
+    fun productDetail(id: Int, isReady: Boolean) {
         viewModelScope.launch {
             _detailProduct.postValue(Resource.Loading())
             try {
-                val response = repository.getProduct(id)
+                val response = repository.getProduct(id, isReady)
                 if (response.isSuccessful) {
                     val productResponse = response.body()
                     productResponse?.let { saveDetailProduct(it) }

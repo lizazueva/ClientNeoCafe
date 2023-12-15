@@ -107,6 +107,9 @@
         <action
             android:id="@+id/action_detailFragment_to_menuFragment2"
             app:destination="@id/menuFragment" />
+        <argument
+            android:name="isReady"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/startMenuFragment"

@@ -84,7 +84,8 @@ class CategoryFragment : Fragment() {
             override fun onClick(data: DetailInfoProduct, position: Int) {
                 //для теста
                 val idProduct = data.id
-                val action = MenuFragmentDirections.actionMenuFragmentToDetailFragment(idProduct)
+                val isReady = data.is_ready_made_product
+                val action = MenuFragmentDirections.actionMenuFragmentToDetailFragment(idProduct, isReady)
                 findNavController().navigate(action)
 
             }

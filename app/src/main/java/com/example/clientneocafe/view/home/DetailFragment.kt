@@ -51,8 +51,12 @@ class DetailFragment : Fragment() {
 
     private fun setDataEditProfile() {
         val productId = arguments?.getInt("id")
+        val isReady = arguments?.getBoolean("isReady")
+
         if (productId != null) {
-            detailProductViewModel.productDetail(productId)
+            if (isReady != null) {
+                detailProductViewModel.productDetail(productId, isReady)
+            }
         }
         observeDetailProduct()
 
@@ -144,7 +148,8 @@ class DetailFragment : Fragment() {
         adapterProduct.setOnItemClick(object : AdapterMenu.ListClickListener<DetailInfoProduct> {
             override fun onClick(data: DetailInfoProduct, position: Int) {
                 val idProduct = data.id
-                detailProductViewModel.productDetail(idProduct)
+                val isReady = data.is_ready_made_product
+                detailProductViewModel.productDetail(idProduct, isReady)
                 observeDetailProduct()
 
                 detailProductViewModel.getCompatibleItems(idProduct)

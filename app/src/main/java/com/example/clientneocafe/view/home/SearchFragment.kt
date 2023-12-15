@@ -84,7 +84,8 @@ class SearchFragment : Fragment() {
         adapterProduct.setOnItemClick(object: AdapterSearch.ListClickListener<SearchResultResponse>{
             override fun onClick(data: SearchResultResponse, position: Int) {
                 val idProduct = data.id
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(idProduct)
+                val isReady = data.is_ready_made_product
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(idProduct, isReady)
                 findNavController().navigate(action)
 
             }

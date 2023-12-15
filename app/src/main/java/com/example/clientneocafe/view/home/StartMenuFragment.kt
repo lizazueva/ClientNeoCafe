@@ -35,7 +35,6 @@ class StartMenuFragment : Fragment() {
     private var selectedCategoryId: Int? = null
     private lateinit var branchPreferences: SharedPreferencesBranch
     private  var selectedBranchId = 0
-    private var isAddingToCartInProgress = false
 
 
 
@@ -207,7 +206,8 @@ class StartMenuFragment : Fragment() {
             override fun onClick(data: DetailInfoProduct, position: Int) {
                 //для теста
                 val idProduct = data.id
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(idProduct)
+                val isReady = data.is_ready_made_product
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(idProduct, isReady)
                 findNavController().navigate(action)
 
             }
@@ -253,33 +253,6 @@ class StartMenuFragment : Fragment() {
         )
     }
 
-//    private fun observePosition(data: DetailInfoProduct) {
-//        homeViewModel.сheckMadePosition.observe(viewLifecycleOwner){ сheckMadePosition ->
-//            when(сheckMadePosition){
-//                is Resource.Success ->{
-//
-//                        CartUtils.addItem(data)
-//                        adapterProduct.notifyDataSetChanged()
-//
-//                }
-//                is Resource.Error ->{
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "Нет в наличии",
-//                        Toast.LENGTH_SHORT).show()
-//                }
-//                is Resource.Loading ->{
-//
-//                }
-//            }
-//
-//        }
-//    }
-//
-//    private fun checkPosition(data: DetailInfoProduct, position: CheckPosition) {
-////        homeViewModel.checkPosition(position)
-//        observePosition(data)
-//    }
 
     private fun dropdown(branches: List<BranchesMenu>) {
         val branchNames = branches.map { it.name_of_shop }
