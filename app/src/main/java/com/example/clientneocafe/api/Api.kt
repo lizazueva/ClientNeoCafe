@@ -21,6 +21,7 @@ import com.example.clientneocafe.model.map.Branches
 import com.example.clientneocafe.model.user.ClientId
 import com.example.clientneocafe.model.user.OrderDetail
 import com.example.clientneocafe.model.user.Orders
+import com.example.clientneocafe.model.user.ReorderInformation
 import com.example.clientneocafe.model.user.UserInfo
 import retrofit2.Call
 import retrofit2.Response
@@ -89,14 +90,16 @@ interface Api {
     suspend fun getMyOrders(): Response<Orders>
     @GET("customers/my-orders/{id}/")
     suspend fun getOrderDetail(@Path("id") id: Int): Response<OrderDetail>
+    @GET("ordering/reorder-information/")
+    suspend fun getReorderInformation(@Query("order_id") idOrder: Int): Response<ReorderInformation>
+    @GET("ordering/reorder/")
+    suspend fun reorder (@Query("order_id") idOrder: Int): Response<DetailRequest>
 
     @GET("customers/my-id/")
     suspend fun getIdClient(): Response<ClientId>
-
     @GET("notices/delete-client-notification")
     suspend fun deleteNotification(@Query("id") id: Int): Response<Unit>
 
-//    https://muha-backender.org.kg/notices/delete-client-notification/
 
 
 
