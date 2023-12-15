@@ -18,17 +18,23 @@ import com.example.clientneocafe.R
 import com.example.clientneocafe.adapters.AdapterNotifications
 import com.example.clientneocafe.databinding.FragmentNotificationsBinding
 import com.example.clientneocafe.model.NotificationsResponse
+import com.example.clientneocafe.model.user.ClientId
 import com.example.clientneocafe.utils.NotificationsWebSocket
+import com.example.clientneocafe.utils.Resource
+import com.example.clientneocafe.viewModel.NotificationsViewModel
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotificationsFragment : Fragment() {
 
     private lateinit var binding: FragmentNotificationsBinding
     private lateinit var adapterNotifications: AdapterNotifications
     private lateinit var webSocket: NotificationsWebSocket
+    private val notificationsViewModel: NotificationsViewModel by viewModel()
+
 
 
 
@@ -46,33 +52,63 @@ class NotificationsFragment : Fragment() {
 
         setUpSwipeCallback()
         setUpListeners()
+        getIdClient()
 
-        webSocket = NotificationsWebSocket(object : NotificationsWebSocket.NotificationsWebSocketListener {
-                override fun onMessage(message: String) {
-                    // Handle incoming WebSocket message
-                    activity?.runOnUiThread {
-                        try {
+        }
 
-//                            val newNotifications = Gson().fromJson(message, object : TypeToken<List<Notifications>>() {}.type)
-                            val newNotifications = parseWebSocketMessage(message)
-                            setUpAdapter(newNotifications)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+    private fun getIdClient() {
+        notificationsViewModel.getIdClient()
+        notificationsViewModel.idClient.observe(viewLifecycleOwner){id->
+            when(id){
+                is Resource.Success -> {
+                    id.data?.let{id ->
+                        setWebSocket(id)}
+                }
+
+                is Resource.Error -> {
+                    id.message?.let {
+                        Toast.makeText(
+                            requireContext(),
+                            "Не удалось получить данные",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
-                override fun onClose() {
-                    // Handle WebSocket close event
+                is Resource.Loading -> {
                 }
-
-                override fun onFailure(error: String) {
-                    // Handle WebSocket failure
-                }
-            })
-
-            webSocket.startWebSocket()
+            }
         }
+    }
+
+    private fun setWebSocket(id: ClientId) {
+        webSocket = NotificationsWebSocket(object : NotificationsWebSocket.NotificationsWebSocketListener {
+            override fun onMessage(message: String) {
+
+                activity?.runOnUiThread {
+                    try {
+
+//                            val newNotifications = Gson().fromJson(message, object : TypeToken<List<Notifications>>() {}.type)
+                        val newNotifications = parseWebSocketMessage(message)
+                        setUpAdapter(newNotifications)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            override fun onClose() {
+                // Handle WebSocket close event
+            }
+
+            override fun onFailure(error: String) {
+                // Handle WebSocket failure
+            }
+        }, id.id)
+
+        webSocket.startWebSocket()
+
+    }
 
     private fun parseWebSocketMessage(message: String): List<NotificationsResponse.Notifications> {
         try {
@@ -114,8 +150,8 @@ class NotificationsFragment : Fragment() {
 
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        Toast.makeText(requireContext(), "Уведомление удалено", Toast.LENGTH_LONG).show()
-                        adapterNotifications.removeItem(position)
+                        val notificationId = adapterNotifications.differ.currentList[position].id
+                        deleteNotification(notificationId, position)
                     }
                 }
             }
@@ -123,6 +159,32 @@ class NotificationsFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(binding.recyclerNotifications)
+    }
+
+    private fun deleteNotification(notificationId: Int, position: Int) {
+        notificationsViewModel.deleteNotification(notificationId)
+        notificationsViewModel.resultDelete.observe(viewLifecycleOwner) {resultDelete ->
+        when (resultDelete) {
+            is Resource.Success -> {
+                Toast.makeText(requireContext(), "Уведомление удалено", Toast.LENGTH_LONG).show()
+                adapterNotifications.removeItem(position)
+            }
+
+            is Resource.Error -> {
+                resultDelete.message?.let {
+                    Toast.makeText(
+                        requireContext(),
+                        "Не удалось удалить уведомление",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            is Resource.Loading -> {
+            }
+        }
+    }
+
     }
 
     private fun setUpAdapter(newNotifications: List<NotificationsResponse.Notifications>) {

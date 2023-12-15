@@ -1,6 +1,5 @@
 package com.example.clientneocafe.utils
 
-import com.example.clientneocafe.api.RetrofitInstance
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -8,7 +7,7 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
 
-class NotificationsWebSocket(private val listener: NotificationsWebSocketListener) {
+class NotificationsWebSocket(private val listener: NotificationsWebSocketListener, private val idClient: Int) {
 
     private lateinit var client: OkHttpClient
     private lateinit var webSocket: WebSocket
@@ -50,7 +49,7 @@ class NotificationsWebSocket(private val listener: NotificationsWebSocketListene
 
     fun startWebSocket() {
         client = OkHttpClient()
-        val request = Request.Builder().url("wss://muha-backender.org.kg/ws/to-clients/1/").build()
+        val request = Request.Builder().url("wss://muha-backender.org.kg/ws/to-clients/$idClient/").build()
         webSocket = client.newWebSocket(request, NotificationsEchoWebSocketListener())
     }
 

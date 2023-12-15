@@ -8,6 +8,7 @@ import com.example.clientneocafe.model.cart.CreateOrder
 import com.example.clientneocafe.model.home.ChangeBranch
 import com.example.clientneocafe.model.user.ClientId
 import retrofit2.Response
+import retrofit2.http.Query
 
 
 class Repository(private val api: Api) {
@@ -35,6 +36,8 @@ class Repository(private val api: Api) {
     suspend fun getMyOrders() = RetrofitInstance.api.getMyOrders()
     suspend fun getOrderDetail(id: Int) = RetrofitInstance.api.getOrderDetail(id)
     suspend fun getIdClient() = RetrofitInstance.api.getIdClient()
+    suspend fun deleteNotification(id: Int) = RetrofitInstance.api.deleteNotification(id)
+
 
 
 
