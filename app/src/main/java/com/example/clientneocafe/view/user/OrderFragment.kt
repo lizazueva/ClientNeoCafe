@@ -127,10 +127,9 @@ class OrderFragment : Fragment() {
                 }
 
                 is Resource.Error -> {
-                    info.data?.let { detailInfo ->
-                        dialogNoReorder(detailInfo)
+                    info.data?.let { info ->
+                        dialogNoReorder(info)
                     }
-
 
                 }
 
@@ -174,6 +173,7 @@ class OrderFragment : Fragment() {
         dialog.show()
 
         dialogBinding.textInfoReorder.text = detailInfo.message
+        dialogBinding.textReorder.text = detailInfo.details
 
         dialogBinding.buttonOk.setOnClickListener {
             dialog.dismiss()

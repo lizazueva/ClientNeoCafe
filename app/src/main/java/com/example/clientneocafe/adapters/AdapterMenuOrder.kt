@@ -35,7 +35,7 @@ class AdapterMenuOrder: RecyclerView.Adapter<AdapterMenuOrder.ViewHolder>() {
             textDiscr.text = product.item_category
             Glide.with(imageProduct).load(product.item_image).into(imageProduct)
 
-            textCount.text = itemCount.toString()
+            textCount.text = product.quantity.toString()
             textCount.visibility = View.VISIBLE
             imageRemove.visibility = View.VISIBLE
             imageAdd.isEnabled = false

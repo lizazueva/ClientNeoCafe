@@ -74,7 +74,7 @@ class UserFragment : Fragment() {
 
     private fun setUpAdapterClosed(closedOrders: List<Orders.ClosedOrder>) {
         adapterOrderClosed = AdapterOrderClosed()
-        binding.recyclerClosedOrder.adapter = adapterOrder
+        binding.recyclerClosedOrder.adapter = adapterOrderClosed
         binding.recyclerClosedOrder.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerClosedOrder.layoutManager = LinearLayoutManager(requireContext())
         if (closedOrders.isEmpty()){

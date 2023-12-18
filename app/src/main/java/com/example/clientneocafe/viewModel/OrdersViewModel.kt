@@ -12,6 +12,7 @@ import com.example.clientneocafe.model.auth.DetailRequest
 import com.example.clientneocafe.model.user.OrderDetail
 import com.example.clientneocafe.model.user.ReorderInformation
 import com.example.clientneocafe.utils.Resource
+import com.google.gson.JsonParser
 import kotlinx.coroutines.launch
 
 class OrdersViewModel(private val repository: Repository): ViewModel()  {
@@ -54,7 +55,9 @@ class OrdersViewModel(private val repository: Repository): ViewModel()  {
                     Log.d("reorder", "Successful: $productResponse")
                 }else{
                     val errorBody = response.errorBody()?.toString()
-                    _reorder.postValue(Resource.Error(errorBody ?:"Ошибка повторного заказа"))
+                    val errorData = response.body()
+
+                    _reorder.postValue(Resource.Error(errorBody ?:"Ошибка повторного заказа", errorData))
                 }
             } catch (e: Exception) {
                 Log.e("MyViewModel", "Ошибка загрузки: ${e.message}")
@@ -94,7 +97,13 @@ class OrdersViewModel(private val repository: Repository): ViewModel()  {
                     Log.d("getReorderInformation", "Successful: $productResponse")
                 }else{
                     val errorBody = response.errorBody()?.toString()
-                    _reorderInformation.postValue(Resource.Error(errorBody ?:"Ошибка загрузки заказа"))
+                    val errorJsonString = response.errorBody()?.charStream()?.readText()
+                    val errorJson = JsonParser.parseString(errorJsonString).asJsonObject
+                    val errorMessage = errorJson.get("message").asString
+                    val errorDetails = errorJson.get("details").asString
+                    val bodyError = ReorderInformation(errorMessage, errorDetails)
+
+                    _reorderInformation.postValue(Resource.Error(errorBody ?:"Ошибка загрузки заказа",data = bodyError))
                 }
             } catch (e: Exception) {
                 Log.e("MyViewModel", "Ошибка загрузки: ${e.message}")

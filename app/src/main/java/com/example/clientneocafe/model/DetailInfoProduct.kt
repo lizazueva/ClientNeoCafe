@@ -20,8 +20,8 @@ data class DetailInfoProduct(
     )
 
     data class Composition(
-        val id: Int,
-        val ingredient: Int,
-        val quantity: String
+        val id: Int?,
+        val name: String?,
+        val quantity: Int?
     )
 }
