@@ -56,7 +56,10 @@ class CodeFragment : Fragment() {
         }
 
         binding.btnEnter.setOnClickListener {
-            data()
+            //для теста
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
+//            data()
         }
         binding.textSendAgain.setOnClickListener {
             repeatSentCode()

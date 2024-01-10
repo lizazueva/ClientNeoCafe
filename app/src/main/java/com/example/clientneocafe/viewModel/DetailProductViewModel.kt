@@ -62,11 +62,11 @@ class DetailProductViewModel(private val repository: Repository): ViewModel() {
             })
     }
 
-    fun getCompatibleItems(id: Int){
+    fun getCompatibleItems(id: Int, is_ready_made_product: Boolean){
         viewModelScope.launch {
             _compatibleItems.postValue(Resource.Loading())
             try {
-                val response = repository.getCompatibleItems(id)
+                val response = repository.getCompatibleItems(id, is_ready_made_product)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     responseBody?.let { savePopularItems(it) }

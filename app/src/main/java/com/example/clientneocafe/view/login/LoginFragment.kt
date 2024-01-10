@@ -61,8 +61,10 @@ class LoginFragment : Fragment() {
                         val access = response.body()?.access
                         access?.let { Utils.access_token = it }
 
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        startActivity(intent)
+//                        val intent = Intent(requireContext(), MainActivity::class.java)
+//                        startActivity(intent)
+
+                        data()
                     } else {
                         // Обработка ошибки, если запрос не успешен
                     }
@@ -87,8 +89,17 @@ class LoginFragment : Fragment() {
         val phoneCode = binding.textInputPhoneCode.text.toString()
         val phoneNumber = binding.textInputPhone.text.toString()
         val phone = "$phoneCode $phoneNumber"
-        loginViewModel.login(phone)
-        observe(phone)
+
+        //для теста
+        val bundle = Bundle().apply {
+            putString("phone", phone)
+        }
+        findNavController().navigate(R.id.action_loginFragment_to_codeFragment, bundle)
+
+
+
+//        loginViewModel.login(phone)
+//        observe(phone)
 
     }
 

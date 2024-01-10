@@ -1,5 +1,6 @@
 package com.example.clientneocafe.view.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -61,7 +62,9 @@ class DetailFragment : Fragment() {
         observeDetailProduct()
 
         if (productId != null) {
-            detailProductViewModel.getCompatibleItems(productId)
+            if (isReady != null) {
+                detailProductViewModel.getCompatibleItems(productId, isReady)
+            }
         }
         observeCompatibleItems()
 
@@ -152,7 +155,7 @@ class DetailFragment : Fragment() {
                 detailProductViewModel.productDetail(idProduct, isReady)
                 observeDetailProduct()
 
-                detailProductViewModel.getCompatibleItems(idProduct)
+                detailProductViewModel.getCompatibleItems(idProduct, isReady)
                 observeCompatibleItems()
             }
 
@@ -173,6 +176,7 @@ class DetailFragment : Fragment() {
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun checkPosition(data: DetailInfoProduct, checkPosition: CheckPosition) {
         detailProductViewModel.createProduct(checkPosition,
             onSuccess = {
@@ -191,6 +195,7 @@ class DetailFragment : Fragment() {
         )
     }
 
+    @SuppressLint("SetTextI18n")
     private fun addProduct(detailProduct: DetailInfoProduct) {
         binding.textTitle.text = detailProduct.name
         binding.textPrice.text = "${detailProduct.price.toDouble().toInt()} c"
@@ -280,7 +285,7 @@ class DetailFragment : Fragment() {
     private fun hideProgressBar(data: List<DetailInfoProduct>?) {
         binding.progressBar.visibility = View.GONE
         binding.textNiceAddition.visibility = if (data.isNullOrEmpty()) {
-            View.GONE
+            View.INVISIBLE
         } else {
             View.VISIBLE
         }
