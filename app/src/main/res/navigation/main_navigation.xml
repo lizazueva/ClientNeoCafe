@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.clientneocafe.view.home.HomeFragment"
+        android:name="com.neobis.clientneocafe.view.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.example.clientneocafe.view.cart.CartFragment"
+        android:name="com.neobis.clientneocafe.view.cart.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" >
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.example.clientneocafe.view.map.MapFragment"
+        android:name="com.neobis.clientneocafe.view.map.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" >
         <action
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.clientneocafe.view.user.UserFragment"
+        android:name="com.neobis.clientneocafe.view.user.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" >
         <action
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.example.clientneocafe.view.home.MenuFragment"
+        android:name="com.neobis.clientneocafe.view.home.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" >
         <action
@@ -72,12 +72,12 @@
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.example.clientneocafe.view.home.CategoryFragment"
+        android:name="com.neobis.clientneocafe.view.home.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.clientneocafe.view.home.SearchFragment"
+        android:name="com.neobis.clientneocafe.view.home.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -86,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.clientneocafe.view.home.DetailFragment"
+        android:name="com.neobis.clientneocafe.view.home.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument
@@ -113,7 +113,7 @@
     </fragment>
     <fragment
         android:id="@+id/startMenuFragment"
-        android:name="com.example.clientneocafe.view.home.StartMenuFragment"
+        android:name="com.neobis.clientneocafe.view.home.StartMenuFragment"
         android:label="fragment_start_menu"
         tools:layout="@layout/fragment_start_menu" >
         <action
@@ -122,7 +122,7 @@
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
-        android:name="com.example.clientneocafe.view.user.OrderFragment"
+        android:name="com.neobis.clientneocafe.view.user.OrderFragment"
         android:label="fragment_order"
         tools:layout="@layout/fragment_order" >
         <action
@@ -137,7 +137,7 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.example.clientneocafe.view.user.EditProfileFragment"
+        android:name="com.neobis.clientneocafe.view.user.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" >
         <action
@@ -145,11 +145,11 @@
             app:destination="@id/userFragment" />
         <argument
             android:name="user"
-            app:argType="com.example.clientneocafe.model.user.UserInfo" />
+            app:argType="com.neobis.clientneocafe.model.user.UserInfo" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="com.example.clientneocafe.view.home.NotificationsFragment"
+        android:name="com.neobis.clientneocafe.view.home.NotificationsFragment"
         android:label="fragment_notifications"
         tools:layout="@layout/fragment_notifications" >
         <action
