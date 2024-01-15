@@ -1,93 +1,75 @@
-# mobile-client
+# ClientNeoCafe
+
+
+## Описание проекта
+
+Данный проект представляет собой приложение: "NeoCafe", представляет собой приложение для кофейни, с помощью которого можно сделать заказ собой
+или навынос
+
+В данном приложении использовался навигация между фрагментами осуществляется с помощью Navigation Component.
+Так же использовались:
+- RecyclerView
+    - Adapter. Паттерн Adapter
+    - Card layout
+    - Bottom navigation с Bottom Navigation View
+    - On Item Click
+ 
+- DI, Koin
+- WebSocket
+- Fragment, lifecycle
+- Glide
+-  Архитектура MVVM
+- Coroutines
+ - Архитектура ViewModel
+    - LiveData и MutableLiveData
+- REST API
+    - Queries
+    - Server Response
+    - JSON and GSON
+-  Retrofit
+- DiffUtils для быстрого обновления RecyclerView
+- API от бэкэндера
+- SingleLiveEvent
+- Snackbar
+- Токен, Interceptor
+- SharedPreferences
+
+## Установка проекта
+
+**MacOS:**
+1. Установить Android Studio https://developer.android.com/studio/
+2. Открыть проект или клонировать (клонировать этот проект по инструкции https://www.jetbrains.com/idea/guide/tutorials/creating-a-project-from-github/clone-from-github/)
+3. Для запуска проекта в Android Studio нажмите на зеленый треугольник на панели сверху справа
+
+
+**Windows:**
+1. Установить Android Studio https://developer.android.com/studio/
+2. Открыть проект или клонировать (клонировать этот проект по инструкции https://www.jetbrains.com/idea/guide/tutorials/creating-a-project-from-github/clone-from-github/)
+3. Для запуска проекта в Android Studio нажмите на зеленый треугольник на панели сверху справа
+
+## Функционал проекта 
+
+Цель проекта состоит в том, чтобы спроектировать и создать структуру приложения кофейни. Можно зарегистрироваться или же пройти как загегистрированный пользователь.
+Можно оформить заказ для выноса или покушать в заведении. Настроена система списания бонусов. Сделать повторный заказ. Так же доступен просмотр доступных филиалов, уведомлений.
+Все запросы сделаны при помощи API 
+
+<img width="261" alt="Снимок экрана 2024-01-15 в 15 40 08" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/5268f7ae-0549-4450-9857-8bfeb967984e">
+<img width="256" alt="Снимок экрана 2024-01-15 в 15 40 46" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/370a5aaf-9818-452b-a19e-5d286fffaeaa">
+<img width="256" alt="Снимок экрана 2024-01-15 в 15 40 21" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/7d652495-0fdc-4e75-a3a6-4aebbe0cfec6">
+<img width="260" alt="Снимок экрана 2024-01-15 в 15 40 14" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/893c8dcd-582b-4352-8927-7017b787fbf7">
+<img width="259" alt="Снимок экрана 2024-01-15 в 15 41 05" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/da2786fa-2aaf-43c9-9e3a-bb03bbd7ace3">
+<img width="251" alt="Снимок экрана 2024-01-15 в 15 42 50" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/ee2c8a2e-5982-4b47-8e06-ecd39c7ad15f">
+<img width="254" alt="Снимок экрана 2024-01-15 в 15 40 58" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/f460323f-38a5-4cf3-a963-352a45197bc2">
+<img width="259" alt="Снимок экрана 2024-01-15 в 15 42 40" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/67fdbe9a-d1c6-431c-aad1-d21c03468629">
+<img width="257" alt="Снимок экрана 2024-01-15 в 15 41 56" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/817f78ba-d798-4c5b-90c4-8c394c2b020d">
+<img width="254" alt="Снимок экрана 2024-01-15 в 15 41 17" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/2918634d-6682-46b8-8751-d776bb89345e">
+<img width="254" alt="Снимок экрана 2024-01-15 в 15 43 08" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/50b695f9-1a88-4053-ba68-8e38ffa95498">
+<img width="254" alt="Снимок экрана 2024-01-15 в 15 42 58" src="https://github.com/lizazueva/ClientNeoCafe/assets/56483500/3dd160fa-d77b-47f3-bd41-e78086e60fae">
 
 
 
-## Getting started
+## Автор проекта
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Автор проекта: lizazazu@gmail.com
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.com/neocafe-team1/neocafe-team1-mobile/mobile-client.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/neocafe-team1/neocafe-team1-mobile/mobile-client/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
